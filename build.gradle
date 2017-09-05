@@ -1,0 +1,23 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
+    }
+}
+
+apply plugin: "net.minecraftforge.gradle.forge"
+
+
+group = "de.teamlapen.vampirism_integrations"
+archivesBaseName = "VampirismIntegrations"
+ext.mod_version = "Test"
+ext.type = "Test"
+
+apply from: 'gradle/versioning.gradle'
+apply from: 'gradle/forge.gradle'

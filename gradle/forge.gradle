@@ -1,0 +1,65 @@
+repositories {
+    maven {
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        //Local repo for custom forge builds.
+        //Is not required to exist
+        name = "LocalForge"
+        url = "../../MinecraftForge/repo/"
+    }
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+    maven {
+        name = "Maxanier"
+        url = "https://maxanier.de/maven2/"
+    }
+    mavenCentral()
+}
+
+
+
+minecraft {
+    version = project.minecraft_version + "-" + project.forge_version
+    runDir = "run"
+
+
+    mappings = project.mcpVersion
+
+    runDir = "run"
+    replaceIn "util/REFERENCE.java"
+    replace "@VERSION@", "${project.version}"
+    replace "@MVERSION@", "${project.minecraft_version}"
+    replace "@FVERSION@", "${project.forge_version}"
+    makeObfSourceJar = false // an Srg named sources jar is made if enabled
+    useDepAts = true
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    deobfCompile "de.teamlapen.vampirism:Vampirism:"+project.minecraft_version + "-" + project.vampirism_version + ":api"
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft_version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include "mcmod.info"
+
+        // replace version and mcversion
+        expand "version": project.version, "mcversion": project.minecraft_version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude "mcmod.info"
+    }
+}
