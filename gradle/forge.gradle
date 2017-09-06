@@ -37,12 +37,9 @@ minecraft {
     useDepAts = true
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    deobfCompile "de.teamlapen.vampirism:Vampirism:"+project.minecraft_version + "-" + project.vampirism_version + ":api"
+    deobfCompile "mezz.jei:jei_" + project.minecraft_version + ":" + project.jei_version + ":api"
+    deobfCompile "de.teamlapen.vampirism:Vampirism:"+project.minecraft_version + "-" + project.vampirism_version
 }
 
 processResources {

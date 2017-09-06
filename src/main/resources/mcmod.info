@@ -1,0 +1,24 @@
+[
+  {
+    "modid": "vampirism_integrations",
+    "name": "VampirismIntegrations",
+    "description": "Adds integration for Vampirism with several other mods",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://maxanier.de/projects/vampirism",
+    "authors": [
+      "maxanier"
+    ],
+    "credits": "maxanier",
+    "screenshots": [
+    ],
+    "parent": "",
+    "requiredMods": [
+      "vampirism"
+    ],
+    "dependencies": [
+      "vampirism"
+    ],
+    "useDependencyInformation": false
+  }
+]
