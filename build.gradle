@@ -11,6 +11,11 @@ buildscript {
     }
 }
 
+configurations {
+    optionalRuntime
+    runtime.extendsFrom optionalRuntime // optionalRuntime dependencies are downloaded but not exported to POM
+}
+
 apply plugin: "net.minecraftforge.gradle.forge"
 
 

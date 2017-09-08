@@ -3,6 +3,9 @@ package de.teamlapen.vampirism_integrations;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.lib.lib.util.Logger;
 import de.teamlapen.lib.lib.util.ModCompatLoader;
+import de.teamlapen.vampirism_integrations.abyssalcraft.AbyssalcraftCompat;
+import de.teamlapen.vampirism_integrations.bop.BOPCompat;
+import de.teamlapen.vampirism_integrations.mca.MCACompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -22,6 +25,9 @@ public class VampirismIntegrationsMod {
 
     public VampirismIntegrationsMod() {
         compatLoader = new ModCompatLoader(REFERENCE.MODID + ".cfg");
+        compatLoader.addModCompat(new MCACompat());
+        compatLoader.addModCompat(new BOPCompat());
+        compatLoader.addModCompat(new AbyssalcraftCompat());
     }
 
     @Mod.EventHandler

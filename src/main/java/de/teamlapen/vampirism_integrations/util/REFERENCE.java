@@ -7,4 +7,6 @@ public class REFERENCE {
     public static final String MODID = "vampirism_integrations";
     public static final String FORGE_VERSION_MIN = "14.21.1.2387";
     public static final String VAMPIRISM_VERSION_MIN = "1.3.1";
+
+    public static final String VAMPIRISM_ID = "vampirism";
 }

@@ -16,6 +16,10 @@ repositories {
         name = "Maxanier"
         url = "https://maxanier.de/maven2/"
     }
+    maven {
+        name 'shinoow'
+        url 'https://dl.bintray.com/shinoow/maven/'
+    }
     mavenCentral()
 }
 
@@ -40,6 +44,14 @@ minecraft {
 dependencies {
     deobfCompile "mezz.jei:jei_" + project.minecraft_version + ":" + project.jei_version + ":api"
     deobfCompile "de.teamlapen.vampirism:Vampirism:"+project.minecraft_version + "-" + project.vampirism_version
+    deobfCompile "minecraft-comes-alive-mca:MCA-1.12:"+project.mca_version+":universal"
+    optionalRuntime "radixcore:RadixCore-1.12:"+project.radix_core_version+":universal"
+
+    deobfCompile 'com.github.glitchfiend.biomesoplenty:BiomesOPlenty:'+project.minecraft_version+'-'+project.bop_version+':api'
+    optionalRuntime 'com.github.glitchfiend.biomesoplenty:BiomesOPlenty:'+project.minecraft_version+'-'+project.bop_version+':universal'
+
+    deobfCompile 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version+':api'
+    optionalRuntime 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version
 }
 
 processResources {
