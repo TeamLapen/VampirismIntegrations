@@ -44,8 +44,8 @@ minecraft {
 dependencies {
     deobfCompile "mezz.jei:jei_" + project.minecraft_version + ":" + project.jei_version + ":api"
     deobfCompile "de.teamlapen.vampirism:Vampirism:"+project.minecraft_version + "-" + project.vampirism_version
-    deobfCompile "minecraft-comes-alive-mca:MCA-1.12:"+project.mca_version+":universal"
-    optionalRuntime "radixcore:RadixCore-1.12:"+project.radix_core_version+":universal"
+    deobfCompile "minecraft-comes-alive-mca:MCA-1.12.x:"+project.mca_version+":universal"
+    deobfCompile "radixcore:RadixCore-1.12.x:"+project.radix_core_version+":universal"
 
     deobfCompile 'com.github.glitchfiend.biomesoplenty:BiomesOPlenty:'+project.minecraft_version+'-'+project.bop_version+':api'
     optionalRuntime 'com.github.glitchfiend.biomesoplenty:BiomesOPlenty:'+project.minecraft_version+'-'+project.bop_version+':universal'
