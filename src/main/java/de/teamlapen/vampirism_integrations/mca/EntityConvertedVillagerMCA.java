@@ -7,14 +7,24 @@ import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityConvertedVillagerMCA extends EntityVillagerMCA implements IConvertedCreature<EntityVillagerMCA> {
+public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA implements IConvertedCreature<EntityVillagerMCA> {
     public EntityConvertedVillagerMCA(World world) {
         super(world);
     }
+
+    @Override
+    public void addAI() {
+        super.addAI();
+        this.getBehaviors().addAction(new ActionSuckBlood(this));
+
+        this.tasks.taskEntries.removeIf(task -> task.action instanceof EntityAIMoveIndoors);
+    }
+
 
     @Override
     public boolean wantsBlood() {

@@ -7,6 +7,7 @@ import de.teamlapen.vampirism_integrations.mca.client.ClientProxy;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -25,8 +26,10 @@ import java.util.zip.ZipOutputStream;
 public class MCACompat implements IModCompat {
 
     public static final String CONVERTED_VILLAGER_ID = "villagermcaconverted";
+    public static final String ANGRY_VILLAGER_ID = "villagermcaangry";
+
     public static final String ID = "mca";
-    static final String VILLAGER_ID = "villagermca";
+    protected static final String VILLAGER_ID = "villagermca";
     private int villager_blood_value;
 
     /**
@@ -154,10 +157,11 @@ public class MCACompat implements IModCompat {
             if (FMLCommonHandler.instance().getSide().isClient()) {
                 ClientProxy.registerRenderer();
             }
+            MinecraftForge.EVENT_BUS.register(new EventHandlerMCA());
         } else if (step == Step.INIT) {
             int baseEntityId = 0;
             EntityRegistry.registerModEntity(new ResourceLocation(REFERENCE.MODID, CONVERTED_VILLAGER_ID), EntityConvertedVillagerMCA.class, EntityConvertedVillagerMCA.class.getSimpleName(), baseEntityId++, VampirismIntegrationsMod.instance, 50, 2, true);
-
+            EntityRegistry.registerModEntity(new ResourceLocation(REFERENCE.MODID, ANGRY_VILLAGER_ID), EntityAngryVillagerMCA.class, EntityAngryVillagerMCA.class.getSimpleName(), baseEntityId++, VampirismIntegrationsMod.instance, 50, 2, true);
         }
     }
 }
