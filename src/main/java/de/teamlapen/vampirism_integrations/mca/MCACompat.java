@@ -88,12 +88,11 @@ public class MCACompat implements IModCompat {
 
 
         FileOutputStream dest = new FileOutputStream(mcaAssetFile);
-        ZipOutputStream out = new ZipOutputStream(
-                new BufferedOutputStream(dest));
 
 
         // out.setMethod(ZipOutputStream.DEFLATED);
-        try {
+        try (ZipOutputStream out = new ZipOutputStream(
+                new BufferedOutputStream(dest))) {
             ZipFile mcaMod = new ZipFile(mcaContainer.getSource());
             Enumeration<? extends ZipEntry> entries = mcaMod.entries();
 
@@ -101,29 +100,24 @@ public class MCACompat implements IModCompat {
                 ZipEntry j = entries.nextElement();
                 if (j.getName().startsWith("assets")) {
                     out.putNextEntry(j);
-                    InputStream in = mcaMod.getInputStream(j);
 
                     byte data[] = new byte[1024];
 
 
                     int count;
-                    try {
+                    try (InputStream in = mcaMod.getInputStream(j)) {
                         while ((count = in.read(data, 0, 1024)) != -1) {
                             out.write(data, 0, count);
                         }
                     } catch (IOException e) {
                         VampirismIntegrationsMod.log.e(ID, e, "Failed read from input file");
                         throw e;
-                    } finally {
-                        in.close();
                     }
                 }
 
             }
         } catch (IOException e) {
             VampirismIntegrationsMod.log.e(ID, e, "Failed to write to output zip file");
-        } finally {
-            out.close();
         }
 
         info.save();

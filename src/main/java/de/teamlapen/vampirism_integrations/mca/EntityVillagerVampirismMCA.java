@@ -17,7 +17,10 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-class EntityVillagerVampirismMCA extends EntityVillagerMCA {
+/**
+ * Vampirism's basic extension of MCA's villager
+ */
+abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
     protected boolean peaceful = false;
     protected
     @Nullable
@@ -32,6 +35,7 @@ class EntityVillagerVampirismMCA extends EntityVillagerMCA {
     }
 
 
+    @Override
     public boolean attackEntityAsMob(Entity entity) {
         float f = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
         int i = 0;

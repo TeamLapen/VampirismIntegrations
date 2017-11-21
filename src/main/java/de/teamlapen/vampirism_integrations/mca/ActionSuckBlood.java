@@ -5,14 +5,13 @@ import com.google.common.collect.Lists;
 import de.teamlapen.vampirism.api.entity.IExtendedCreatureVampirism;
 import de.teamlapen.vampirism.core.ModSounds;
 import de.teamlapen.vampirism.entity.ExtendedCreature;
-import de.teamlapen.vampirism_integrations.VampirismIntegrationsMod;
 import mca.actions.AbstractAction;
 import mca.actions.ActionSleep;
 import mca.core.Constants;
 import mca.enums.EnumSleepingState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.AxisAlignedBB;
 import radixcore.math.Point3D;
 
 import javax.annotation.Nullable;
@@ -28,7 +27,6 @@ class ActionSuckBlood extends AbstractAction {
     private final List<Entity> blackList = Lists.newArrayList();
     private boolean hunt;
     private int biting;
-    private boolean hungry = true;
     private int walkingHome = 0;
     @Nullable
     private IExtendedCreatureVampirism target;
@@ -42,20 +40,15 @@ class ActionSuckBlood extends AbstractAction {
     @Override
     public void onUpdateServer() {
         boolean day = actorVampirism.getEntityWorld().isDaytime();
-        if (day && !hungry) hungry = true;
-        if (!day && hungry) {
+        if (!day && actorVampirism.wantsBlood()) {
             ActionSleep sleep = actor.getBehavior(ActionSleep.class);
             if (sleep.getIsSleeping()) {
                 if (actor.getRNG().nextInt(200) == 0) {
                     sleep.setSleepingState(EnumSleepingState.INTERRUPTED);
                     hunt = true;
-                    VampirismIntegrationsMod.log.t("Interrupting sleep");
-
                 }
             }
         } else {
-            if (hunt) VampirismIntegrationsMod.log.t("day");
-
             hunt = false;
         }
         if (hunt) {
@@ -63,8 +56,6 @@ class ActionSuckBlood extends AbstractAction {
             if (target != null && target.getEntity().isDead) {
                 target = null;
                 biting = 0;
-                VampirismIntegrationsMod.log.t("target dead");
-
             }
             if (target == null) {
                 findTarget();
@@ -73,11 +64,9 @@ class ActionSuckBlood extends AbstractAction {
                 }
             }
             if (target != null) {
-                if (actor.getDistanceSqToEntity(target.getEntity()) < 7) {
+                if (target.getEntity().getEntityBoundingBox().intersects(getBiteBoundingBox())) {
                     if (biting == 0) {
                         biting = 40;
-                        VampirismIntegrationsMod.log.t("Strating bite");
-
                     }
                     EntityCreature e = target.getEntity();
 
@@ -116,11 +105,13 @@ class ActionSuckBlood extends AbstractAction {
 
     }
 
+    protected AxisAlignedBB getBiteBoundingBox() {
+        return actorVampirism.getEntityBoundingBox().grow(1.0, 1.3, 1.0);
+    }
+
+
     @Override
     public void reset() {
-        if (!actor.getEntityWorld().isRemote) {
-            VampirismIntegrationsMod.log.t("Reset");
-        }
         this.hunt = false;
         this.target = null;
         this.biting = 0;
@@ -131,19 +122,7 @@ class ActionSuckBlood extends AbstractAction {
         walkingHome = 100;
         hunt = false;
         target = null;
-        VampirismIntegrationsMod.log.t("Bitten");
 
-
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound nbt) {
-        nbt.setBoolean("vamp_converted_hungry", hungry);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        hungry = !nbt.hasKey("vamp_converted_hungry") || nbt.getBoolean("vamp_converted_hungry");
     }
 
     private void tryWalkHome() {
@@ -155,8 +134,6 @@ class ActionSuckBlood extends AbstractAction {
         } else {
             actor.getBehavior(ActionSleep.class).setSleepingState(EnumSleepingState.AWAKE);
             reset();
-            VampirismIntegrationsMod.log.t("done");
-
         }
 
     }
@@ -179,8 +156,6 @@ class ActionSuckBlood extends AbstractAction {
             if (bittingTarget.canBeBitten(actorVampirism)) {
                 target = bittingTarget;
                 actor.getNavigator().tryMoveToEntityLiving(target.getEntity(), Constants.SPEED_WALK);
-
-                VampirismIntegrationsMod.log.t("Fpund target %s", target);
 
                 return;
             }

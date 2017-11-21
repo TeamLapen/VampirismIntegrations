@@ -5,17 +5,34 @@ import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
+import de.teamlapen.vampirism.entity.DamageHandler;
+import de.teamlapen.vampirism.util.Helper;
+import de.teamlapen.vampirism.util.REFERENCE;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
+import net.minecraft.init.MobEffects;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+/**
+ * Vampire version of MCA's villager
+ * Tries to suck blood during the night
+ */
 public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA implements IConvertedCreature<EntityVillagerMCA> {
+
+    private EnumStrength garlicCache;
+    private boolean sundamageCache;
+    private boolean hungry = true;
+
+
     public EntityConvertedVillagerMCA(World world) {
         super(world);
+        garlicCache = EnumStrength.NONE;
     }
+
 
     @Override
     public void addAI() {
@@ -28,7 +45,7 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
 
     @Override
     public boolean wantsBlood() {
-        return false;
+        return hungry;
     }
 
     @Override
@@ -38,28 +55,47 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
 
     @Override
     public void drinkBlood(int amt, float saturationMod) {
+        this.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, amt * 20));
+        hungry = false;
 
     }
 
     @Override
-    public EnumStrength isGettingGarlicDamage() {
-        return null;
+    public void onLivingUpdate() {
+        if (this.ticksExisted % REFERENCE.REFRESH_GARLIC_TICKS == 1) {
+            isGettingGarlicDamage(true);
+        }
+        if (this.ticksExisted % REFERENCE.REFRESH_SUNDAMAGE_TICKS == 2) {
+            isGettingSundamage(true);
+        }
+        if (!world.isRemote) {
+            if (isGettingSundamage() && ticksExisted % 40 == 11) {
+                this.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 42));
+            }
+            if (isGettingGarlicDamage() != EnumStrength.NONE) {
+                DamageHandler.affectVampireGarlicAmbient(this, isGettingGarlicDamage(), this.ticksExisted);
+            }
+        }
+        boolean day = getEntityWorld().isDaytime();
+        if (day && !hungry) hungry = true;
+        super.onLivingUpdate();
+    }
+
+
+    @Override
+    public EnumStrength isGettingGarlicDamage(boolean forceRefresh) {
+        if (forceRefresh) {
+            garlicCache = Helper.getGarlicStrength(this);
+        }
+        return garlicCache;
     }
 
     @Override
-    public EnumStrength isGettingGarlicDamage(boolean forcerefresh) {
-        return null;
+    public boolean isGettingSundamage(boolean forceRefresh) {
+        if (!forceRefresh) return sundamageCache;
+        return (sundamageCache = Helper.gettingSundamge(this));
     }
 
-    @Override
-    public boolean isGettingSundamage(boolean forcerefresh) {
-        return false;
-    }
-
-    @Override
-    public boolean isGettingSundamage() {
-        return false;
-    }
 
     @Override
     public boolean isIgnoringSundamage() {
@@ -69,6 +105,19 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
     @Override
     public IFaction getFaction() {
         return VReference.VAMPIRE_FACTION;
+    }
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound nbt) {
+        super.writeEntityToNBT(nbt);
+        nbt.setBoolean("vamp_converted_hungry", hungry);
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound nbt) {
+        super.readEntityFromNBT(nbt);
+        hungry = !nbt.hasKey("vamp_converted_hungry") || nbt.getBoolean("vamp_converted_hungry");
+
     }
 
     @Override

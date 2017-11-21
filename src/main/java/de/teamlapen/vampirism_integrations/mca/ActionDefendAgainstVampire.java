@@ -7,18 +7,21 @@ import mca.actions.AbstractAction;
 import mca.actions.ActionSleep;
 import mca.core.Constants;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
+
+/**
+ * Similar as ActionDefend but (only) against vampires
+ */
 class ActionDefendAgainstVampire extends AbstractAction {
     private static final int TARGET_SEARCH_INTERVAL = 20;
     private final EntityAngryVillagerMCA actorVampirism;
     @Nullable
-    private EntityLiving target;
+    private EntityLivingBase target;
     private int timeUntilTargetSearch;
 
     public ActionDefendAgainstVampire(EntityAngryVillagerMCA actor) {
@@ -52,7 +55,7 @@ class ActionDefendAgainstVampire extends AbstractAction {
                 if (distanceToTarget <= 2.0F) {
                     actorVampirism.attackEntityAsMob(target);
                 } else if (distanceToTarget > 2.0F && actor.getNavigator().noPath()) {
-                    actor.getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_RUN);
+                    actor.getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_WALK);
                 }
 
             }
@@ -69,12 +72,12 @@ class ActionDefendAgainstVampire extends AbstractAction {
         double closestDistance = 100.0D;
 
         for (Entity entity : possibleTargets) {
-            if (!(entity instanceof EntityCreeper) && actor.canEntityBeSeen(entity)) {
+            if (actor.canEntityBeSeen(entity)) {
                 double distance = entity.getDistanceSqToEntity(actor);
 
                 if (distance < closestDistance) {
                     closestDistance = distance;
-                    target = (EntityLiving) entity;
+                    target = (EntityLivingBase) entity;
                 }
             }
         }

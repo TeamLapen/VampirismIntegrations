@@ -3,7 +3,9 @@ package de.teamlapen.vampirism_integrations.mca;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.entity.IAggressiveVillager;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
+import mca.actions.ActionSleep;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumProfessionSkinGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -14,13 +16,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+/**
+ * Angry version of the MCA villager.
+ * Similar to the Vampirism's HunterVillager
+ */
 public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implements IAggressiveVillager {
     @GameRegistry.ObjectHolder("vampirism:pitchfork")
     private static final Item pitchfork = null;
-    @Nonnull
-    private ItemStack oldItem = ItemStack.EMPTY;
     private ItemStack pitchforkStack;
 
     public EntityAngryVillagerMCA(World world) {
@@ -30,7 +34,11 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
     }
 
 
+    @Nullable
     public static EntityAngryVillagerMCA makeAngry(EntityVillagerMCA villager) {
+        if (villager.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard || villager.attributes.getIsInfected()) {
+            return null;//Don't make guards or infected villagers angry
+        }
         EntityAngryVillagerMCA angry = new EntityAngryVillagerMCA(villager.getEntityWorld());
         NBTTagCompound tag = new NBTTagCompound();
         villager.writeToNBT(tag);
@@ -42,7 +50,7 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
 
     @Override
     public ItemStack getHeldItem(EnumHand hand) {
-        return pitchforkStack;
+        return this.getBehavior(ActionSleep.class).getIsSleeping() ? ItemStack.EMPTY : pitchforkStack;
     }
 
 
