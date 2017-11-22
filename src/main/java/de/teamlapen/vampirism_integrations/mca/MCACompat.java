@@ -32,6 +32,7 @@ public class MCACompat implements IModCompat {
     protected static final String VILLAGER_ID = "villagermca";
     private int villager_blood_value;
 
+
     /**
      * MCA requires the assets to be present in the mods dir to read the skin files.
      * In the dev environment MCA is retrieved via gradle/maven and injected into the classpath without it being present in the mod dir.

@@ -7,15 +7,17 @@ import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.entity.DamageHandler;
 import de.teamlapen.vampirism.util.Helper;
-import de.teamlapen.vampirism.util.REFERENCE;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
+import net.minecraft.entity.ai.EntityAIRestrictSun;
 import net.minecraft.init.MobEffects;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
+import javax.annotation.Nonnull;
 
 /**
  * Vampire version of MCA's villager
@@ -40,6 +42,8 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
         this.getBehaviors().addAction(new ActionSuckBlood(this));
 
         this.tasks.taskEntries.removeIf(task -> task.action instanceof EntityAIMoveIndoors);
+        this.tasks.addTask(1, new EntityAIRestrictSun(this));
+
     }
 
 
@@ -62,10 +66,10 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
 
     @Override
     public void onLivingUpdate() {
-        if (this.ticksExisted % REFERENCE.REFRESH_GARLIC_TICKS == 1) {
+        if (this.ticksExisted % MCACompatREFERENCE.REFRESH_GARLIC_TICKS == 1) {
             isGettingGarlicDamage(true);
         }
-        if (this.ticksExisted % REFERENCE.REFRESH_SUNDAMAGE_TICKS == 2) {
+        if (this.ticksExisted % MCACompatREFERENCE.REFRESH_SUNDAMAGE_TICKS == 2) {
             isGettingSundamage(true);
         }
         if (!world.isRemote) {
@@ -82,6 +86,7 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
     }
 
 
+    @Nonnull
     @Override
     public EnumStrength isGettingGarlicDamage(boolean forceRefresh) {
         if (forceRefresh) {
@@ -90,6 +95,7 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
         return garlicCache;
     }
 
+    @Nonnull
     @Override
     public boolean isGettingSundamage(boolean forceRefresh) {
         if (!forceRefresh) return sundamageCache;

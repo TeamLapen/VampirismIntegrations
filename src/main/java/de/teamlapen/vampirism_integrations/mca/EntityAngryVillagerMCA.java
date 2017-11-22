@@ -8,13 +8,11 @@ import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumProfessionSkinGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import javax.annotation.Nullable;
 
@@ -23,14 +21,13 @@ import javax.annotation.Nullable;
  * Similar to the Vampirism's HunterVillager
  */
 public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implements IAggressiveVillager {
-    @GameRegistry.ObjectHolder("vampirism:pitchfork")
-    private static final Item pitchfork = null;
+
     private ItemStack pitchforkStack;
 
     public EntityAngryVillagerMCA(World world) {
         super(world);
         getBehaviors().addAction(new ActionDefendAgainstVampire(this));
-        pitchforkStack = new ItemStack(pitchfork);
+        pitchforkStack = new ItemStack(MCACompatREFERENCE.pitchfork);
     }
 
 

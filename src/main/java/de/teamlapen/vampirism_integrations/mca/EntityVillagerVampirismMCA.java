@@ -1,8 +1,8 @@
 package de.teamlapen.vampirism_integrations.mca;
 
+import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import de.teamlapen.vampirism.util.Helper;
-import de.teamlapen.vampirism.world.villages.VampirismVillageHelper;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -11,7 +11,9 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.village.Village;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
@@ -24,7 +26,7 @@ abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
     protected boolean peaceful = false;
     protected
     @Nullable
-    IVampirismVillage IVampirismVillageObj;
+    IVampirismVillage vampirismVillage;
     /**
      * A timer which reaches 0 every 70 to 120 ticks
      */
@@ -87,9 +89,13 @@ abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
         return (peaceful || this.world.getDifficulty() != EnumDifficulty.PEACEFUL) && super.getCanSpawnHere();
     }
 
-    @Nullable
-    public IVampirismVillage getVampirismVillage() {
-        return IVampirismVillageObj;
+    private static @Nullable
+    IVampirismVillage getNearestVillage(World w, BlockPos pos, int r) {
+        Village v = w.villageCollection.getNearestVillage(pos, r);
+        if (v != null) {
+            return VampirismAPI.getVampirismVillage(v);
+        }
+        return null;
     }
 
     @Override
@@ -125,12 +131,17 @@ abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
         this.setDead();
     }
 
+    @Nullable
+    public IVampirismVillage getVampirismVillage() {
+        return vampirismVillage;
+    }
+
     @Override
     protected void updateAITasks() {
         super.updateAITasks();
         if (--this.randomTickDivider <= 0) {
             this.randomTickDivider = 70 + rand.nextInt(50);
-            this.IVampirismVillageObj = VampirismVillageHelper.getNearestVillage(world, getPosition(), 32);
+            this.vampirismVillage = getNearestVillage(world, getPosition(), 32);
         }
 
     }

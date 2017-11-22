@@ -2,9 +2,8 @@ package de.teamlapen.vampirism_integrations.mca;
 
 
 import com.google.common.collect.Lists;
+import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.IExtendedCreatureVampirism;
-import de.teamlapen.vampirism.core.ModSounds;
-import de.teamlapen.vampirism.entity.ExtendedCreature;
 import mca.actions.AbstractAction;
 import mca.actions.ActionSleep;
 import mca.core.Constants;
@@ -75,7 +74,7 @@ class ActionSuckBlood extends AbstractAction {
                     biting--;
                     if (biting == 0) {
                         int amount = target.onBite(actorVampirism);
-                        actor.playSound(ModSounds.player_bite, 1, 1);
+                        actor.playSound(MCACompatREFERENCE.player_bite, 1, 1);
                         actorVampirism.drinkBlood(amount, target.getBloodSaturation());
                         this.onFinish();
                     }
@@ -152,7 +151,7 @@ class ActionSuckBlood extends AbstractAction {
         }
 
         for (Object o : list) {
-            IExtendedCreatureVampirism bittingTarget = ExtendedCreature.get((EntityCreature) o);
+            IExtendedCreatureVampirism bittingTarget = VampirismAPI.getExtendedCreatureVampirism((EntityCreature) o);
             if (bittingTarget.canBeBitten(actorVampirism)) {
                 target = bittingTarget;
                 actor.getNavigator().tryMoveToEntityLiving(target.getEntity(), Constants.SPEED_WALK);

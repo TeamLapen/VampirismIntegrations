@@ -17,7 +17,7 @@ c) It keeps Vampirism's code slightly more organized
 d) It verifies that Vampirism's API is working, shows me areas for impovement and can act as an example.
 e) It makes it more straight-forward for others contribute and add more integrations (hope this is gonna happen, but I did not have any luck so far)
 
-The most important integrations will say in Vampirism (JEI, GuideAPI,?), but any additional (hopefully many) will be added into the seperate mod.
+The most important integrations will stay in Vampirism (JEI, GuideAPI,?), but any additional (hopefully many) will be added into the seperate mod.
 If you are already installing many mods or a modpack it should not make that much a difference anyway.
 
 ### Stuff
