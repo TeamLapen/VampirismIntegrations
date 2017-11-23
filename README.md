@@ -4,6 +4,8 @@ Vampirism Integrations for MC 1.12 - Latest branch [![](http://cf.way2muchnoise.
 
 This mod handles integrations or respectively compatibility with other mods.
 
+Curseforge Page: [https://minecraft.curseforge.com/projects/vampirism-integrations](https://minecraft.curseforge.com/projects/vampirism-integrations)  
+
 While the JEI and GuideAPI integration will stay inside the main mod, any additional compatibility will be implemented here.
 
 Therefore this mod is only useful if you are using one or more of the supported mods:
