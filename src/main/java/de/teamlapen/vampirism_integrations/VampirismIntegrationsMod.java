@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 import javax.annotation.Nonnull;
 
-@Mod(modid = REFERENCE.MODID, version = REFERENCE.MODID, dependencies = REFERENCE.DEPENDENCIES)
+@Mod(modid = REFERENCE.MODID, version = REFERENCE.MODID, dependencies = REFERENCE.DEPENDENCIES, updateJSON = REFERENCE.VERSION_UPDATE_FILE)
 public class VampirismIntegrationsMod {
     public static final Logger log = new Logger(REFERENCE.MODID, "de.teamlapen.vampirism_integrations");
     @Mod.Instance
