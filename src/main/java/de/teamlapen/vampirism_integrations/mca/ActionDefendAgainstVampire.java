@@ -8,6 +8,7 @@ import mca.actions.ActionSleep;
 import mca.core.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.monster.IMob;
 
 import javax.annotation.Nullable;
@@ -72,12 +73,14 @@ class ActionDefendAgainstVampire extends AbstractAction {
         double closestDistance = 100.0D;
 
         for (Entity entity : possibleTargets) {
-            if (actor.canEntityBeSeen(entity)) {
-                double distance = entity.getDistanceSq(actor);
+            if (entity instanceof EntityLivingBase && EntityAITarget.isSuitableTarget(actor, (EntityLivingBase) entity, false, true)) {
+                if (!actor.attributes.getSpouseUUID().equals(entity.getUniqueID())) {
+                    double distance = entity.getDistanceSq(actor);
 
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    target = (EntityLivingBase) entity;
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        target = (EntityLivingBase) entity;
+                    }
                 }
             }
         }

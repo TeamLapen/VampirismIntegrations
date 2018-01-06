@@ -30,6 +30,11 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
         pitchforkStack = new ItemStack(MCACompatREFERENCE.pitchfork);
     }
 
+    @Override
+    public boolean attackEntityAsMob(Entity entity) {
+        this.swingArm(getActiveHand());
+        return super.attackEntityAsMob(entity);
+    }
 
     @Nullable
     public static EntityAngryVillagerMCA makeAngry(EntityVillagerMCA villager) {

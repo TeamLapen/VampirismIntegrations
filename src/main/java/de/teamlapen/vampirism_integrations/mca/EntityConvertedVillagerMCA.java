@@ -1,7 +1,9 @@
 package de.teamlapen.vampirism_integrations.mca;
 
+import com.google.common.base.Predicates;
 import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.VReference;
+import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
@@ -9,6 +11,7 @@ import de.teamlapen.vampirism.entity.DamageHandler;
 import de.teamlapen.vampirism.util.Helper;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAIRestrictSun;
 import net.minecraft.init.MobEffects;
@@ -43,6 +46,8 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
 
         this.tasks.taskEntries.removeIf(task -> task.action instanceof EntityAIMoveIndoors);
         this.tasks.addTask(1, new EntityAIRestrictSun(this));
+        //Not sure if this has an effect
+        this.tasks.addTask(2, new EntityAIAvoidEntity<>(this, EntityLivingBase.class, Predicates.and(VampirismAPI.factionRegistry().getPredicate(VReference.VAMPIRE_FACTION, true, true, false, false, VReference.HUNTER_FACTION), (entity -> !EntityConvertedVillagerMCA.this.attributes.getSpouseUUID().equals(entity))), 10, 0.7, 0.9));
 
     }
 
