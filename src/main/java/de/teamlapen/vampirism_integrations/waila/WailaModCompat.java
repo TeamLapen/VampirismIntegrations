@@ -1,0 +1,26 @@
+package de.teamlapen.vampirism_integrations.waila;
+
+import de.teamlapen.lib.lib.util.IModCompat;
+import net.minecraftforge.common.config.ConfigCategory;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.event.FMLStateEvent;
+
+public class WailaModCompat implements IModCompat {
+    @Override
+    public String getModID() {
+        return "waila";
+    }
+
+    @Override
+    public void loadConfigs(Configuration config, ConfigCategory category) {
+
+    }
+
+    @Override
+    public void onInitStep(Step step, FMLStateEvent event) {
+        if (step == Step.INIT) {
+            FMLInterModComms.sendMessage(getModID(), "register", WailaHandler.class.getName() + ".onRegister");
+        }
+    }
+}
