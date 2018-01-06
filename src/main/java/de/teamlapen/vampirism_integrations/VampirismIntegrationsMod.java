@@ -7,6 +7,7 @@ import de.teamlapen.lib.lib.util.VersionChecker;
 import de.teamlapen.vampirism_integrations.abyssalcraft.AbyssalcraftCompat;
 import de.teamlapen.vampirism_integrations.bop.BOPCompat;
 import de.teamlapen.vampirism_integrations.mca.MCACompat;
+import de.teamlapen.vampirism_integrations.toroquest.ToroQuestCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import de.teamlapen.vampirism_integrations.waila.WailaModCompat;
 import net.minecraft.launchwrapper.Launch;
@@ -36,6 +37,7 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new BOPCompat());
         compatLoader.addModCompat(new AbyssalcraftCompat());
         compatLoader.addModCompat(new WailaModCompat());
+        compatLoader.addModCompat(new ToroQuestCompat());
     }
 
     @Mod.EventHandler
