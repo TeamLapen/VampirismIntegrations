@@ -143,7 +143,7 @@ class ActionSuckBlood extends AbstractAction {
         if (list.size() > 1) {
 
             try {
-                list.sort(Comparator.comparingDouble(o -> actor.getDistanceSqToEntity(o)));
+                list.sort(Comparator.comparingDouble(o -> actor.getDistanceSq(o)));
             } catch (Exception e) {
 
             }

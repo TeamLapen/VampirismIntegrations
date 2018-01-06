@@ -20,6 +20,9 @@ repositories {
         name 'shinoow'
         url 'https://dl.bintray.com/shinoow/maven/'
     }
+    repositories {
+        maven {url "http://tehnut.info/maven"}
+    }
     mavenCentral()
 }
 
@@ -52,6 +55,10 @@ dependencies {
 
     deobfCompile 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version+':api'
     optionalRuntime 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version
+
+    deobfCompile "mcp.mobius.waila:Hwyla:"+project.hywla_version
+
+    deobfCompile "toroquest:toroquest:1.12.1:"+project.toroquest_version
 }
 
 processResources {

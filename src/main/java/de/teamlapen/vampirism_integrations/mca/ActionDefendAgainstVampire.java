@@ -44,7 +44,7 @@ class ActionDefendAgainstVampire extends AbstractAction {
                     timeUntilTargetSearch--;
                 }
             } else {
-                double distanceToTarget = actor.getDistanceSqToEntity(target);
+                double distanceToTarget = actor.getDistanceSq(target);
 
                 if (target.isDead || distanceToTarget >= 15.0D) {
                     reset();
@@ -73,7 +73,7 @@ class ActionDefendAgainstVampire extends AbstractAction {
 
         for (Entity entity : possibleTargets) {
             if (actor.canEntityBeSeen(entity)) {
-                double distance = entity.getDistanceSqToEntity(actor);
+                double distance = entity.getDistanceSq(actor);
 
                 if (distance < closestDistance) {
                     closestDistance = distance;
