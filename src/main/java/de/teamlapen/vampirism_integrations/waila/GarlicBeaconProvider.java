@@ -6,11 +6,9 @@ import de.teamlapen.vampirism.tileentity.TileGarlicBeacon;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -19,8 +17,7 @@ import java.util.List;
 public class GarlicBeaconProvider implements IWailaDataProvider {
 
 
-    @GameRegistry.ObjectHolder("vampirism:garlic_beacon")
-    private static Block garlicBeacon;
+
 
     @Nonnull
     @Override
@@ -40,7 +37,7 @@ public class GarlicBeaconProvider implements IWailaDataProvider {
     @Nonnull
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return new ItemStack(garlicBeacon, 1, accessor.getBlockState().getValue(BlockGarlicBeacon.TYPE).getId());
+        return new ItemStack(WailaModCompat.garlicBeacon, 1, accessor.getBlockState().getValue(BlockGarlicBeacon.TYPE).getId());
 
     }
 

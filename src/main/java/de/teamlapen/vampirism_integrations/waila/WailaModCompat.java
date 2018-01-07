@@ -1,12 +1,18 @@
 package de.teamlapen.vampirism_integrations.waila;
 
 import de.teamlapen.lib.lib.util.IModCompat;
+import net.minecraft.block.Block;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLStateEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class WailaModCompat implements IModCompat {
+
+    @GameRegistry.ObjectHolder("vampirism:garlic_beacon")
+    static Block garlicBeacon;
+
     @Override
     public String getModID() {
         return "waila";
