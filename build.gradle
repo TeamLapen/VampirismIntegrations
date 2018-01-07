@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        mavenCentral()
         jcenter()
         maven {
             name = "forge"
@@ -9,6 +10,10 @@ buildscript {
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
     }
+}
+
+plugins {
+    id 'com.matthewprenger.cursegradle' version '1.0.9'
 }
 
 configurations {
@@ -26,3 +31,4 @@ ext.type = "Test"
 
 apply from: 'gradle/versioning.gradle'
 apply from: 'gradle/forge.gradle'
+apply from: 'gradle/deploy.gradle'
