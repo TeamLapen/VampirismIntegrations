@@ -1,6 +1,6 @@
 Vampirism Integrations for MC 1.12 - Latest branch [![](http://cf.way2muchnoise.eu/versions/For%20MC_vampirism-integrations_all.svg)](https://minecraft.curseforge.com/projects/vampirism-integrations) [![Build Status](https://travis-ci.org/TeamLapen/VampirismIntegrations.svg?branch=1.12)](https://travis-ci.org/TeamLapen/VampirismIntegrations) 
 ============================================
-[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://maxanier.de) 
+[![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://maxanier.de) 
 
 This mod handles integrations or respectively compatibility with other mods.
 
