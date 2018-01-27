@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.bop;
+package de.teamlapen.vampirism_integrations.compat.bop;
 
 import biomesoplenty.api.biome.BOPBiomes;
 import de.teamlapen.vampirism.api.VampirismAPI;

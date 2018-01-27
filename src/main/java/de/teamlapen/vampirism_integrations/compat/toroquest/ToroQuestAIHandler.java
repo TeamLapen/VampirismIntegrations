@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.toroquest;
+package de.teamlapen.vampirism_integrations.compat.toroquest;
 
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;

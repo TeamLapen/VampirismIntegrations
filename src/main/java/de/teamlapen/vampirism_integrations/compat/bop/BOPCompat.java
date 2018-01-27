@@ -1,15 +1,15 @@
-package de.teamlapen.vampirism_integrations.abyssalcraft;
+package de.teamlapen.vampirism_integrations.compat.bop;
 
 import de.teamlapen.lib.lib.util.IModCompat;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLStateEvent;
 
-public class AbyssalcraftCompat implements IModCompat {
+public class BOPCompat implements IModCompat {
 
-    public final static String ID = "abyssalcraft";
+    public static final String ID = "biomesoplenty";
 
-    boolean disableSundamage_darklands;
+    boolean disabled_sundamage_ominous_woods;
 
     @Override
     public String getModID() {
@@ -18,7 +18,7 @@ public class AbyssalcraftCompat implements IModCompat {
 
     @Override
     public void loadConfigs(Configuration config, ConfigCategory category) {
-        disableSundamage_darklands = config.getBoolean("disabled_sundamage_darklands", category.getName(), true, "Whether to disable the sundamage in the darkland biomes or not");
+        disabled_sundamage_ominous_woods = config.getBoolean("disable_sundamage_ominous_woods", category.getName(), true, "Whether sundamage should be applied to vampires in this biome or not");
     }
 
     @Override

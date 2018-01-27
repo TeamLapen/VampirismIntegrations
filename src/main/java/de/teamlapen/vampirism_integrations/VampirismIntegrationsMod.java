@@ -4,12 +4,13 @@ import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.lib.lib.util.Logger;
 import de.teamlapen.lib.lib.util.ModCompatLoader;
 import de.teamlapen.lib.lib.util.VersionChecker;
-import de.teamlapen.vampirism_integrations.abyssalcraft.AbyssalcraftCompat;
-import de.teamlapen.vampirism_integrations.bop.BOPCompat;
-import de.teamlapen.vampirism_integrations.mca.MCACompat;
-import de.teamlapen.vampirism_integrations.toroquest.ToroQuestCompat;
+import de.teamlapen.vampirism_integrations.compat.VampirismCompat;
+import de.teamlapen.vampirism_integrations.compat.abyssalcraft.AbyssalcraftCompat;
+import de.teamlapen.vampirism_integrations.compat.bop.BOPCompat;
+import de.teamlapen.vampirism_integrations.compat.mca.MCACompat;
+import de.teamlapen.vampirism_integrations.compat.toroquest.ToroQuestCompat;
+import de.teamlapen.vampirism_integrations.compat.waila.WailaModCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
-import de.teamlapen.vampirism_integrations.waila.WailaModCompat;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -30,6 +31,7 @@ public class VampirismIntegrationsMod {
     @Nonnull
     public final ModCompatLoader compatLoader;
     private VersionChecker.VersionInfo versionInfo;
+
 
     public VampirismIntegrationsMod() {
         compatLoader = new ModCompatLoader(REFERENCE.MODID + ".cfg");

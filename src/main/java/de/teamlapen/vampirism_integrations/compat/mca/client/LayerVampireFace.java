@@ -1,6 +1,6 @@
-package de.teamlapen.vampirism_integrations.mca.client;
+package de.teamlapen.vampirism_integrations.compat.mca.client;
 
-import de.teamlapen.vampirism_integrations.mca.EntityConvertedVillagerMCA;
+import de.teamlapen.vampirism_integrations.compat.mca.EntityConvertedVillagerMCA;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;

@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.waila;
+package de.teamlapen.vampirism_integrations.compat.waila;
 
 import de.teamlapen.vampirism.blocks.BlockGarlicBeacon;
 import de.teamlapen.vampirism.blocks.BlockWeaponTable;

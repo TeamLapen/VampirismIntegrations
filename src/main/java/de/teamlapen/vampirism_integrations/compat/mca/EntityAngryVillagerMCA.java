@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.mca;
+package de.teamlapen.vampirism_integrations.compat.mca;
 
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.entity.IAggressiveVillager;

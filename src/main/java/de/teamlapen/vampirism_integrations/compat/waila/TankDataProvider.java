@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.waila;
+package de.teamlapen.vampirism_integrations.compat.waila;
 
 import de.teamlapen.vampirism.api.VReference;
 import mcp.mobius.waila.api.IWailaConfigHandler;
