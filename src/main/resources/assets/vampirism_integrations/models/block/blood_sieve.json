@@ -1,11 +1,11 @@
 {
   "__comment": "Designed by Maxanier",
   "textures": {
-    "particle": "blocks/blood_sieve",
-    "texture": "blocks/blood_sieve",
-    "top": "blocks/blood_sieve_top",
-    "bottom": "blocks/blood_sieve_bottom",
-    "filter": "blocks/blood_sieve_filter"
+    "particle": "vampirism_integrations:blocks/blood_sieve",
+    "texture": "vampirism_integrations:blocks/blood_sieve",
+    "top": "vampirism_integrations:blocks/blood_sieve_top",
+    "bottom": "vampirism_integrations:blocks/blood_sieve_bottom",
+    "filter": "vampirism_integrations:blocks/blood_sieve_filter"
   },
   "elements": [
     {
