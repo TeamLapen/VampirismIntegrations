@@ -10,7 +10,7 @@ While the JEI and GuideAPI integration will stay inside the main mod, any additi
 
 Therefore this mod is only useful if you are using one or more of the supported mods:
 
-## Reasons
+### Reasons
 a) Mod integrations are a lot of work regarding Minecraft updates. If MC updates, but the other mods are not finished yet, I have to uncomment all the relevant parts in Vampirism codes, remove the dependencies and redo all these things once the mod eventually updates.  
 b) If a other mods changes and requires changes, I don't want to release an update for Vampirism each time  
 c) It keeps Vampirism's code slightly more organized  
@@ -20,38 +20,6 @@ e) It makes it more straight-forward for others contribute and add more integrat
 The most important integrations will stay in Vampirism (JEI, GuideAPI,?), but any additional (hopefully many) will be added into the seperate mod.  
 If you are already installing many mods or a modpack it should not make that much a difference anyway.
 
-## Configuration
+### Configuration
 Integrations can be disabled per mod.  
 Some integrations also allow more detailed customization
-
-
-## Setting up the development environment
-If you would like to compile your own versions or even contribute to Vampirism Integrations's development you need to setup a dev environment.
-The following example instructions will setup IntelliJ (Free community edition or Non-Free Ultimate edition). If you already have a setup or want to use another IDE, jump [here](#setting-up-vampirism-integrations-in-another-environment).
-
-#### IntelliJ
-1. Make sure you have the Java **JDK** (Java 8) as well as the IntelliJ IDE installed.
-2. If you want to contribute to the development (via pull requests), fork Vampirism Integrations on Github.
-3. (Optionally) Install Git, so you can clone the repository and push changes.
-4. Clone (`git clone https://github.com/TeamLapen/VampirismIntegrations`) or [download](https://github.com/TeamLapen/VampirismIntegrations/archive/master.zip) VampirismIntegrations to a new "VampirismIntegrations" folder.
-5. In IntelliJ use `New...` -> `New from Version Control` -> Fill out repo, directory and name
-6. After cloning is done IntelliJ offers you to import a unlinked Gradle Project. Click this.
-7. Select `Create directories for empty content roots` and __deselect__ `Create seperate module per source set` [Image](https://picload.org/image/ripradpa/importprojectfromgradle_001.png)  
-8. Select the gradle task `setupDecompWorkspace` in the IntelliJ Gradle window and add the following arguments `-Xmx4g -Xms4g`. Run it.  
-9. Refresh the gradle project  
-10. Run `genIntellijRuns`
-11. Make sure `Settings -> Build, Execution, Deployment -> Compiler -> 'Add runtime assertions for not-null-annotated methods and parameters' is disabled` (Unfortunately required, requires rebuild if the project has been built before)
-12. You might have to modify the projects compiler output path  
-
-
-That's it.
-
-#### Setting up Vampirism Integrations in another environment
-If you would like to setup Vampirism Integrations in another way or another IDE, you should pay regard to the following points.  
-1. Make sure `src/main/java`, `src/api/java´ and `src/lib/java` are marked as source folders and `src/main/resources` and `src/lib/resources` are marked as resource folders.  
-2. Vampirism Integrations has several dependencies (e.g. Waila), which are specified in the gradle files and should be automatically downloaded and added when you run `ideaModule` or `eclipse`.  
-3. Vampirism Integrations requires at least Java 8 
-
-
-## Licence
-This mod is licenced under [LGPLv3](https://raw.githubusercontent.com/TeamLapen/VampirismIntegrations/master/LICENCE)
