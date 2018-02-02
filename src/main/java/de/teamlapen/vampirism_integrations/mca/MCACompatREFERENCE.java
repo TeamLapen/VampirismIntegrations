@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.compat.mca;
+package de.teamlapen.vampirism_integrations.mca;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.SoundEvent;

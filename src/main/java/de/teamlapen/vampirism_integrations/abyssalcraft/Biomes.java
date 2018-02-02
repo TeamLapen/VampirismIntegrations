@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.compat.abyssalcraft;
+package de.teamlapen.vampirism_integrations.abyssalcraft;
 
 import com.shinoow.abyssalcraft.api.biome.IDarklandsBiome;
 import de.teamlapen.vampirism.api.VampirismAPI;

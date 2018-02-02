@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.compat.mca;
+package de.teamlapen.vampirism_integrations.mca;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.world.IVampirismVillage;

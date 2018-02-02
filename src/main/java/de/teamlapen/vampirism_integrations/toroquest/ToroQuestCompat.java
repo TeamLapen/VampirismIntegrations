@@ -1,21 +1,15 @@
-package de.teamlapen.vampirism_integrations.compat.waila;
+package de.teamlapen.vampirism_integrations.toroquest;
 
 import de.teamlapen.lib.lib.util.IModCompat;
-import net.minecraft.block.Block;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLStateEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class WailaModCompat implements IModCompat {
-
-    @GameRegistry.ObjectHolder("vampirism:garlic_beacon")
-    static Block garlicBeacon;
-
+public class ToroQuestCompat implements IModCompat {
     @Override
     public String getModID() {
-        return "waila";
+        return "toroquest";
     }
 
     @Override
@@ -26,7 +20,7 @@ public class WailaModCompat implements IModCompat {
     @Override
     public void onInitStep(Step step, FMLStateEvent event) {
         if (step == Step.INIT) {
-            FMLInterModComms.sendMessage(getModID(), "register", WailaHandler.class.getName() + ".onRegister");
+            MinecraftForge.EVENT_BUS.register(new ToroQuestAIHandler());
         }
     }
 }

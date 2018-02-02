@@ -1,6 +1,6 @@
-package de.teamlapen.vampirism_integrations.compat.mca.client;
+package de.teamlapen.vampirism_integrations.mca.client;
 
-import de.teamlapen.vampirism_integrations.compat.mca.EntityConvertedVillagerMCA;
+import de.teamlapen.vampirism_integrations.mca.EntityConvertedVillagerMCA;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import mca.client.render.RenderVillagerMCA;
 import net.minecraft.client.renderer.entity.RenderManager;

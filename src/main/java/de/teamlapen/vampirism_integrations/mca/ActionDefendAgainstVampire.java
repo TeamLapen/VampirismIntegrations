@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.compat.mca;
+package de.teamlapen.vampirism_integrations.mca;
 
 import com.google.common.base.Predicates;
 import de.teamlapen.vampirism.api.VReference;

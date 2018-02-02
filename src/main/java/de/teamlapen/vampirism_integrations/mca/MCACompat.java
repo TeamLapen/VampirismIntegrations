@@ -1,9 +1,9 @@
-package de.teamlapen.vampirism_integrations.compat.mca;
+package de.teamlapen.vampirism_integrations.mca;
 
 import de.teamlapen.lib.lib.util.IModCompat;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism_integrations.VampirismIntegrationsMod;
-import de.teamlapen.vampirism_integrations.compat.mca.client.ClientProxy;
+import de.teamlapen.vampirism_integrations.mca.client.ClientProxy;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.util.ResourceLocation;

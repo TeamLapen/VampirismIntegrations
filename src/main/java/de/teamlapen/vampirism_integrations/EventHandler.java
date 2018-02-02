@@ -2,7 +2,6 @@ package de.teamlapen.vampirism_integrations;
 
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.lib.lib.util.VersionChecker;
-import de.teamlapen.vampirism_integrations.compat.VampirismCompat;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
