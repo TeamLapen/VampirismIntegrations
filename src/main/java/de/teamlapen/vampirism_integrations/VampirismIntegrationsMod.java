@@ -5,8 +5,11 @@ import de.teamlapen.lib.lib.util.Logger;
 import de.teamlapen.lib.lib.util.ModCompatLoader;
 import de.teamlapen.lib.lib.util.VersionChecker;
 import de.teamlapen.vampirism_integrations.abyssalcraft.AbyssalcraftCompat;
+import de.teamlapen.vampirism_integrations.bloodmagic.BloodmagicCompat;
 import de.teamlapen.vampirism_integrations.bop.BOPCompat;
+import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
 import de.teamlapen.vampirism_integrations.mca.MCACompat;
+import de.teamlapen.vampirism_integrations.tconstruct.TConstructCompat;
 import de.teamlapen.vampirism_integrations.toroquest.ToroQuestCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import de.teamlapen.vampirism_integrations.waila.WailaModCompat;
@@ -38,6 +41,9 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new AbyssalcraftCompat());
         compatLoader.addModCompat(new WailaModCompat());
         compatLoader.addModCompat(new ToroQuestCompat());
+        compatLoader.addModCompat(new TConstructCompat());
+        compatLoader.addModCompat(new EvilCraftCompat());
+        compatLoader.addModCompat(new BloodmagicCompat());
     }
 
     @Mod.EventHandler

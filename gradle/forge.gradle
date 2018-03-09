@@ -20,9 +20,16 @@ repositories {
         name 'shinoow'
         url 'https://dl.bintray.com/shinoow/maven/'
     }
-    repositories {
-        maven {url "http://tehnut.info/maven"}
+    maven {
+        url "http://tehnut.info/maven"
     }
+
+    maven {
+        name = "Evilcraft JFrog"
+        url = "https://oss.jfrog.org/artifactory/simple/libs-release/"
+    }
+
+
     mavenCentral()
 }
 
@@ -45,7 +52,6 @@ minecraft {
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_" + project.minecraft_version + ":" + project.jei_version + ":api"
     deobfCompile "de.teamlapen.vampirism:Vampirism:"+project.minecraft_version + "-" + project.vampirism_version
     deobfCompile "minecraft-comes-alive-mca:MCA-1.12.x:"+project.mca_version+":universal"
     deobfCompile "radixcore:RadixCore-1.12.x:"+project.radix_core_version+":universal"
@@ -59,6 +65,13 @@ dependencies {
     deobfCompile "mcp.mobius.waila:Hwyla:"+project.hywla_version
 
     deobfCompile "toroquest:toroquest:1.12.1:"+project.toroquest_version
+    deobfCompile "com.wayoftime.bloodmagic:BloodMagic:"+project.bloodmagic_version
+    deobfCompile  "org.cyclops.evilcraft:EvilCraft:"+project.evilcraft_version
+    optionalRuntime "slimeknights.mantle:Mantle:"+project.mantle_version
+    deobfCompile "slimeknights:TConstruct:"+project.tconstruct_version
+    optionalRuntime 'info.amerifrance.guideapi:Guide-API:' + project.guide_api_version
+    optionalRuntime "mezz.jei:jei_" + project.minecraft_version + ":" + project.jei_version
+
 }
 
 processResources {
