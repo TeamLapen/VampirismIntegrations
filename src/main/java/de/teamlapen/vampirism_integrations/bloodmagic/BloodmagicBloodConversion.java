@@ -10,7 +10,7 @@ class BloodmagicBloodConversion {
         if (!FluidRegistry.isFluidRegistered("lifeessence")) {
             VampirismIntegrationsMod.log.w("Bloodmagic", "Cannot find life essence fluid");
         } else {
-            BloodConversionRegistry.registerFluidConversionRatio("lifeessence", 1.0f);
+            BloodConversionRegistry.registerFluidConversionRatio("lifeessence", BloodmagicCompat.conversion_factor);
         }
     }
 }
