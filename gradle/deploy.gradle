@@ -31,6 +31,9 @@ curseforge {
             optionalLibrary 'minecraft-comes-alive-mca'
             optionalLibrary 'toroquest'
             optionalLibrary 'hwyla'
+            optionalLibrary 'blood-magic'
+            optionalLibrary 'evilcraft'
+            optionalLibrary 'tinkers-construct'
         }
 
 
