@@ -3,6 +3,7 @@ package de.teamlapen.vampirism_integrations.evilcraft;
 import de.teamlapen.vampirism.api.general.BloodConversionRegistry;
 import de.teamlapen.vampirism_integrations.VampirismIntegrationsMod;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -23,7 +24,7 @@ class EvilCraftBloodConversion {
         if (blood_orb == null) {
             VampirismIntegrationsMod.log.w("Evilcraft", "Cannot get blood orb item");
         } else {
-            BloodConversionRegistry.registerItem(blood_orb, (int) (EvilCraftCompat.conversionFactor * 3500));
+            BloodConversionRegistry.registerItem(new ResourceLocation("evilcraft", "blood_orb"), (int) (EvilCraftCompat.conversionFactor * 3500));
         }
     }
 }

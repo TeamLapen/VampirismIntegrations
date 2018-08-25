@@ -59,6 +59,10 @@ dependencies {
     deobfCompile 'com.github.glitchfiend.biomesoplenty:BiomesOPlenty:'+project.minecraft_version+'-'+project.bop_version+':api'
     optionalRuntime 'com.github.glitchfiend.biomesoplenty:BiomesOPlenty:'+project.minecraft_version+'-'+project.bop_version+':universal'
 
+    deobfCompile 'com.github.glitchfiend.biomesoplenty:ToughAsNails:'+tough_as_nails_version + ':api'
+    optionalRuntime 'com.github.glitchfiend.biomesoplenty:ToughAsNails:'+tough_as_nails_version + ':universal'
+
+
     deobfCompile 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version+':api'
     optionalRuntime 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version
 
