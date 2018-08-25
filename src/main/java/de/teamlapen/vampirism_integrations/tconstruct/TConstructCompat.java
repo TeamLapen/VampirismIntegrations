@@ -6,6 +6,8 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLStateEvent;
 
 public class TConstructCompat implements IModCompat {
+
+    static float conversion_factor = 0.8f;
     @Override
     public String getModID() {
         return "tconstruct";
@@ -13,7 +15,7 @@ public class TConstructCompat implements IModCompat {
 
     @Override
     public void loadConfigs(Configuration config, ConfigCategory category) {
-
+        conversion_factor = config.getFloat("blood_conversion_factor", category.getName(), 0.8f, 0.0f, 10, "Tinker blood * factor = Vampirism Blood");
     }
 
     @Override

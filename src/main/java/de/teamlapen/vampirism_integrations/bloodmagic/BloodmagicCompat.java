@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.event.FMLStateEvent;
 
 public class BloodmagicCompat implements IModCompat {
 
+    static float conversion_factor = 0.8f;
 
     @Override
     public String getModID() {
@@ -15,7 +16,7 @@ public class BloodmagicCompat implements IModCompat {
 
     @Override
     public void loadConfigs(Configuration config, ConfigCategory category) {
-
+        conversion_factor = config.getFloat("life_essence_conversion_factor", category.getName(), 0.8f, 0.0f, 10, "Blood Magic Life Essence * factor = Vampirism blood");
     }
 
     @Override

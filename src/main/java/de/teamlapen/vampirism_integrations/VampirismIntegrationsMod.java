@@ -35,7 +35,7 @@ public class VampirismIntegrationsMod {
     private VersionChecker.VersionInfo versionInfo;
 
     public VampirismIntegrationsMod() {
-        compatLoader = new ModCompatLoader(REFERENCE.MODID + ".cfg");
+        compatLoader = new ModCompatLoader("vampirism/" + REFERENCE.MODID + ".cfg");
         compatLoader.addModCompat(new MCACompat());
         compatLoader.addModCompat(new BOPCompat());
         compatLoader.addModCompat(new AbyssalcraftCompat());
@@ -44,15 +44,6 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new TConstructCompat());
         compatLoader.addModCompat(new EvilCraftCompat());
         compatLoader.addModCompat(new BloodmagicCompat());
-    }
-
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        checkDevEnv();
-        compatLoader.onInitStep(IInitListener.Step.PRE_INIT, event);
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
-
-
     }
 
     public VersionChecker.VersionInfo getVersionInfo() {
@@ -72,13 +63,22 @@ public class VampirismIntegrationsMod {
     }
 
     @Mod.EventHandler
+    public void onServerStart(FMLServerStartingEvent event) {
+        event.registerServerCommand(new Command());
+    }
+
+    @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         compatLoader.onInitStep(IInitListener.Step.POST_INIT, event);
     }
 
     @Mod.EventHandler
-    public void onServerStart(FMLServerStartingEvent event) {
-        event.registerServerCommand(new Command());
+    public void preInit(FMLPreInitializationEvent event) {
+        checkDevEnv();
+        compatLoader.onInitStep(IInitListener.Step.PRE_INIT, event);
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
+
+
     }
 
     private void checkDevEnv() {

@@ -19,7 +19,7 @@ class TConstructBloodConversion {
         if (!FluidRegistry.isFluidRegistered("blood")) {
             VampirismIntegrationsMod.log.w("TConstruct", "Cannot retrieve tinkers construct blood");
         } else {
-            BloodConversionRegistry.registerFluidConversionRatio("blood", 1);
+            BloodConversionRegistry.registerFluidConversionRatio("blood", TConstructCompat.conversion_factor);
         }
         if (edible == null) {
             VampirismIntegrationsMod.log.w("TConstruct", "Cannot retrieve tinkers edible item");

@@ -1,15 +1,12 @@
 package de.teamlapen.vampirism_integrations.mca;
 
-import de.teamlapen.lib.VampLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.world.IVampirismVillage;
-import de.teamlapen.vampirism.core.ModParticles;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -23,6 +20,14 @@ import javax.annotation.Nullable;
  * Vampirism's basic extension of MCA's villager
  */
 abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
+    private static @Nullable
+    IVampirismVillage getNearestVillage(World w, BlockPos pos, int r) {
+        Village v = w.villageCollection.getNearestVillage(pos, r);
+        if (v != null) {
+            return VampirismAPI.getVampirismVillage(v);
+        }
+        return null;
+    }
     protected boolean peaceful = false;
     protected
     @Nullable
@@ -32,10 +37,10 @@ abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
      */
     private int randomTickDivider;
 
+
     public EntityVillagerVampirismMCA(World worldIn) {
         super(worldIn);
     }
-
 
     @Override
     public boolean attackEntityAsMob(Entity entity) {
@@ -89,13 +94,9 @@ abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
         return (peaceful || this.world.getDifficulty() != EnumDifficulty.PEACEFUL) && super.getCanSpawnHere();
     }
 
-    private static @Nullable
-    IVampirismVillage getNearestVillage(World w, BlockPos pos, int r) {
-        Village v = w.villageCollection.getNearestVillage(pos, r);
-        if (v != null) {
-            return VampirismAPI.getVampirismVillage(v);
-        }
-        return null;
+    @Nullable
+    public IVampirismVillage getVampirismVillage() {
+        return vampirismVillage;
     }
 
     @Override
@@ -120,20 +121,6 @@ abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
             this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 
         }
-    }
-
-    protected void teleportAway() {
-        this.setInvisible(true);
-        VampLib.proxy.getParticleHandler().spawnParticles(this.world, ModParticles.GENERIC_PARTICLE, this.posX, this.posY + this.height / 2, this.posZ, 20, 1, this.rand, 134, 10, 0x0A0A0A, 0.6);
-
-        this.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1, 1);
-
-        this.setDead();
-    }
-
-    @Nullable
-    public IVampirismVillage getVampirismVillage() {
-        return vampirismVillage;
     }
 
     @Override
