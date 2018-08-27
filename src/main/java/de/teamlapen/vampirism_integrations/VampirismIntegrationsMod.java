@@ -9,6 +9,7 @@ import de.teamlapen.vampirism_integrations.bloodmagic.BloodmagicCompat;
 import de.teamlapen.vampirism_integrations.bop.BOPCompat;
 import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
 import de.teamlapen.vampirism_integrations.mca.MCACompat;
+import de.teamlapen.vampirism_integrations.tan.TANCompat;
 import de.teamlapen.vampirism_integrations.tconstruct.TConstructCompat;
 import de.teamlapen.vampirism_integrations.toroquest.ToroQuestCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
@@ -44,6 +45,7 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new TConstructCompat());
         compatLoader.addModCompat(new EvilCraftCompat());
         compatLoader.addModCompat(new BloodmagicCompat());
+        compatLoader.addModCompat(new TANCompat());
     }
 
     public VersionChecker.VersionInfo getVersionInfo() {
