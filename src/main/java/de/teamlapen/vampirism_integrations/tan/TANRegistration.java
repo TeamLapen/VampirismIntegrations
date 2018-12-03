@@ -1,9 +1,17 @@
 package de.teamlapen.vampirism_integrations.tan;
 
+import de.teamlapen.vampirism.world.gen.VampirismWorldGen;
 import de.teamlapen.vampirism_integrations.VampirismIntegrationsMod;
 import net.minecraft.potion.Potion;
+import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import toughasnails.api.TANBlocks;
 import toughasnails.api.TANPotions;
+import toughasnails.block.BlockTANCampfire;
+
+import java.util.Set;
 
 public class TANRegistration {
 
@@ -38,7 +46,22 @@ public class TANRegistration {
         } catch (Exception e) {
             VampirismIntegrationsMod.log.e("TAN", e, "Failed to create/register modified potions");
         }
+    }
 
+    static void registerCampfire() {
+        //TODO access directly once next Vampirism version is released
+        try {
+            Set<IWorldGenerator> set = ReflectionHelper.getPrivateValue(GameRegistry.class, null, "worldGenerators");
+            for (IWorldGenerator gen : set) {
+                if (gen instanceof VampirismWorldGen) {
+                    ((VampirismWorldGen) gen).hunterCamp.setCampfireBlockstate(TANBlocks.campfire.getDefaultState().withProperty(BlockTANCampfire.BURNING, true));
+                    return;
+                }
+            }
+            throw new IllegalStateException("Did not find VampirismWorldGen");
+        } catch (Exception e) {
+            VampirismIntegrationsMod.log.e("TAN", e, "Failed to find Vampirism access transformer");
+        }
 
     }
 }
