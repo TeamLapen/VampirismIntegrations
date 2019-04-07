@@ -30,7 +30,7 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
 
     private EnumStrength garlicCache;
     private boolean sundamageCache;
-    private boolean hungry = true;
+    private int bloodTimer = 0;
 
 
     public EntityConvertedVillagerMCA(World world) {
@@ -47,26 +47,19 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
         this.tasks.taskEntries.removeIf(task -> task.action instanceof EntityAIMoveIndoors);
         this.tasks.addTask(1, new EntityAIRestrictSun(this));
         //Not sure if this has an effect
-        this.tasks.addTask(2, new EntityAIAvoidEntity<>(this, EntityLivingBase.class, Predicates.and(VampirismAPI.factionRegistry().getPredicate(VReference.VAMPIRE_FACTION, true, true, false, false, VReference.HUNTER_FACTION), (entity -> !EntityConvertedVillagerMCA.this.attributes.getSpouseUUID().equals(entity))), 10, 0.7, 0.9));
+        this.tasks.addTask(2, new EntityAIAvoidEntity<>(this, EntityLivingBase.class, Predicates.and(VampirismAPI.factionRegistry().getPredicate(VReference.VAMPIRE_FACTION, true, true, false, false, VReference.HUNTER_FACTION), (entity -> (entity != null && !EntityConvertedVillagerMCA.this.attributes.getSpouseUUID().equals(entity.getUniqueID())))), 10, 0.7, 0.9));
 
     }
 
-
     @Override
-    public boolean wantsBlood() {
-        return hungry;
+    public void drinkBlood(int amt, float saturationMod, boolean useRemaining) {
+        this.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, amt * 20));
+        bloodTimer = -1200 - rand.nextInt(1200);
     }
 
     @Override
     public boolean doesResistGarlic(EnumStrength strength) {
         return false;
-    }
-
-    @Override
-    public void drinkBlood(int amt, float saturationMod) {
-        this.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, amt * 20));
-        hungry = false;
-
     }
 
     @Override
@@ -85,9 +78,17 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
                 DamageHandler.affectVampireGarlicAmbient(this, isGettingGarlicDamage(), this.ticksExisted);
             }
         }
-        boolean day = getEntityWorld().isDaytime();
-        if (day && !hungry) hungry = true;
+
         super.onLivingUpdate();
+        bloodTimer++;
+
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound nbt) {
+        super.readEntityFromNBT(nbt);
+        bloodTimer = nbt.hasKey("vamp_converted_bloodtimer") ? nbt.getInteger("vamp_converted_bloodtimer") : 0;
+
     }
 
 
@@ -114,21 +115,24 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
     }
 
     @Override
+    public boolean useBlood(int amt, boolean allowPartial) {
+        return false;
+    }
+
+    @Override
     public IFaction getFaction() {
         return VReference.VAMPIRE_FACTION;
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound nbt) {
-        super.writeEntityToNBT(nbt);
-        nbt.setBoolean("vamp_converted_hungry", hungry);
+    public boolean wantsBlood() {
+        return bloodTimer > 0;
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound nbt) {
-        super.readEntityFromNBT(nbt);
-        hungry = !nbt.hasKey("vamp_converted_hungry") || nbt.getBoolean("vamp_converted_hungry");
-
+    public void writeEntityToNBT(NBTTagCompound nbt) {
+        super.writeEntityToNBT(nbt);
+        nbt.setInteger("vamp_converted_bloodtimer", bloodTimer);
     }
 
     @Override

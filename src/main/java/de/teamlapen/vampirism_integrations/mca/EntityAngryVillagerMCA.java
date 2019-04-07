@@ -3,6 +3,7 @@ package de.teamlapen.vampirism_integrations.mca;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.entity.IAggressiveVillager;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
+import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import mca.actions.ActionSleep;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumProfessionSkinGroup;
@@ -11,6 +12,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -23,6 +25,8 @@ import javax.annotation.Nullable;
 public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implements IAggressiveVillager {
 
     private ItemStack pitchforkStack;
+    private AxisAlignedBB area;
+
 
     public EntityAngryVillagerMCA(World world) {
         super(world);
@@ -51,19 +55,46 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
     }
 
     @Override
-    public ItemStack getHeldItem(EnumHand hand) {
-        return this.getBehavior(ActionSleep.class).getIsSleeping() ? ItemStack.EMPTY : pitchforkStack;
+    public void attackVillage(AxisAlignedBB area) {
     }
 
+    @Override
+    public void defendVillage(AxisAlignedBB area) {
+        this.area = area;
+    }
+
+    @Nullable
+    @Override
+    public IVampirismVillage getCurrentFriendlyVillage() {
+        return this.vampirismVillage != null ? this.vampirismVillage.getControllingFaction() == VReference.HUNTER_FACTION ? this.vampirismVillage : null : null;
+    }
+
+    @Nullable
+    @Override
+    public AxisAlignedBB getTargetVillageArea() {
+        return area;
+    }
 
     @Override
-    public Entity makeCalm() {
+    public boolean isAttackingVillage() {
+        return false;
+    }
+
+    @Override
+    public void stopVillageAttackDefense() {
         EntityVillagerMCA mca = new EntityVillagerMCA(this.getEntityWorld());
         NBTTagCompound nbt = new NBTTagCompound();
         this.writeToNBT(nbt);
         mca.readFromNBT(nbt);
-        return mca;
+        this.world.spawnEntity(mca);
+        this.setDead();
     }
+
+    @Override
+    public ItemStack getHeldItem(EnumHand hand) {
+        return this.getBehavior(ActionSleep.class).getIsSleeping() ? ItemStack.EMPTY : pitchforkStack;
+    }
+
 
     @Override
     public IFaction getFaction() {
@@ -84,4 +115,5 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
     public void readEntityFromNBT(NBTTagCompound nbt) {
         super.readEntityFromNBT(nbt);
     }
+
 }

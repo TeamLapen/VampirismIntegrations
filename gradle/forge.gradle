@@ -9,6 +9,10 @@ repositories {
         url = "../../MinecraftForge/repo/"
     }
     maven {
+        name = "Local2"
+        url = "../../../.m2/repository"
+    }
+    maven {
         name = "CurseForge"
         url = "https://minecraft.curseforge.com/api/maven/"
     }
@@ -27,6 +31,10 @@ repositories {
     maven {
         name = "Evilcraft JFrog"
         url = "https://oss.jfrog.org/artifactory/simple/libs-release/"
+    }
+    maven {
+        name = "ChickenBones"
+        url = "http://chickenbones.net/maven/"
     }
 
 
@@ -68,11 +76,15 @@ dependencies {
 
     deobfCompile "mcp.mobius.waila:Hwyla:"+project.hywla_version
 
-    deobfCompile "toroquest:toroquest:1.12.1:"+project.toroquest_version
+    deobfCompile "toroquest:toroquest:1.12.2:"+project.toroquest_version
     deobfCompile "com.wayoftime.bloodmagic:BloodMagic:"+project.bloodmagic_version
     deobfCompile  "org.cyclops.evilcraft:EvilCraft:"+project.evilcraft_version
     optionalRuntime "slimeknights.mantle:Mantle:"+project.mantle_version
     deobfCompile "slimeknights:TConstruct:"+project.tconstruct_version
+    
+    optionalRuntime "codechicken:CodeChickenLib:"+project.codechickenlib_version+":universal"
+    deobfCompile "ancient-warfare-2:ancientwarfare:1.12.2:"+project.ancient_warfare2_version
+    
     optionalRuntime 'info.amerifrance.guideapi:Guide-API:' + project.guide_api_version
     optionalRuntime "mezz.jei:jei_" + project.minecraft_version + ":" + project.jei_version
 

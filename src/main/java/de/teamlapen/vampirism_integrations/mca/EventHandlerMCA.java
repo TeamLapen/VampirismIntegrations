@@ -3,8 +3,6 @@ package de.teamlapen.vampirism_integrations.mca;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
 import de.teamlapen.vampirism_integrations.VampirismIntegrationsMod;
 import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumProfession;
-import mca.enums.EnumProfessionSkinGroup;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -15,7 +13,7 @@ class EventHandlerMCA {
         try {
             if (event.getOldVillager() instanceof EntityVillagerMCA) {
                 EntityAngryVillagerMCA angry = EntityAngryVillagerMCA.makeAngry((EntityVillagerMCA) event.getOldVillager());
-                event.setAgressiveVillager(angry);
+                event.setAgressiveVillager(angry); //Can be null to prevent conversion
                 event.setCanceled(true);
             }
         } catch (Exception e) {
@@ -30,17 +28,7 @@ class EventHandlerMCA {
             villager.attributes.assignRandomName();
             villager.attributes.assignRandomGender();
             villager.attributes.assignRandomPersonality();
-            if (event.isWillBeAggressive()) {
-                villager.attributes.setProfession(EnumProfession.Guard);
-                EnumProfession prof;
-                do {
-                    prof = EnumProfession.getAtRandom();
-                } while (prof.getSkinGroup() == EnumProfessionSkinGroup.Guard);
 
-                villager.attributes.setProfession(prof);
-            } else {
-                villager.attributes.assignRandomProfession();
-            }
             villager.attributes.assignRandomSkin();
             villager.copyLocationAndAnglesFrom(event.getSeedVillager());
             event.setNewVillager(villager);

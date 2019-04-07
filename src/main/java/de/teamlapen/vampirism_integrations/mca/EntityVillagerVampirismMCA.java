@@ -94,10 +94,6 @@ abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
         return (peaceful || this.world.getDifficulty() != EnumDifficulty.PEACEFUL) && super.getCanSpawnHere();
     }
 
-    @Nullable
-    public IVampirismVillage getVampirismVillage() {
-        return vampirismVillage;
-    }
 
     @Override
     public void onLivingUpdate() {
