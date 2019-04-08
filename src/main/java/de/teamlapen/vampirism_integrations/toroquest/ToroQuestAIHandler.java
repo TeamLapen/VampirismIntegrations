@@ -1,7 +1,6 @@
 package de.teamlapen.vampirism_integrations.toroquest;
 
-import de.teamlapen.vampirism.api.VReference;
-import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism_integrations.util.EntityAINearestVampireSmart;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAITasks;
@@ -22,7 +21,7 @@ public class ToroQuestAIHandler {
             }
         }
         if (prio != -1) {
-            entity.targetTasks.addTask(prio, new EntityAINearestAttackableTarget<>(entity, EntityCreature.class, 10, true, true, VampirismAPI.factionRegistry().getPredicate(VReference.HUNTER_FACTION, false, true, false, false, VReference.VAMPIRE_FACTION)));
+            entity.targetTasks.addTask(prio, new EntityAINearestVampireSmart(entity, true, true));
         }
     }
 
