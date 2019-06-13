@@ -1,6 +1,6 @@
 package de.teamlapen.vampirism_integrations.mca;
 
-import de.teamlapen.lib.lib.util.IModCompat;
+import de.teamlapen.vampirism_integrations.IModCompat;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism_integrations.VampirismIntegrationsMod;
 import de.teamlapen.vampirism_integrations.mca.client.ClientProxy;
@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.event.FMLStateEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
+import javax.annotation.Nullable;
 import java.io.*;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
@@ -102,7 +103,7 @@ public class MCACompat implements IModCompat {
                 if (j.getName().startsWith("assets")) {
                     out.putNextEntry(j);
 
-                    byte data[] = new byte[1024];
+                    byte[] data = new byte[1024];
 
 
                     int count;
@@ -130,6 +131,12 @@ public class MCACompat implements IModCompat {
     @Override
     public String getModID() {
         return ID;
+    }
+
+    @Nullable
+    @Override
+    public String getAcceptedVersionRange() {
+        return "[1.12.2-5.2.0,6.0.0)";
     }
 
     @Override

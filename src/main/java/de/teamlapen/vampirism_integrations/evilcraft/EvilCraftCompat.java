@@ -1,6 +1,6 @@
 package de.teamlapen.vampirism_integrations.evilcraft;
 
-import de.teamlapen.lib.lib.util.IModCompat;
+import de.teamlapen.vampirism_integrations.IModCompat;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLStateEvent;

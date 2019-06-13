@@ -3,10 +3,15 @@ package de.teamlapen.vampirism_integrations;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.lib.lib.util.VersionChecker;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+
+import java.util.List;
 
 public class EventHandler {
 
@@ -28,6 +33,15 @@ public class EventHandler {
                 }
             }
 
+        }
+        if (!FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer() || UtilLib.isPlayerOp(event.player)) {
+            if (event.player.getRNG().nextInt(4) == 0) {
+                List<IModCompat> list = VampirismIntegrationsMod.instance.compatLoader.getIncompatibleCompats();
+                for (IModCompat m : list) {
+                    ModContainer mod = Loader.instance().getIndexedModList().get(m.getModID());
+                    event.player.sendMessage(new TextComponentString(String.format("Could not load Vampirism mod compat for %s because version %s is incompatible (Accepted %s)", m.getModID(), mod == null ? "Unknown" : mod.getVersion(), m.getAcceptedVersionRange())));
+                }
+            }
         }
 
     }

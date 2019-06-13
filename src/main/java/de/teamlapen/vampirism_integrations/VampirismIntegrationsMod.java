@@ -2,7 +2,6 @@ package de.teamlapen.vampirism_integrations;
 
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.lib.lib.util.Logger;
-import de.teamlapen.lib.lib.util.ModCompatLoader;
 import de.teamlapen.lib.lib.util.VersionChecker;
 import de.teamlapen.vampirism_integrations.abyssalcraft.AbyssalcraftCompat;
 import de.teamlapen.vampirism_integrations.bloodmagic.BloodmagicCompat;
@@ -37,6 +36,7 @@ public class VampirismIntegrationsMod {
 
     public VampirismIntegrationsMod() {
         compatLoader = new ModCompatLoader("vampirism/" + REFERENCE.MODID + ".cfg");
+        compatLoader.addModCompat(new VampirismCompat());
         compatLoader.addModCompat(new MCACompat());
         compatLoader.addModCompat(new BOPCompat());
         compatLoader.addModCompat(new AbyssalcraftCompat());

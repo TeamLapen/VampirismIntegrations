@@ -1,12 +1,16 @@
 package de.teamlapen.vampirism_integrations;
 
-import de.teamlapen.lib.lib.util.IModCompat;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLStateEvent;
+import net.minecraftforge.fml.common.versioning.ArtifactVersion;
+import net.minecraftforge.fml.common.versioning.InvalidVersionSpecificationException;
+import net.minecraftforge.fml.common.versioning.VersionRange;
+
+import javax.annotation.Nullable;
 
 /**
  * Dummy integration for Vampirism itself
@@ -18,6 +22,12 @@ public class VampirismCompat implements IModCompat {
     @Override
     public String getModID() {
         return REFERENCE.VAMPIRISM_ID;
+    }
+
+    @Nullable
+    @Override
+    public String getAcceptedVersionRange() {
+        return "[1.5.0,)";
     }
 
     @Override
