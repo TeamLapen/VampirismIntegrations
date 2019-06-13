@@ -136,7 +136,7 @@ public class MCACompat implements IModCompat {
     @Nullable
     @Override
     public String getAcceptedVersionRange() {
-        return "[1.12.2-5.2.0,6.0.0)";
+        return "[1.12.2-5.2.0,1.12.2-5.4.0)";
     }
 
     @Override

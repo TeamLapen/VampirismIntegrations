@@ -18,6 +18,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -90,7 +91,6 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
         bloodTimer = nbt.hasKey("vamp_converted_bloodtimer") ? nbt.getInteger("vamp_converted_bloodtimer") : 0;
 
     }
-
 
     @Nonnull
     @Override
