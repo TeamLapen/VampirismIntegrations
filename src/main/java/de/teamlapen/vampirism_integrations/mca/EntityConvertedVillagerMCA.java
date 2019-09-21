@@ -8,12 +8,15 @@ import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.entity.DamageHandler;
+import de.teamlapen.vampirism.entity.ai.EntityAIMoveIndoorsDay;
+import de.teamlapen.vampirism.entity.ai.VampireAIBiteNearbyEntity;
+import de.teamlapen.vampirism.entity.ai.VampireAIFleeSun;
+import de.teamlapen.vampirism.entity.ai.VampireAIMoveToBiteable;
 import de.teamlapen.vampirism.util.Helper;
 import mca.entity.EntityVillagerMCA;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIMoveIndoors;
-import net.minecraft.entity.ai.EntityAIRestrictSun;
+import net.minecraft.entity.ai.*;
 import net.minecraft.init.MobEffects;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -40,15 +43,29 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
     }
 
 
-    @Override
-    public void addAI() {
-        super.addAI();
-        this.getBehaviors().addAction(new ActionSuckBlood(this));
 
-        this.tasks.taskEntries.removeIf(task -> task.action instanceof EntityAIMoveIndoors);
-        this.tasks.addTask(1, new EntityAIRestrictSun(this));
-        //Not sure if this has an effect
-        this.tasks.addTask(2, new EntityAIAvoidEntity<>(this, EntityLivingBase.class, Predicates.and(VampirismAPI.factionRegistry().getPredicate(VReference.VAMPIRE_FACTION, true, true, false, false, VReference.HUNTER_FACTION), (entity -> (entity != null && !EntityConvertedVillagerMCA.this.attributes.getSpouseUUID().equals(entity.getUniqueID())))), 10, 0.7, 0.9));
+
+    @Override
+    public void onLivingUpdate() {
+        if (this.ticksExisted % MCACompatREFERENCE.REFRESH_GARLIC_TICKS == 1) {
+            isGettingGarlicDamage(true);
+        }
+        if (this.ticksExisted % MCACompatREFERENCE.REFRESH_SUNDAMAGE_TICKS == 2) {
+            isGettingSundamage(true);
+        }
+        if (!world.isRemote) {
+            if (isGettingSundamage() && ticksExisted % 40 == 11) {
+                this.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 42));
+                this.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 42));
+
+            }
+            if (isGettingGarlicDamage() != EnumStrength.NONE) {
+                DamageHandler.affectVampireGarlicAmbient(this, isGettingGarlicDamage(), this.ticksExisted);
+            }
+        }
+
+        super.onLivingUpdate();
+        bloodTimer++;
 
     }
 
@@ -64,24 +81,21 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
     }
 
     @Override
-    public void onLivingUpdate() {
-        if (this.ticksExisted % MCACompatREFERENCE.REFRESH_GARLIC_TICKS == 1) {
-            isGettingGarlicDamage(true);
-        }
-        if (this.ticksExisted % MCACompatREFERENCE.REFRESH_SUNDAMAGE_TICKS == 2) {
-            isGettingSundamage(true);
-        }
-        if (!world.isRemote) {
-            if (isGettingSundamage() && ticksExisted % 40 == 11) {
-                this.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 42));
-            }
-            if (isGettingGarlicDamage() != EnumStrength.NONE) {
-                DamageHandler.affectVampireGarlicAmbient(this, isGettingGarlicDamage(), this.ticksExisted);
-            }
-        }
+    protected void initEntityAI() {
+        super.initEntityAI();
 
-        super.onLivingUpdate();
-        bloodTimer++;
+        this.tasks.taskEntries.removeIf(entry -> entry.action instanceof EntityAIMoveIndoors || entry.action instanceof EntityAIVillagerMate || entry.action instanceof EntityAIFollowGolem);
+
+        tasks.addTask(0, new EntityAIRestrictSun(this));
+        tasks.addTask(1, new EntityAIAvoidEntity<>(this, EntityCreature.class, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, true, false, false, VReference.HUNTER_FACTION), 10, 0.45F, 0.55F));
+        tasks.addTask(2, new EntityAIMoveIndoorsDay(this));
+        tasks.addTask(5, new VampireAIFleeSun(this, 0.6F, true));
+        tasks.addTask(6, new EntityAIAttackMelee(this, 0.6F, false));
+        tasks.addTask(7, new VampireAIBiteNearbyEntity(this));
+        tasks.addTask(9, new VampireAIMoveToBiteable(this, 0.55F));
+
+
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 
     }
 
@@ -101,7 +115,6 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
         return garlicCache;
     }
 
-    @Nonnull
     @Override
     public boolean isGettingSundamage(boolean forceRefresh) {
         if (!forceRefresh) return sundamageCache;

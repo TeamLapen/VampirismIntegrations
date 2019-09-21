@@ -1,8 +1,10 @@
 package de.teamlapen.vampirism_integrations.mca;
 
+import com.google.common.base.Optional;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumGender;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,6 +15,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.village.Village;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
 
 import javax.annotation.Nullable;
 
@@ -28,8 +31,8 @@ abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
         }
         return null;
     }
-    protected boolean peaceful = false;
-    protected
+
+    private boolean peaceful = false;
     @Nullable
     IVampirismVillage vampirismVillage;
     /**
@@ -41,6 +44,11 @@ abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
     public EntityVillagerVampirismMCA(World worldIn) {
         super(worldIn);
     }
+
+    public EntityVillagerVampirismMCA(World worldIn, Optional<VillagerRegistry.VillagerProfession> profession, Optional<EnumGender> gender) {
+        super(worldIn, profession, gender);
+    }
+
 
     @Override
     public boolean attackEntityAsMob(Entity entity) {
@@ -56,7 +64,7 @@ abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
 
         if (flag) {
             if (i > 0) {
-                entity.addVelocity((double) (-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F), 0.1D, (double) (MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F));
+                entity.addVelocity(-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F, 0.1D, MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F);
                 this.motionX *= 0.6D;
                 this.motionZ *= 0.6D;
             }

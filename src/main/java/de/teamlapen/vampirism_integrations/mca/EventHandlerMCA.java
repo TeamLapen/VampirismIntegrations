@@ -1,5 +1,6 @@
 package de.teamlapen.vampirism_integrations.mca;
 
+import com.google.common.base.Optional;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
 import de.teamlapen.vampirism_integrations.VampirismIntegrationsMod;
 import mca.entity.EntityVillagerMCA;
@@ -24,12 +25,7 @@ class EventHandlerMCA {
     @SubscribeEvent
     public void onSpawnNewVillager(VampirismVillageEvent.SpawnNewVillager event) {
         try {
-            EntityVillagerMCA villager = new EntityVillagerMCA(event.getSeedVillager().getEntityWorld());
-            villager.attributes.assignRandomName();
-            villager.attributes.assignRandomGender();
-            villager.attributes.assignRandomPersonality();
-
-            villager.attributes.assignRandomSkin();
+            EntityVillagerMCA villager = new EntityVillagerMCA(event.getSeedVillager().getEntityWorld(), Optional.absent(), Optional.absent());
             villager.copyLocationAndAnglesFrom(event.getSeedVillager());
             event.setNewVillager(villager);
             event.setResult(Event.Result.ALLOW);
@@ -37,4 +33,6 @@ class EventHandlerMCA {
             VampirismIntegrationsMod.log.e("MCA_Events", e, "Failed to spawn new MCA villager");
         }
     }
+
+
 }

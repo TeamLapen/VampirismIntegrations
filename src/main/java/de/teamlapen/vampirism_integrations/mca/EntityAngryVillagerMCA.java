@@ -1,14 +1,19 @@
 package de.teamlapen.vampirism_integrations.mca;
 
 import de.teamlapen.vampirism.api.VReference;
+import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.IAggressiveVillager;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.world.IVampirismVillage;
-import mca.actions.ActionSleep;
+import de.teamlapen.vampirism.entity.ai.EntityAIDefendVillage;
+import de.teamlapen.vampirism.entity.ai.EntityAIMoveThroughVillageCustom;
+import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumProfessionSkinGroup;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.*;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
@@ -30,7 +35,6 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
 
     public EntityAngryVillagerMCA(World world) {
         super(world);
-        getBehaviors().addAction(new ActionDefendAgainstVampire(this));
         pitchforkStack = new ItemStack(MCACompatREFERENCE.pitchfork);
     }
 
@@ -42,7 +46,7 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
 
     @Nullable
     public static EntityAngryVillagerMCA makeAngry(EntityVillagerMCA villager) {
-        if (villager.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard || villager.attributes.getIsInfected()) {
+        if (villager.getProfessionForge() == ProfessionsMCA.guard || villager.getProfessionForge() == ProfessionsMCA.bandit || villager.get(EntityVillagerMCA.IS_INFECTED)) {
             return null;//Don't make guards or infected villagers angry
         }
         EntityAngryVillagerMCA angry = new EntityAngryVillagerMCA(villager.getEntityWorld());
@@ -52,6 +56,11 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
         angry.setUniqueId(MathHelper.getRandomUUID(villager.getRNG()));
         return angry;
 
+    }
+
+    @Override
+    public ItemStack getHeldItem(EnumHand hand) {
+        return pitchforkStack;
     }
 
     @Override
@@ -91,8 +100,23 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
     }
 
     @Override
-    public ItemStack getHeldItem(EnumHand hand) {
-        return this.getBehavior(ActionSleep.class).getIsSleeping() ? ItemStack.EMPTY : pitchforkStack;
+    protected void initEntityAI() {
+        super.initEntityAI();
+        this.tasks.taskEntries.removeIf(entry -> entry.action instanceof EntityAITradePlayer || entry.action instanceof EntityAILookAtTradePlayer || entry.action instanceof EntityAIVillagerMate || entry.action instanceof EntityAIFollowGolem);
+        this.tasks.addTask(6, new EntityAIAttackMelee(this, 0.6, false));
+        this.tasks.addTask(8, new EntityAIMoveThroughVillageCustom(this, 0.55, false, 400));
+
+
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, false, false, false, null)));
+        this.targetTasks.addTask(3, new EntityAIDefendVillage<>(this));
+        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<EntityCreature>(this, EntityCreature.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)) {
+
+            @Override
+            protected double getTargetDistance() {
+                return super.getTargetDistance() / 2;
+            }
+        });
     }
 
 
