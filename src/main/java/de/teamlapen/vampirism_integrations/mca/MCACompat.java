@@ -68,30 +68,14 @@ public class MCACompat implements IModCompat {
             if (FMLCommonHandler.instance().getSide().isClient()) {
                 ClientProxy.registerRenderer();
                 OverlayAssignmentLoader.init(((FMLPreInitializationEvent) event).getModConfigurationDirectory());
+                OverlayAssignmentLoader.registerSaveCommand();
             }
             MinecraftForge.EVENT_BUS.register(new EventHandlerMCA());
         } else if (step == Step.INIT) {
             int baseEntityId = 0;
             EntityRegistry.registerModEntity(new ResourceLocation(REFERENCE.MODID, CONVERTED_VILLAGER_ID), EntityConvertedVillagerMCA.class, EntityConvertedVillagerMCA.class.getSimpleName(), baseEntityId++, VampirismIntegrationsMod.instance, 50, 2, true);
             EntityRegistry.registerModEntity(new ResourceLocation(REFERENCE.MODID, ANGRY_VILLAGER_ID), EntityAngryVillagerMCA.class, EntityAngryVillagerMCA.class.getSimpleName(), baseEntityId++, VampirismIntegrationsMod.instance, 50, 2, true);
-            ClientCommandHandler.instance.registerCommand(new CommandBase() {
-                @Override
-                public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-                    if (OverlayAssignmentLoader.save()) {
-                        sender.sendMessage(new TextComponentString("Successfully stored mca skin assigments to vampirism config directory"));
-                    }
-                }
 
-                @Override
-                public String getName() {
-                    return "vampirism-mca-save-assignment";
-                }
-
-                @Override
-                public String getUsage(ICommandSender sender) {
-                    return getName();
-                }
-            });
         }
     }
 }

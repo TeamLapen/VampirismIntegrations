@@ -2,6 +2,12 @@ package de.teamlapen.vampirism_integrations.mca.client;
 
 
 import de.teamlapen.vampirism_integrations.VampirismIntegrationsMod;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.client.ClientCommandHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -119,5 +125,26 @@ public class OverlayAssignmentLoader {
             w.close();
         }
         return false;
+    }
+
+    public static void registerSaveCommand() {
+        ClientCommandHandler.instance.registerCommand(new CommandBase() {
+            @Override
+            public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+                if (OverlayAssignmentLoader.save()) {
+                    sender.sendMessage(new TextComponentString("Successfully stored mca skin assigments to vampirism config directory"));
+                }
+            }
+
+            @Override
+            public String getName() {
+                return "vampirism-mca-save-assignment";
+            }
+
+            @Override
+            public String getUsage(ICommandSender sender) {
+                return getName();
+            }
+        });
     }
 }
