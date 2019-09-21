@@ -27,7 +27,7 @@ public class VampirismCompat implements IModCompat {
     @Nullable
     @Override
     public String getAcceptedVersionRange() {
-        return "[1.5.0,)";
+        return "[1.5.4,)";
     }
 
     @Override
