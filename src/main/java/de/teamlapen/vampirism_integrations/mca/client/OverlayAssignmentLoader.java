@@ -132,7 +132,7 @@ public class OverlayAssignmentLoader {
             @Override
             public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
                 if (OverlayAssignmentLoader.save()) {
-                    sender.sendMessage(new TextComponentString("Successfully stored mca skin assigments to vampirism config directory"));
+                    sender.sendMessage(new TextComponentString("Successfully stored mca skin assignments to vampirism config directory"));
                 }
             }
 
