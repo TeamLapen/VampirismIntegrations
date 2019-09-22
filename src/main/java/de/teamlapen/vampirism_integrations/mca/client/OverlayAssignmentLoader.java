@@ -23,11 +23,10 @@ public class OverlayAssignmentLoader {
 
 
     static Map<String, Pair<Integer, Integer>> assignments;
-    private static File assignmentFile;
     private static File dumpAssignmentFile;
 
     public static void init(File configDir) {
-        assignmentFile = new File(configDir, "vampirism/mca_skin_overlay_assignment.txt");
+        File assignmentFile = new File(configDir, "vampirism/mca_skin_overlay_assignment.txt");
         dumpAssignmentFile = new File(configDir, "vampirism/mca_skin_overlay_assignment_dump.txt");
 
         try {
@@ -50,10 +49,10 @@ public class OverlayAssignmentLoader {
     }
 
     public static boolean save() {
-        if (assignmentFile != null) {
-            assignmentFile.getParentFile().mkdirs();
+        if (dumpAssignmentFile != null) {
+            dumpAssignmentFile.getParentFile().mkdirs();
             try {
-                return writeBloodValues(new FileWriter(assignmentFile), assignments, "Generated - Not loaded - Copy to mca_skin_overlay_assignment.txt - MCA Texture -> Eye Fang Overlay assignment. Format: texture=eye,fang. Use -1 for fang or eye to disable");
+                return writeBloodValues(new FileWriter(dumpAssignmentFile), assignments, "Generated - Not loaded - Copy to mca_skin_overlay_assignment.txt - MCA Texture -> Eye Fang Overlay assignment. Format: texture=eye,fang. Use -1 for fang or eye to disable");
             } catch (IOException e) {
                 VampirismIntegrationsMod.log.e(TAG, e, "Failed to store mca skin assignments");
             }
