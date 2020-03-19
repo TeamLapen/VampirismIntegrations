@@ -68,6 +68,11 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
     }
 
     @Override
+    public ItemStack getHeldItemMainhand() {
+        return pitchforkStack;
+    }
+
+    @Override
     public void defendVillage(AxisAlignedBB area) {
         this.area = area;
     }
@@ -100,15 +105,14 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.taskEntries.removeIf(entry -> entry.action instanceof EntityAITradePlayer || entry.action instanceof EntityAILookAtTradePlayer || entry.action instanceof EntityAIVillagerMate || entry.action instanceof EntityAIFollowGolem);
-        this.tasks.addTask(6, new EntityAIAttackMelee(this, 0.6, false));
-        this.tasks.addTask(8, new EntityAIMoveThroughVillageCustom(this, 0.55, false, 400));
+    public void readEntityFromNBT(NBTTagCompound nbt) {
+        super.readEntityFromNBT(nbt);
+        applySpecialAITasks();
+    }
 
-
+    protected void applySpecialAITasks() {
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, false, false, false, null)));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 10, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, false, false, false, null)));
         this.targetTasks.addTask(3, new EntityAIDefendVillage<>(this));
         this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<EntityCreature>(this, EntityCreature.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)) {
 
@@ -136,8 +140,14 @@ public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implement
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound nbt) {
-        super.readEntityFromNBT(nbt);
+    protected void initEntityAI() {
+        super.initEntityAI();
+        this.tasks.taskEntries.removeIf(entry -> entry.action instanceof EntityAITradePlayer || entry.action instanceof EntityAILookAtTradePlayer || entry.action instanceof EntityAIVillagerMate || entry.action instanceof EntityAIFollowGolem);
+        this.tasks.addTask(6, new EntityAIAttackMelee(this, 0.6, false));
+        this.tasks.addTask(8, new EntityAIMoveThroughVillageCustom(this, 0.55, false, 400));
+
+        applySpecialAITasks();
+
     }
 
 }

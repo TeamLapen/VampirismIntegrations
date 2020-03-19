@@ -51,7 +51,7 @@ public class MCACompat implements IModCompat {
     @Nullable
     @Override
     public String getAcceptedVersionRange() {
-        return "[1.12.2-6.0.0,)";
+        return "[1.12.2-6.1.0,)";
     }
 
     @Override
@@ -63,8 +63,8 @@ public class MCACompat implements IModCompat {
     public void onInitStep(Step step, FMLStateEvent event) {
         if (step == Step.PRE_INIT) {
 
-            VampirismAPI.biteableRegistry().addBloodValue(new ResourceLocation(ID, VILLAGER_ID), villager_blood_value);
-            VampirismAPI.biteableRegistry().addConvertible(EntityVillagerMCA.class, null, new EntityConvertedVillagerMCA.ConvertingHandler());
+            VampirismAPI.entityRegistry().addBloodValue(new ResourceLocation(ID, VILLAGER_ID), villager_blood_value);
+            VampirismAPI.entityRegistry().addConvertible(EntityVillagerMCA.class, null, new EntityConvertedVillagerMCA.ConvertingHandler());
             if (FMLCommonHandler.instance().getSide().isClient()) {
                 ClientProxy.registerRenderer();
                 OverlayAssignmentLoader.init(((FMLPreInitializationEvent) event).getModConfigurationDirectory());
