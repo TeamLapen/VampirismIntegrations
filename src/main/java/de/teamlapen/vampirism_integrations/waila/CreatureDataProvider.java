@@ -27,9 +27,12 @@ class CreatureDataProvider implements IWailaEntityProvider {
             if (entity instanceof EntityCreature && VReference.VAMPIRE_FACTION.getPlayerCapability(accessor.getPlayer()).getLevel() > 0) {
                 IExtendedCreatureVampirism extendedCreature = VampirismAPI.getExtendedCreatureVampirism((EntityCreature) entity);
                 int blood = extendedCreature.getBlood();
-                if (blood > 0) {
+                if (extendedCreature.hasPoisonousBlood()) {
+                    currenttip.add(UtilLib.translate("text.vampirism_integrations.poisonous"));
+                } else if (blood > 0) {
                     currenttip.add(String.format("%s%s: %d", TextFormatting.RED, UtilLib.translate("text.vampirism.entitysblood"), blood));
                 }
+
             }
         }
         return currenttip;
