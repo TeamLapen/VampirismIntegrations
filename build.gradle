@@ -4,24 +4,54 @@ buildscript {
         jcenter()
         maven {
             name = "forge"
-            url = "https://files.minecraftforge.net/maven"
+            url = "http://files.minecraftforge.net/maven"
         }
     }
+
+    
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
 
+
 plugins {
-    id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id 'com.matthewprenger.cursegradle' version '1.2.0'
+    id 'de.undercouch.download' version '3.3.0'
+    id 'com.wynprice.cursemaven' version '2.1.1'
 }
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
 
 configurations {
     optionalRuntime
     runtime.extendsFrom optionalRuntime // optionalRuntime dependencies are downloaded but not exported to POM
 }
 
-apply plugin: "net.minecraftforge.gradle.forge"
+sourceSets{
+    main {
+        java{
+            exclude '**/mca/*'
+            exclude '**/evilcraft/*'
+            exclude '**/bloodmagic/*'
+            exclude '**/abyssalcraft/*'
+            exclude '**/tconstruct/*'
+            exclude '**/toroquest/*'
+        }
+    }
+}
+
+idea {
+    module {
+        for (String excludeDirName in ["run", "out", "logs", "gradle"]) {
+            File excludeDir = new File(projectDir, excludeDirName)
+            excludeDirs.add(excludeDir)
+        }
+    }
+}
 
 
 group = "de.teamlapen.vampirism_integrations"

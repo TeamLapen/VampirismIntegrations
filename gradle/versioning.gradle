@@ -25,6 +25,6 @@ def writeVersion() {
 
 def getDate() {
     def date = new Date()
-    def formattedDate = date.format('MM-dd-HH-mm')
+    def formattedDate = date.format('YYYYMMdd-HHmm')
     return formattedDate
 }

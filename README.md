@@ -1,4 +1,4 @@
-Vampirism Integrations for MC 1.12 - Latest branch [![](http://cf.way2muchnoise.eu/versions/For%20MC_vampirism-integrations_all.svg)](https://minecraft.curseforge.com/projects/vampirism-integrations) [![Build Status](https://travis-ci.org/TeamLapen/VampirismIntegrations.svg?branch=1.12)](https://travis-ci.org/TeamLapen/VampirismIntegrations) 
+Vampirism Integrations for MC 1.14 - Latest branch [![](http://cf.way2muchnoise.eu/versions/For%20MC_vampirism-integrations_all.svg)](https://minecraft.curseforge.com/projects/vampirism-integrations) [![Build Status](https://travis-ci.org/TeamLapen/VampirismIntegrations.svg?branch=1.12)](https://travis-ci.org/TeamLapen/VampirismIntegrations) 
 ============================================
 [![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://maxanier.de) 
 
@@ -17,7 +17,7 @@ c) It keeps Vampirism's code slightly more organized
 d) It verifies that Vampirism's API is working, shows me areas for impovement and can act as an example.  
 e) It makes it more straight-forward for others contribute and add more integrations (hope this is gonna happen, but I did not have any luck so far)  
   
-The most important integrations will stay in Vampirism (JEI, GuideAPI,?), but any additional (hopefully many) will be added into the seperate mod.  
+The most important integrations will stay in Vampirism (JEI, GuideAPI,?), but any additional (hopefully many) will be added into the separate mod.  
 If you are already installing many mods or a modpack it should not make that much a difference anyway.
 
 ## Configuration
@@ -36,12 +36,11 @@ The following example instructions will setup IntelliJ (Free community edition o
 4. Clone (`git clone https://github.com/TeamLapen/VampirismIntegrations`) or [download](https://github.com/TeamLapen/VampirismIntegrations/archive/master.zip) VampirismIntegrations to a new "VampirismIntegrations" folder.
 5. In IntelliJ use `New...` -> `New from Version Control` -> Fill out repo, directory and name
 6. After cloning is done IntelliJ offers you to import a unlinked Gradle Project. Click this.
-7. Select `Create directories for empty content roots` and __deselect__ `Create seperate module per source set` [Image](https://picload.org/image/ripradpa/importprojectfromgradle_001.png)  
-8. Select the gradle task `setupDecompWorkspace` in the IntelliJ Gradle window and add the following arguments `-Xmx4g -Xms4g`. Run it.  
-9. Refresh the gradle project  
-10. Run `genIntellijRuns`
-11. Make sure `Settings -> Build, Execution, Deployment -> Compiler -> 'Add runtime assertions for not-null-annotated methods and parameters' is disabled` (Unfortunately required, requires rebuild if the project has been built before)
-12. You might have to modify the projects compiler output path  
+7. Select `Create directories for empty content roots` and __deselect__ `Create seperate module per source set` [Image](https://picload.org/image/ripradpa/importprojectfromgradle_001.png). If you do not get that dialog, you might have to edit your .idea/gradle.xml to include ` <option name="resolveModulePerSourceSet" value="false" />` (see [here](https://gist.github.com/maxanier/142b27c7800f9512cc4ef3d4e10b9bfd)) and refresh the gradle project again.  
+8. Refresh the gradle project  
+9. Run `genIntellijRuns` and edit the run config to use the correct module
+10. Make sure `Settings -> Build, Execution, Deployment -> Compiler -> 'Add runtime assertions for not-null-annotated methods and parameters' is disabled` (Unfortunately required, requires rebuild if the project has been built before)
+11. You might have to modify the projets compiler output path  
 
 
 That's it.
