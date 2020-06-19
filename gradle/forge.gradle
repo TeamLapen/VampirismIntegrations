@@ -43,7 +43,7 @@ repositories {
 
 minecraft {
     mappings channel: "${project.mcp_channel}".toString(), version: "${project.mcp_mappings}".toString()
-
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     runs {
         client {
             taskName 'runClient1'
@@ -52,14 +52,13 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             workingDirectory project.file('run/client1').canonicalPath
             jvmArg '-ea:de.teamlapen...'
-            
+
             mods {
                 vampirism_integrations {
                     source sourceSets.main
 
                 }
             }
-
         }
         server = {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -71,8 +70,6 @@ minecraft {
                 vampirism_integrations {
                     source sourceSets.main
                 }
-
-
             }
         }
     }
@@ -82,24 +79,22 @@ minecraft {
 
 dependencies {
     minecraft([
-            group: "net.minecraftforge",
-            name: "forge",
+            group  : "net.minecraftforge",
+            name   : "forge",
             version: "${project.minecraft_version}-${project.forge_version}"
     ])
-    
-    compile fg.deobf("de.teamlapen.vampirism:Vampirism:"+project.minecraft_version + "-" + project.vampirism_version)
 
-    compileOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:'+project.minecraft_version+'-'+project.bop_version+':api')
-    runtimeOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:'+project.minecraft_version+'-'+project.bop_version+':universal')
-    compile fg.deobf("curse.maven:hwyla:"+project.hywla_fileid);
+    compile fg.deobf("de.teamlapen.vampirism:Vampirism:" + project.minecraft_version + "-" + project.vampirism_version)
 
-
+    compileOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':api')
+    runtimeOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':universal')
+    compile fg.deobf("curse.maven:hwyla:" + project.hywla_fileid)
 
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}:${project.jei_version}") //Full for runtime
-    
+
     //Old
     //deobfCompile 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version // +':api'
     //optionalRuntime 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version
@@ -118,9 +113,8 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         include 'META-INF/mods.toml'
 
-        expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version
+        expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'vampirism_version': project.vampirism_version
     }
-
 
 
     from(sourceSets.main.resources.srcDirs) {

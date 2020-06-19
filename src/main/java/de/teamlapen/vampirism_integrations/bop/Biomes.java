@@ -5,8 +5,8 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 
 class Biomes {
     static void registerNoSundamageBiomes(BOPCompat compat) {
-        if (compat.disabled_sundamage_ominous_woods && BOPBiomes.ominous_woods.isPresent()) {
-            VampirismAPI.sundamageRegistry().addNoSundamageBiome(BOPBiomes.ominous_woods.get().getBiomeClass());
+        if (compat.disabled_sundamage_ominous_woods.get() && BOPBiomes.ominous_woods.isPresent()) {
+            BOPBiomes.ominous_woods.ifPresent(b -> VampirismAPI.sundamageRegistry().addNoSundamageBiome(b.getRegistryName()));
         }
     }
 }

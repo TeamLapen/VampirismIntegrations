@@ -1,9 +1,7 @@
 package de.teamlapen.vampirism_integrations;
 
 import de.teamlapen.lib.lib.util.IInitListener;
-import net.minecraftforge.common.config.ConfigCategory;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.versioning.ArtifactVersion;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import javax.annotation.Nullable;
 
@@ -24,5 +22,5 @@ public interface IModCompat extends IInitListener {
 
     String getModID();
 
-    void loadConfigs(Configuration config, ConfigCategory category);
+    void buildConfig(ForgeConfigSpec.Builder builder);
 }

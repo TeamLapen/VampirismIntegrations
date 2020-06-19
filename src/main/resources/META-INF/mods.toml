@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[27,)"
+issueTrackerURL="https://github.com/TeamLapen/Vampirism/issues"
+
+[[mods]]
+    modId="vampirism_integrations"
+    namespace="vampirism_integrations"
+    version="${version}"
+    displayName="Vampirism Integrations"
+    authors="Maxanier"
+    description="Adds integration for Vampirism with several other mods"
+    displayURL="https://vampirism.maxanier.de"
+    updateJSONURL="https://maxanier.de/projects/vampirism/versions_integrations.json"
+    [[dependencies.vampirism_integrations]]
+        modId="forge"
+        mandatory=true
+        versionRange="[${forge_version},)"
+        ordering="NONE"
+        side="BOTH"
+    [[dependencies.vampirism_integrations]]
+        modId="vampirism"
+        mandatory=true
+        versionRange="[${vampirism_version},)"
+        ordering="AFTER"
+        side="BOTH"

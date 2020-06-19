@@ -1,38 +1,37 @@
 package de.teamlapen.vampirism_integrations.waila;
 
+import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.VReference;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IComponentProvider;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IPluginConfig;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
  * Provides information about the fluid level in blood containers
  */
-class TankDataProvider implements IWailaDataProvider {
+class TankDataProvider implements IComponentProvider {
 
-    @Nonnull
     @Override
-    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        if (accessor.getBlock() instanceof ITileEntityProvider && accessor.getTileEntity().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, accessor.getSide())) {
-            net.minecraftforge.fluids.capability.IFluidHandler fluidHandler = accessor.getTileEntity().getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, accessor.getSide());
-            for (IFluidTankProperties info : fluidHandler.getTankProperties()) {
-                FluidStack c = info.getContents();
-                if (c != null) {
-                    currenttip.add(String.format("%s%s: %d/%d", TextFormatting.RED, c.getLocalizedName(), c.amount / VReference.FOOD_TO_FLUID_BLOOD, info.getCapacity() / VReference.FOOD_TO_FLUID_BLOOD));
+    public void appendBody(List<ITextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
+        if (accessor.getBlock() instanceof ITileEntityProvider) {
+            accessor.getTileEntity().getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, accessor.getSide()).ifPresent(fh -> {
+                for (int i = 0; i < fh.getTanks(); i++) {
+                    FluidStack c = fh.getFluidInTank(i);
+                    if (!c.isEmpty()) {
+                        tooltip.add(new StringTextComponent(String.format("%s: %d/%d", UtilLib.translate(c.getTranslationKey()), c.getAmount() / VReference.FOOD_TO_FLUID_BLOOD, fh.getTankCapacity(i) / VReference.FOOD_TO_FLUID_BLOOD)).applyTextStyle(TextFormatting.RED));
+                    }
                 }
-            }
-        }
-        return currenttip;
-    }
 
+            });
+        }
+    }
 
 }

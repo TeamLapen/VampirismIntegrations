@@ -1,33 +1,42 @@
 package de.teamlapen.vampirism_integrations;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.teamlapen.lib.lib.util.IInitListener;
-import de.teamlapen.lib.lib.util.Logger;
 import de.teamlapen.lib.lib.util.VersionChecker;
-import de.teamlapen.vampirism_integrations.abyssalcraft.AbyssalcraftCompat;
-import de.teamlapen.vampirism_integrations.bloodmagic.BloodmagicCompat;
 import de.teamlapen.vampirism_integrations.bop.BOPCompat;
-import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
-import de.teamlapen.vampirism_integrations.mca.MCACompat;
-import de.teamlapen.vampirism_integrations.tan.TANCompat;
-import de.teamlapen.vampirism_integrations.tconstruct.TConstructCompat;
-import de.teamlapen.vampirism_integrations.toroquest.ToroQuestCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import de.teamlapen.vampirism_integrations.waila.WailaModCompat;
-import net.minecraft.launchwrapper.Launch;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.item.Item;
+import net.minecraft.util.SharedConstants;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Optional;
 
-@Mod(modid = REFERENCE.MODID, version = REFERENCE.MODID, dependencies = REFERENCE.DEPENDENCIES, updateJSON = REFERENCE.VERSION_UPDATE_FILE)
+@Mod(value = REFERENCE.MODID)
 public class VampirismIntegrationsMod {
-    public static final Logger log = new Logger(REFERENCE.MODID, "de.teamlapen.vampirism_integrations");
-    @Mod.Instance
+    public static final Logger LOGGER = LogManager.getLogger();
     public static VampirismIntegrationsMod instance;
     public static boolean inDev = false;
     @Nonnull
@@ -35,61 +44,99 @@ public class VampirismIntegrationsMod {
     private VersionChecker.VersionInfo versionInfo;
 
     public VampirismIntegrationsMod() {
-        compatLoader = new ModCompatLoader("vampirism/" + REFERENCE.MODID + ".cfg");
+        instance = this;
+        checkDevEnv();
+        Optional<? extends ModContainer> opt = ModList.get().getModContainerById(de.teamlapen.vampirism.util.REFERENCE.MODID);
+        if (opt.isPresent()) {
+            de.teamlapen.vampirism.util.REFERENCE.VERSION = opt.get().getModInfo().getVersion();
+        } else {
+            LOGGER.warn("Cannot get version from mod info");
+        }
+
+
+        compatLoader = new ModCompatLoader();
         compatLoader.addModCompat(new VampirismCompat());
-        compatLoader.addModCompat(new MCACompat());
         compatLoader.addModCompat(new BOPCompat());
-        compatLoader.addModCompat(new AbyssalcraftCompat());
         compatLoader.addModCompat(new WailaModCompat());
-        compatLoader.addModCompat(new ToroQuestCompat());
-        compatLoader.addModCompat(new TConstructCompat());
-        compatLoader.addModCompat(new EvilCraftCompat());
-        compatLoader.addModCompat(new BloodmagicCompat());
-        compatLoader.addModCompat(new TANCompat());
+        FMLJavaModLoadingContext.get().getModEventBus().register(this);
+        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
+
     }
 
     public VersionChecker.VersionInfo getVersionInfo() {
         return versionInfo;
     }
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        String currentVersion = "@VERSION@".equals(REFERENCE.VERSION) ? "0.0.0-test" : REFERENCE.VERSION;
-        if (VampirismCompat.disableVersionCheck) {
-            versionInfo = new VersionChecker.VersionInfo(currentVersion);
-        } else {
-            versionInfo = VersionChecker.executeVersionCheck(REFERENCE.VERSION_UPDATE_FILE, currentVersion);
-        }
-
-        compatLoader.onInitStep(IInitListener.Step.INIT, event);
+    @SubscribeEvent
+    public void clientSetup(FMLClientSetupEvent event) {
+        compatLoader.onInitStep(IInitListener.Step.CLIENT_SETUP, event);
     }
 
-    @Mod.EventHandler
+    @SubscribeEvent
+    public void loadComplete(FMLLoadCompleteEvent event) {
+        compatLoader.onInitStep(IInitListener.Step.LOAD_COMPLETE, event);
+    }
+
+    @SubscribeEvent
     public void onServerStart(FMLServerStartingEvent event) {
-        event.registerServerCommand(new Command());
+
+        event.getCommandDispatcher().register(
+                LiteralArgumentBuilder.<CommandSource>literal("vampirism-integrations")
+                        .then(Commands.literal("loaded").executes(context -> {
+                            context.getSource().sendFeedback(new StringTextComponent("Loaded and active mods"), false);
+                            for (IModCompat compat : compatLoader.getLoadedModCompats()) {
+                                ModList.get().getModContainerById(compat.getModID()).ifPresent(container -> context.getSource().sendFeedback(new StringTextComponent("Active: " + compat.getModID() + " Version: " + container.getModInfo().getVersion().getQualifier()), false));
+                            }
+                            return 1;
+                        }))
+                        .then(Commands.literal("changelog").executes(context -> {
+                            if (!getVersionInfo().isNewVersionAvailable()) {
+                                context.getSource().sendFeedback(new TranslationTextComponent("command.vampirism.base.changelog.newversion"), false);
+                                return 0;
+                            }
+                            VersionChecker.Version newVersion = getVersionInfo().getNewVersion();
+                            List<String> changes = newVersion.getChanges();
+                            context.getSource().sendFeedback(new StringTextComponent(TextFormatting.GREEN + "Vampirism Integrations" + newVersion.name + "(" + SharedConstants.getVersion().getName() + ")"), true);
+                            for (String c : changes) {
+                                context.getSource().sendFeedback(new StringTextComponent("-" + c), false);
+                            }
+                            context.getSource().sendFeedback(new StringTextComponent(""), false);
+                            String homepage = getVersionInfo().getHomePage();
+
+                            ITextComponent download = new TranslationTextComponent("text.vampirism.update_message.download").applyTextStyle(style -> style.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, newVersion.getUrl() == null ? homepage : newVersion.getUrl())).setUnderlined(true).setColor(TextFormatting.BLUE));
+                            ITextComponent changelog = new TranslationTextComponent("text.vampirism.update_message.changelog").applyTextStyle(style -> style.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/vampirism-integrations changelog")).setUnderlined(true));
+                            ITextComponent modpage = new TranslationTextComponent("text.vampirism.update_message.modpage").applyTextStyle(style -> style.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, homepage)).setUnderlined(true).setColor(TextFormatting.BLUE));
+                            context.getSource().sendFeedback(download.appendText(" ").appendSibling(changelog).appendText(" ").appendSibling(modpage), false);
+                            return 1;
+                        })));
     }
 
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        compatLoader.onInitStep(IInitListener.Step.POST_INIT, event);
+    @SubscribeEvent
+    public void processIMC(InterModProcessEvent event) {
+        compatLoader.onInitStep(IInitListener.Step.PROCESS_IMC, event);
     }
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        checkDevEnv();
-        compatLoader.onInitStep(IInitListener.Step.PRE_INIT, event);
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
+    @SubscribeEvent
+    public void registerItems(RegistryEvent.Register<Item> event) {
+        Config.buildConfiguration();
+    }
 
+    @SubscribeEvent
+    public void setup(FMLCommonSetupEvent event) {
+        compatLoader.onInitStep(IInitListener.Step.COMMON_SETUP, event);
+        if (VampirismCompat.disableVersionCheck.get()) {
+            versionInfo = new VersionChecker.VersionInfo(REFERENCE.VERSION);
+        } else {
+            versionInfo = VersionChecker.executeVersionCheck(REFERENCE.VERSION_UPDATE_FILE, REFERENCE.VERSION, false);
+        }
 
     }
 
     private void checkDevEnv() {
-        if ((Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment")) {
+        String launchTarget = System.getenv().get("target");
+        if (launchTarget != null && launchTarget.contains("dev")) {
             inDev = true;
-            log.setDebug(true);
-            if (FMLCommonHandler.instance().getSide().isClient()) {
-                log.displayModID();
-            }
         }
     }
 }

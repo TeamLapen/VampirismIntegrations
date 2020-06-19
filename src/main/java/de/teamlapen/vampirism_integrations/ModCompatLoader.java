@@ -1,22 +1,18 @@
 package de.teamlapen.vampirism_integrations;
 
 import com.google.common.collect.ImmutableList;
-import de.teamlapen.lib.VampLib;
 import de.teamlapen.lib.lib.util.IInitListener;
-import net.minecraftforge.common.config.ConfigCategory;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLStateEvent;
-import net.minecraftforge.fml.common.versioning.InvalidVersionSpecificationException;
-import net.minecraftforge.fml.common.versioning.VersionRange;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
+import org.apache.maven.artifact.versioning.VersionRange;
 
 import javax.annotation.Nullable;
-import java.io.File;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Handles loading of mod compatibilities
@@ -24,24 +20,15 @@ import java.util.List;
  */
 public class ModCompatLoader implements IInitListener {
 
-    private final static String TAG = "ModCompat";
-    private final String configName;
+    private final static Logger LOGGER = LogManager.getLogger();
     private
     @Nullable
     List<IModCompat> availableModCompats = new LinkedList<>();
     private List<IModCompat> loadedModCompats;
+    private final Map<IModCompat, ForgeConfigSpec.BooleanValue> compatEnableMap = new HashMap<>();
 
-    private List<IModCompat> incompatibleCompats = new LinkedList<>();
+    private final List<IModCompat> incompatibleCompats = new LinkedList<>();
 
-    @Nullable
-    private Configuration config;
-
-    /**
-     * @param configName Name for the config file. Can be a file in a folder
-     */
-    public ModCompatLoader(String configName) {
-        this.configName = configName;
-    }
 
     /**
      * Add any compats BEFORE pre-init
@@ -50,7 +37,7 @@ public class ModCompatLoader implements IInitListener {
      */
     public void addModCompat(IModCompat compat) {
         if (availableModCompats == null) {
-            throw new IllegalStateException("Add mod compats BEFORE pre-init (" + compat.getModID() + ")");
+            throw new IllegalStateException("Add mod compats BEFORE init (" + compat.getModID() + ")");
         }
         availableModCompats.add(compat);
     }
@@ -59,14 +46,17 @@ public class ModCompatLoader implements IInitListener {
         return availableModCompats;
     }
 
-    /**
-     * May be null before INIT
-     *
-     * @return The mod compat config file
-     */
-    @Nullable
-    public Configuration getConfig() {
-        return config;
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        builder.push("Compatibility");
+        assert availableModCompats != null;
+        for (IModCompat c : availableModCompats) {
+            if (!isModLoaded(c)) continue;
+            builder.push(c.getModID());
+            compatEnableMap.put(c, builder.define("enable_compat_" + c.getModID(), true));
+            c.buildConfig(builder);
+            builder.pop();
+        }
+
     }
 
     public List<IModCompat> getIncompatibleCompats() {
@@ -77,10 +67,11 @@ public class ModCompatLoader implements IInitListener {
         return ImmutableList.copyOf(loadedModCompats);
     }
 
+
     @Override
-    public void onInitStep(Step step, FMLStateEvent event) {
-        if (step == Step.PRE_INIT) {
-            prepareModCompats(((FMLPreInitializationEvent) event).getModConfigurationDirectory());
+    public void onInitStep(Step step, ModLifecycleEvent event) {
+        if (step == Step.COMMON_SETUP) {
+            prepareModCompats();
         }
         Iterator<IModCompat> it = loadedModCompats.iterator();
         while (it.hasNext()) {
@@ -88,61 +79,57 @@ public class ModCompatLoader implements IInitListener {
             try {
                 next.onInitStep(step, event);
             } catch (Exception e) {
-                VampLib.log.e(TAG, "---------------------------------------------------------");
-                VampLib.log.e(TAG, e, "Mod Compat %s threw an exception during %s. Unloading.", next.getModID(), step);
-                VampLib.log.e(TAG, "---------------------------------------------------------");
+                LOGGER.error("---------------------------------------------------------", e);
+                LOGGER.error("Mod Compat {} threw an exception during {}. Unloading.", next.getModID(), step);
+                LOGGER.error("---------------------------------------------------------");
                 it.remove();
             }
         }
     }
 
+
     private boolean isModLoaded(IModCompat modCompat) {
-        return Loader.isModLoaded(modCompat.getModID());
+        return ModList.get().isLoaded(modCompat.getModID());
     }
 
     private boolean isVersionOk(IModCompat modCompat) {
-        ModContainer mod = Loader.instance().getIndexedModList().get(modCompat.getModID());
-        if (mod != null) {
+        Optional<? extends ModContainer> mod = ModList.get().getModContainerById(modCompat.getModID());
+        if (mod.isPresent()) {
             String s = modCompat.getAcceptedVersionRange();
             if (s == null) return true;
             VersionRange range = null;
             try {
                 range = VersionRange.createFromVersionSpec(s);
             } catch (InvalidVersionSpecificationException e) {
-                VampLib.log.e(TAG, "Invalid version spec %s for %s", s, modCompat.getModID());
+                LOGGER.error("Invalid version spec {} for {}", s, modCompat.getModID());
                 return false;
             }
-            return range.containsVersion(mod.getProcessedVersion());
+            return range.containsVersion(mod.get().getModInfo().getVersion());
         }
         return false;
     }
 
-    private void prepareModCompats(File configDir) {
+    private void prepareModCompats() {
         if (availableModCompats == null) {
-            VampLib.log.w(TAG, "Trying to load mod compat twice");
+            LOGGER.warn("Trying to load mod compat twice");
             return;
         }
-        config = new Configuration(new File(configDir, configName));
+
 
         List<IModCompat> loaded = new LinkedList<>();
         for (IModCompat modCompat : availableModCompats) {
             if (isModLoaded(modCompat)) {
-                ConfigCategory compatCat = config.getCategory(modCompat.getModID());
-                compatCat.setComment("Configure mod compatibility between Vampirism and " + modCompat.getModID());
-                if (config.getBoolean("enable_compat_" + modCompat.getModID(), compatCat.getName(), true, "If the compatibility for this mod should be loaded")) {
+                ForgeConfigSpec.BooleanValue enabled = compatEnableMap.get(modCompat);
+                if (enabled != null && enabled.get()) {
                     if (isVersionOk(modCompat)) {
-                        modCompat.loadConfigs(config, compatCat);
                         loaded.add(modCompat);
-                        VampLib.log.d(TAG, "Prepared %s compatibility", modCompat.getModID());
+                        LOGGER.debug("Prepared {} compatibility", modCompat.getModID());
                     } else {
-                        VampLib.log.w(TAG, "Cannot load %s compat due to incompatible version", modCompat.getModID());
+                        LOGGER.warn("Cannot load {} compat due to incompatible version", modCompat.getModID());
                         incompatibleCompats.add(modCompat);
                     }
                 }
             }
-        }
-        if (config.hasChanged()) {
-            config.save();
         }
         loadedModCompats = loaded;
         availableModCompats = null;
