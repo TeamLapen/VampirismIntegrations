@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="[31,)"
-issueTrackerURL="https://github.com/TeamLapen/Vampirism/issues"
-
+issueTrackerURL = "https://github.com/TeamLapen/Vampirism/issues"
+license = "LGPLv3"
 [[mods]]
     modId="vampirism_integrations"
     namespace="vampirism_integrations"

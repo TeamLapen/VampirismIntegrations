@@ -1,8 +1,9 @@
 package de.teamlapen.vampirism_integrations.bop;
 
+import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism_integrations.IModCompat;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
+import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 
 public class BOPCompat implements IModCompat {
 
@@ -23,7 +24,7 @@ public class BOPCompat implements IModCompat {
 
 
     @Override
-    public void onInitStep(Step step, ModLifecycleEvent event) {
+    public void onInitStep(IInitListener.Step step, ParallelDispatchEvent event) {
         if (step == Step.COMMON_SETUP) {
             Biomes.registerNoSundamageBiomes(this);
         }

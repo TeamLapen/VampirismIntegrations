@@ -5,7 +5,7 @@ import de.teamlapen.lib.lib.util.IInitListener;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
+import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
@@ -69,7 +69,7 @@ public class ModCompatLoader implements IInitListener {
 
 
     @Override
-    public void onInitStep(Step step, ModLifecycleEvent event) {
+    public void onInitStep(IInitListener.Step step, ParallelDispatchEvent event) {
         if (step == Step.COMMON_SETUP) {
             prepareModCompats();
         }

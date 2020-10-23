@@ -5,16 +5,13 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 class Biomes {
     private static final ResourceLocation hunter_camp_id = new ResourceLocation("vampirism", "hunter_camp");
     static void registerNoSundamageBiomes(BOPCompat compat) {
-        if (compat.disabled_sundamage_ominous_woods.get() && BOPBiomes.ominous_woods.isPresent()) {
-            BOPBiomes.ominous_woods.ifPresent(b -> {
-                VampirismAPI.sundamageRegistry().addNoSundamageBiome(b.getRegistryName());
-                VampirismAPI.worldGenRegistry().removeStructureFromBiomes(hunter_camp_id, Collections.singletonList(b));
-            } );
+        if (compat.disabled_sundamage_ominous_woods.get()) {
+            VampirismAPI.sundamageRegistry().addNoSundamageBiomes(BOPBiomes.ominous_woods.getLocation());
+            VampirismAPI.worldGenRegistry().removeStructureFromBiomes(hunter_camp_id, Arrays.asList(BOPBiomes.ominous_woods.getLocation(), BOPBiomes.withered_abyss.getLocation(), BOPBiomes.outback.getLocation()));
         }
     }
 }

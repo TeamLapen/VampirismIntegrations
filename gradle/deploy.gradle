@@ -25,15 +25,15 @@ curseforge {
         }
 
         relations {
-            requiredLibrary 'vampirism-become-a-vampire'
-            optionalLibrary 'biomes-o-plenty'
-            optionalLibrary 'abyssalcraft'
-            optionalLibrary 'minecraft-comes-alive-mca'
-            optionalLibrary 'toroquest'
-            optionalLibrary 'hwyla'
-            optionalLibrary 'blood-magic'
-            optionalLibrary 'evilcraft'
-            optionalLibrary 'tinkers-construct'
+            requiredDependency 'vampirism-become-a-vampire'
+            optionalDependency 'biomes-o-plenty'
+            optionalDependency 'abyssalcraft'
+            optionalDependency 'minecraft-comes-alive-mca'
+            optionalDependency 'toroquest'
+            optionalDependency 'hwyla'
+            optionalDependency 'blood-magic'
+            optionalDependency 'evilcraft'
+            optionalDependency 'tinkers-construct'
         }
 
 

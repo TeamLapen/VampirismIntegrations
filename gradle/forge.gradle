@@ -24,9 +24,6 @@ repositories {
         name 'shinoow'
         url 'https://dl.bintray.com/shinoow/maven/'
     }
-    maven {
-        url "http://tehnut.info/maven"
-    }
 
     maven {
         name = "Evilcraft JFrog"
@@ -87,7 +84,8 @@ dependencies {
     compile fg.deobf("de.teamlapen.vampirism:Vampirism:" + project.minecraft_version + "-" + project.vampirism_version)
 
     compileOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':api')
-    runtimeOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':universal')
+    //Does not start in dev
+    //runtimeOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':universal')
     compile fg.deobf("curse.maven:hwyla:" + project.hywla_fileid)
 
 
