@@ -1,4 +1,4 @@
-Vampirism Integrations for MC 1.15 - Latest branch [![](http://cf.way2muchnoise.eu/versions/For%20MC_vampirism-integrations_all.svg)](https://minecraft.curseforge.com/projects/vampirism-integrations) [![Build Status](https://travis-ci.org/TeamLapen/VampirismIntegrations.svg?branch=1.12)](https://travis-ci.org/TeamLapen/VampirismIntegrations) 
+Vampirism Integrations for MC 1.16 - Latest branch [![](http://cf.way2muchnoise.eu/versions/For%20MC_vampirism-integrations_all.svg)](https://minecraft.curseforge.com/projects/vampirism-integrations) [![Build Status](https://travis-ci.org/TeamLapen/VampirismIntegrations.svg?branch=1.12)](https://travis-ci.org/TeamLapen/VampirismIntegrations) 
 ============================================
 [![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://maxanier.de) 
 
@@ -22,7 +22,7 @@ If you are already installing many mods or a modpack it should not make that muc
 
 ## Configuration
 Integrations can be disabled per mod.  
-Some integrations also allow more detailed customization
+Some integrations also allow more detailed customization.
 
 
 ## Setting up the development environment
@@ -48,8 +48,9 @@ That's it.
 #### Setting up Vampirism Integrations in another environment
 If you would like to setup Vampirism Integrations in another way or another IDE, you should pay regard to the following points.  
 1. Make sure `src/main/java`, `src/api/java´ and `src/lib/java` are marked as source folders and `src/main/resources` and `src/lib/resources` are marked as resource folders.  
-2. Vampirism Integrations has several dependencies (e.g. Waila), which are specified in the gradle files and should be automatically downloaded and added when you run `ideaModule` or `eclipse`.  
+2. Vampirism Integrations has several dependencies (e.g. Waila), which are specified in the gradle files and should be automatically downloaded and added when you run import/refresh the gradle project  
 3. Vampirism Integrations requires at least Java 8 
+4. Some packages might have to be excluded in your IDE. See 'gradle/forge.gradle'.
 
 
 ## Licence
