@@ -27,13 +27,9 @@ curseforge {
         relations {
             requiredDependency 'vampirism-become-a-vampire'
             optionalDependency 'biomes-o-plenty'
-            optionalDependency 'abyssalcraft'
-            optionalDependency 'minecraft-comes-alive-mca'
-            optionalDependency 'toroquest'
             optionalDependency 'hwyla'
             optionalDependency 'blood-magic'
-            optionalDependency 'evilcraft'
-            optionalDependency 'tinkers-construct'
+            optionalDependency 'consecration'
         }
 
 
