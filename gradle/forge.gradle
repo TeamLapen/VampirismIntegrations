@@ -87,7 +87,7 @@ dependencies {
     //Does not start in dev
     //runtimeOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':universal')
     compile fg.deobf("curse.maven:hwyla:" + project.hywla_fileid)
-
+    compile fg.deobf("curse.maven:blood-magic:" + project.bloodmagic_fileid) //We only want API but curse maven and forge gradle don't like me
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")

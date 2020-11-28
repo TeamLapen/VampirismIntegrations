@@ -36,7 +36,6 @@ sourceSets{
         java{
             exclude '**/mca/*'
             exclude '**/evilcraft/*'
-            exclude '**/bloodmagic/*'
             exclude '**/abyssalcraft/*'
             exclude '**/tconstruct/*'
             exclude '**/toroquest/*'
