@@ -12,9 +12,13 @@ repositories {
         name = "Local2"
         url = "../../../.m2/repository"
     }
+//    maven {
+//        name = "CurseForge"
+//        url = "https://minecraft.curseforge.com/api/maven/"
+//    }
     maven {
-        name = "CurseForge"
-        url = "https://minecraft.curseforge.com/api/maven/"
+        name = "CurseMaven"
+        url "https://www.cursemaven.com"
     }
     maven {
         name = "Maxanier"
@@ -32,6 +36,13 @@ repositories {
     maven {
         name = "ChickenBones"
         url = "http://chickenbones.net/maven/"
+    }
+
+    maven { url 'https://modmaven.dev/' }
+
+    maven {
+        name = "Minecolonies Maven"
+        url = "https://ldtteam.jfrog.io/ldtteam/mods-maven"
     }
 
 
@@ -88,6 +99,22 @@ dependencies {
     //runtimeOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':universal')
     compile fg.deobf("curse.maven:hwyla:" + project.hywla_fileid)
 
+    compile fg.deobf("curse.maven:blood-magic:" + project.bloodmagic_fileid) //We only want API but curse maven and forge gradle don't like me
+
+    compile fg.deobf("curse.maven:immersive-engineering:"+project.immersiveengineering_fileid)
+
+    compileOnly "mekanism:Mekanism:${project.mekanism_version}:api"
+    runtimeOnly fg.deobf("mekanism:Mekanism:${project.mekanism_version}")// core
+
+
+    compile fg.deobf("curse.maven:consecration:"+project.consecration_fileid)
+
+    implementation fg.deobf("curse.maven:minecolonies:3106617")
+
+    runtime fg.deobf("curse.maven:structurize:3100325")
+//    compileOnly fg.deobf("com.minecolonies:minecolonies:"+project.minecolonies_version+":api")
+//    runtimeOnly fg.deobf("com.minecolonies:minecolonies:"+project.minecolonies_version)
+//    runtime fg.deobf("com.ldtteam:structurize:"+project.structurize_version)
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")

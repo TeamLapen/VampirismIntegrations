@@ -1,0 +1,3 @@
+
+#BloodMagic
+bloodmagic:life_essence_fluid=80

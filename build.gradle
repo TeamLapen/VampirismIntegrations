@@ -18,7 +18,6 @@ buildscript {
 plugins {
     id 'com.matthewprenger.cursegradle' version '1.2.0'
     id 'de.undercouch.download' version '3.3.0'
-    id 'com.wynprice.cursemaven' version '2.1.1'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -36,7 +35,6 @@ sourceSets{
         java{
             exclude '**/mca/*'
             exclude '**/evilcraft/*'
-            exclude '**/bloodmagic/*'
             exclude '**/abyssalcraft/*'
             exclude '**/tconstruct/*'
             exclude '**/toroquest/*'
