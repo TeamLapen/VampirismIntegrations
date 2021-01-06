@@ -8,13 +8,13 @@ Curseforge Page: [https://minecraft.curseforge.com/projects/vampirism-integratio
 
 While the JEI and GuideAPI integration will stay inside the main mod, any additional compatibility will be implemented here.
 
-Therefore this mod is only useful if you are using one or more of the supported mods:
+Therefore, this mod is only useful if you are using one or more of the supported mods:
 
 ## Reasons
 a) Mod integrations are a lot of work regarding Minecraft updates. If MC updates, but the other mods are not finished yet, I have to uncomment all the relevant parts in Vampirism codes, remove the dependencies and redo all these things once the mod eventually updates.  
 b) If a other mods changes and requires changes, I don't want to release an update for Vampirism each time  
 c) It keeps Vampirism's code slightly more organized  
-d) It verifies that Vampirism's API is working, shows me areas for impovement and can act as an example.  
+d) It verifies that Vampirism's API is working, shows me areas for improvement and can act as an example.  
 e) It makes it more straight-forward for others contribute and add more integrations (hope this is gonna happen, but I did not have any luck so far)  
   
 The most important integrations will stay in Vampirism (JEI, GuideAPI,?), but any additional (hopefully many) will be added into the separate mod.  
@@ -26,7 +26,7 @@ Some integrations also allow more detailed customization.
 
 
 ## Setting up the development environment
-If you would like to compile your own versions or even contribute to Vampirism Integrations's development you need to setup a dev environment.
+If you would like to compile your own versions or even contribute to Vampirism Integrations's development you need to set up a dev environment.
 The following example instructions will setup IntelliJ (Free community edition or Non-Free Ultimate edition). If you already have a setup or want to use another IDE, jump [here](#setting-up-vampirism-integrations-in-another-environment).
 
 #### IntelliJ
@@ -40,7 +40,7 @@ The following example instructions will setup IntelliJ (Free community edition o
 8. Refresh the gradle project  
 9. Run `genIntellijRuns` and edit the run config to use the correct module
 10. Make sure `Settings -> Build, Execution, Deployment -> Compiler -> 'Add runtime assertions for not-null-annotated methods and parameters' is disabled` (Unfortunately required, requires rebuild if the project has been built before)
-11. You might have to modify the projets compiler output path  
+11. You might have to modify the project's compiler output path  
 
 
 That's it.
