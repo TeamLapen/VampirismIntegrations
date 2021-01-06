@@ -1,3 +1,13 @@
+---
+name: New compatibility
+about: Request integration with a not yet added mod
+title: 'Request compat for:'
+labels: 'NewCompat, unconfirmed'
+assignees: ''
+
+---
+
+
 <!-- DO NOT DELETE THE CONTENT ON THIS PAGE. FILL OUT ENTIRELY. -->
 <!-- The issue will be ignored if something is missing -->
 <!-- These are comments and will not be shown -->

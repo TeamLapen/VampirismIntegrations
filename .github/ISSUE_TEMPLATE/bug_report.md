@@ -1,3 +1,12 @@
+---
+name: Bug report
+about: Create a report to help us improve
+title: ''
+labels: 'bug, unconfirmed'
+assignees: 'maxanier'
+
+---
+
 <!-- DO NOT DELETE THE CONTENT ON THIS PAGE. FILL OUT ENTIRELY -->
 <!-- It will be ignored if something is missing -->
 <!-- These are comments and will not be shown -->

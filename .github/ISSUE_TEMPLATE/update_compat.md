@@ -1,3 +1,12 @@
+---
+name: Update/Extend compatibility
+about: Request extending an existing integration
+title: 'Extend compat for:'
+labels: 'ExtendedCompat, unconfirmed'
+assignees: ''
+
+---
+
 <!-- DO NOT DELETE THE CONTENT ON THIS PAGE. FILL OUT ENTIRELY. -->
 <!-- The issue will be ignored if something is missing -->
 <!-- These are comments and will not be shown -->
