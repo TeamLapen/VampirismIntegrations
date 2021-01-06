@@ -109,12 +109,12 @@ dependencies {
 
     implementation fg.deobf("curse.maven:consecration-284001:"+project.consecration_fileid)
 
-    implementation fg.deobf("curse.maven:minecolonies-245506:3106617")
-
-    runtime fg.deobf("curse.maven:structurize:3100325")
+    implementation fg.deobf("curse.maven:minecolonies-245506:3126211")
+    runtimeOnly fg.deobf("curse.maven:structurize-298744:3119907")
+    // Missing com.ldtteam:datagenerators:0.1.44-ALPHA
 //    compileOnly fg.deobf("com.minecolonies:minecolonies:"+project.minecolonies_version+":api")
 //    runtimeOnly fg.deobf("com.minecolonies:minecolonies:"+project.minecolonies_version)
-//    runtime fg.deobf("com.ldtteam:structurize:"+project.structurize_version)
+//    runtimeOnly fg.deobf("com.ldtteam:structurize:"+project.structurize_version)
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
