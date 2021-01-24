@@ -2,7 +2,7 @@ package de.teamlapen.vampirism_integrations.util;
 
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.tileentity.TotemTileEntity;
+import de.teamlapen.vampirism.tileentity.TotemHelper;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 
@@ -20,7 +20,7 @@ public class NearestVampireSmartTargetGoal extends NearestAttackableTargetGoal<C
     @Override
     public boolean shouldExecute() {
         if (goalOwner.ticksExisted % 32 == 0) {
-            this.insideVampireVillage = TotemTileEntity.isInsideVampireAreaCached(goalOwner.world.getDimensionKey(), goalOwner.getPosition());
+            this.insideVampireVillage = TotemHelper.isInsideVampireAreaCached(goalOwner.world.getDimensionKey(), goalOwner.getPosition());
         }
         return !insideVampireVillage && super.shouldExecute();
     }
