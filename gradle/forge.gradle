@@ -58,7 +58,9 @@ minecraft {
             main 'net.minecraftforge.userdev.LaunchTesting'
             property 'forge.logging.console.level', 'debug'
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'mixin.env.disableRefMap', 'true'
+            //property 'mixin.env.disableRefMap', 'true'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             workingDirectory project.file('run/client1').canonicalPath
             jvmArg '-ea:de.teamlapen...'
 
@@ -72,7 +74,9 @@ minecraft {
         server {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.disableRefMap', 'true'
+            //property 'mixin.env.disableRefMap', 'true'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             workingDirectory project.file('run/server').canonicalPath
             jvmArg '-ea:de.teamlapen...'
 
