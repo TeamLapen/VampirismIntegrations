@@ -1,7 +1,47 @@
 repositories {
+    maven { url = 'https://files.minecraftforge.net/maven' }
+
     maven {
-        url "http://dvs1.progwml6.com/files/maven"
+        url "https://dvs1.progwml6.com/files/maven"
     }
+
+    maven { url 'https://modmaven.dev/' }
+
+    repositories {
+        maven {
+            url "https://www.cursemaven.com"
+            content {
+                includeGroup "curse.maven"
+            }
+        }
+    }
+
+    maven {
+        name = "Maxanier"
+        url = "https://maxanier.de/maven2/"
+    }
+
+    maven {
+        name = "Evilcraft JFrog"
+        url = "https://oss.jfrog.org/artifactory/simple/libs-release/"
+    }
+    maven {
+        name = "ChickenBones"
+        url = "https://chickenbones.net/maven/"
+    }
+
+    maven {
+        name 'LDTTeam - Modding - Minecolonies'
+        url 'https://ldtteam.jfrog.io/ldtteam/modding/'
+    }
+
+//    maven {
+//        name = "Minecolonies Maven"
+//        url = "https://ldtteam.jfrog.io/ldtteam/mods-maven"
+//    }
+
+    mavenCentral()
+
     maven {
         //Local repo for custom forge builds.
         //Is not required to exist
@@ -12,41 +52,8 @@ repositories {
         name = "Local2"
         url = "../../../.m2/repository"
     }
-//    maven {
-//        name = "CurseForge"
-//        url = "https://minecraft.curseforge.com/api/maven/"
-//    }
-    maven {
-        name = "CurseMaven"
-        url "https://www.cursemaven.com"
-    }
-    maven {
-        name = "Maxanier"
-        url = "https://maxanier.de/maven2/"
-    }
-    maven {
-        name 'shinoow'
-        url 'https://dl.bintray.com/shinoow/maven/'
-    }
-
-    maven {
-        name = "Evilcraft JFrog"
-        url = "https://oss.jfrog.org/artifactory/simple/libs-release/"
-    }
-    maven {
-        name = "ChickenBones"
-        url = "http://chickenbones.net/maven/"
-    }
-
-    maven { url 'https://modmaven.dev/' }
-
-    maven {
-        name = "Minecolonies Maven"
-        url = "https://ldtteam.jfrog.io/ldtteam/mods-maven"
-    }
 
 
-    mavenCentral()
 }
 
 minecraft {
@@ -98,14 +105,19 @@ dependencies {
             version: "${project.minecraft_version}-${project.forge_version}"
     ])
 
-    compile fg.deobf("de.teamlapen.vampirism:Vampirism:" + project.minecraft_version + "-" + project.vampirism_version)
+    implementation fg.deobf("de.teamlapen.vampirism:Vampirism:" + project.vampirism_version)
 
-    compileOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':api')
+    //compileOnly fg.deobf('curse.maven:biomesoplenty-220318:' + project.bop_api_fileid)
+    implementation fg.deobf('curse.maven:biomesoplenty-220318:' + project.bop_fileid) //We only want API but curse maven and forge gradle don't like me
     //Does not start in dev
     //runtimeOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':universal')
-    compile fg.deobf("curse.maven:hwyla:" + project.hywla_fileid)
+    compile fg.deobf("curse.maven:hwyla-253449:" + project.hywla_fileid)
+
+    implementation fg.deobf("curse.maven:tan-246391:"+ project.tough_as_nails_fileid) //Only want API probably, but ...
 
     implementation fg.deobf("curse.maven:blood-magic-224791:" + project.bloodmagic_fileid) //We only want API but curse maven and forge gradle don't like me
+    implementation fg.deobf("curse.maven:evilcraft-74610:" + project.evilcraft_fileid)
+    runtimeOnly fg.deobf("curse.maven:cyclops-core-232758:" + project.cyclopscore_fileid)
 
     implementation fg.deobf("curse.maven:immersive-engineering-231951:"+project.immersiveengineering_fileid)
 
@@ -115,8 +127,8 @@ dependencies {
 
     implementation fg.deobf("curse.maven:consecration-284001:"+project.consecration_fileid)
 
-    implementation fg.deobf("curse.maven:minecolonies-245506:3126211")
-    runtimeOnly fg.deobf("curse.maven:structurize-298744:3119907")
+    //implementation fg.deobf("curse.maven:minecolonies-245506:3126211")
+    //runtimeOnly fg.deobf("curse.maven:structurize-298744:3358385")
     // Missing com.ldtteam:datagenerators:0.1.44-ALPHA
 //    compileOnly fg.deobf("com.minecolonies:minecolonies:"+project.minecolonies_version+":api")
 //    runtimeOnly fg.deobf("com.minecolonies:minecolonies:"+project.minecolonies_version)
@@ -124,7 +136,7 @@ dependencies {
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}:${project.jei_version}") //Full for runtime
+    runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}") //Full for runtime
 
     //Old
     //deobfCompile 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version // +':api'

@@ -1,0 +1,2 @@
+#Evilcraft
+evilcraft:blood=80

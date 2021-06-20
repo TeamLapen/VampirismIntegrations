@@ -1,12 +1,9 @@
 package de.teamlapen.vampirism_integrations.evilcraft;
 
 import de.teamlapen.vampirism_integrations.IModCompat;
-import net.minecraftforge.common.config.ConfigCategory;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.event.FMLStateEvent;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 public class EvilCraftCompat implements IModCompat {
-    static float conversionFactor = 0.8f;
 
     @Override
     public String getModID() {
@@ -14,14 +11,7 @@ public class EvilCraftCompat implements IModCompat {
     }
 
     @Override
-    public void loadConfigs(Configuration config, ConfigCategory category) {
-        conversionFactor = config.getFloat("blood_conversion_factor", category.getName(), 0.8f, 0.0f, 20, "Evilcraft Blood * factor = Vampirism Blood");
-    }
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
 
-    @Override
-    public void onInitStep(Step step, FMLStateEvent event) {
-        if (step == Step.POST_INIT) {
-            EvilCraftBloodConversion.registerBloodConversion();
-        }
     }
 }

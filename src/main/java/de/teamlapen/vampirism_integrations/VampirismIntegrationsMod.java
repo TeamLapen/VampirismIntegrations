@@ -6,6 +6,7 @@ import de.teamlapen.lib.lib.util.VersionChecker;
 import de.teamlapen.vampirism_integrations.bloodmagic.BloodmagicCompat;
 import de.teamlapen.vampirism_integrations.bop.BOPCompat;
 import de.teamlapen.vampirism_integrations.consecration.ConsecrationCompat;
+import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import de.teamlapen.vampirism_integrations.waila.WailaModCompat;
 import net.minecraft.command.CommandSource;
@@ -45,9 +46,9 @@ public class VampirismIntegrationsMod {
     public VampirismIntegrationsMod() {
         instance = this;
         checkDevEnv();
-        Optional<? extends ModContainer> opt = ModList.get().getModContainerById(de.teamlapen.vampirism.util.REFERENCE.MODID);
+        Optional<? extends ModContainer> opt = ModList.get().getModContainerById(REFERENCE.MODID);
         if (opt.isPresent()) {
-            de.teamlapen.vampirism.util.REFERENCE.VERSION = opt.get().getModInfo().getVersion();
+            REFERENCE.VERSION = opt.get().getModInfo().getVersion();
         } else {
             LOGGER.warn("Cannot get version from mod info");
         }
@@ -58,6 +59,7 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new BOPCompat());
         compatLoader.addModCompat(new WailaModCompat());
         compatLoader.addModCompat(new BloodmagicCompat());
+        compatLoader.addModCompat(new EvilCraftCompat());
         compatLoader.addModCompat(new ConsecrationCompat());
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegister);
