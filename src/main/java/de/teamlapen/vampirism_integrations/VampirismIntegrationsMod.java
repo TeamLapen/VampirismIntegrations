@@ -7,6 +7,7 @@ import de.teamlapen.vampirism_integrations.bloodmagic.BloodmagicCompat;
 import de.teamlapen.vampirism_integrations.bop.BOPCompat;
 import de.teamlapen.vampirism_integrations.consecration.ConsecrationCompat;
 import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
+import de.teamlapen.vampirism_integrations.tan.TANCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import de.teamlapen.vampirism_integrations.waila.WailaModCompat;
 import net.minecraft.command.CommandSource;
@@ -61,6 +62,7 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new BloodmagicCompat());
         compatLoader.addModCompat(new EvilCraftCompat());
         compatLoader.addModCompat(new ConsecrationCompat());
+        compatLoader.addModCompat(new TANCompat());
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegister);
         MinecraftForge.EVENT_BUS.register(new EventHandler());
