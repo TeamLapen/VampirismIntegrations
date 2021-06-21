@@ -105,7 +105,7 @@ dependencies {
             version: "${project.minecraft_version}-${project.forge_version}"
     ])
 
-    implementation fg.deobf("de.teamlapen.vampirism:Vampirism:" + project.vampirism_version)
+    implementation fg.deobf("de.teamlapen.vampirism:Vampirism:" + project.vampirism_mcversion + "-" + project.vampirism_version)
 
     //compileOnly fg.deobf('curse.maven:biomesoplenty-220318:' + project.bop_api_fileid)
     implementation fg.deobf('curse.maven:biomesoplenty-220318:' + project.bop_fileid) //We only want API but curse maven and forge gradle don't like me
