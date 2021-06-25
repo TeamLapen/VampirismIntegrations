@@ -17,8 +17,8 @@ public class ThirstHandler {
         Entity e = event.getEntity();
         if (TANCompat.disableThirst.get() && e.ticksExisted % 32 == 0 && e instanceof PlayerEntity && Helper.isVampire((PlayerEntity) e)) {
             IThirst thirst = ThirstHelper.getThirst((PlayerEntity) e);
-            if (thirst.getThirst() < 2) {
-                thirst.setThirst(2);
+            if (thirst.getThirst() < 10) {
+                thirst.setThirst(10);
             }
         }
     }

@@ -35,7 +35,6 @@ sourceSets{
         java{
             exclude '**/mca/*'
             exclude '**/abyssalcraft/*'
-            exclude '**/tconstruct/*'
             exclude '**/toroquest/*'
         }
     }

@@ -31,14 +31,14 @@ repositories {
     }
 
     maven {
-        name 'LDTTeam - Modding - Minecolonies'
+        name 'LDTTeam - Modding - Minecolonies - Old - For datagenerators'
         url 'https://ldtteam.jfrog.io/ldtteam/modding/'
     }
 
-//    maven {
-//        name = "Minecolonies Maven"
-//        url = "https://ldtteam.jfrog.io/ldtteam/mods-maven"
-//    }
+    maven {
+        name = "Minecolonies Maven - Newer"
+        url = "https://ldtteam.jfrog.io/ldtteam/mods-maven"
+    }
 
     mavenCentral()
 
@@ -130,9 +130,22 @@ dependencies {
     //implementation fg.deobf("curse.maven:minecolonies-245506:3126211")
     //runtimeOnly fg.deobf("curse.maven:structurize-298744:3358385")
     // Missing com.ldtteam:datagenerators:0.1.44-ALPHA
-//    compileOnly fg.deobf("com.minecolonies:minecolonies:"+project.minecolonies_version+":api")
-//    runtimeOnly fg.deobf("com.minecolonies:minecolonies:"+project.minecolonies_version)
-//    runtimeOnly fg.deobf("com.ldtteam:structurize:"+project.structurize_version)
+    compileOnly fg.deobf(project.dependencies.create("com.minecolonies:minecolonies:"+project.minecolonies_version+":api") {
+        transitive = false
+    })
+    runtimeOnly fg.deobf(project.dependencies.create("com.minecolonies:minecolonies:"+project.minecolonies_version) {
+        transitive = false
+    })
+    runtimeOnly fg.deobf(project.dependencies.create("com.ldtteam:structurize:"+project.structurize_version){
+        transitive = false
+    })
+
+    runtimeOnly fg.deobf("slimeknights.mantle:Mantle:1.16.5-"+project.mantle_version)
+    implementation fg.deobf("slimeknights.tconstruct:TConstruct:1.16.5-"+project.tconstruct_version)
+
+    implementation fg.deobf("curse.maven:survive-367337:"+project.survive_fileid)
+    runtimeOnly fg.deobf("curse.maven:unionlib-367806:"+project.unionlib_fileid)
+    implementation fg.deobf("curse.maven:diet-443570:"+project.diet_fileid)
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
