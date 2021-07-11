@@ -1,6 +1,6 @@
 package de.teamlapen.vampirism_integrations.survive;
 
-import de.teamlapen.vampirism_integrations.IModCompat;
+import de.teamlapen.lib.lib.util.IModCompat;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;

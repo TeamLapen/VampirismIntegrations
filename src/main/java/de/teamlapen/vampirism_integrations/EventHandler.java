@@ -1,5 +1,6 @@
 package de.teamlapen.vampirism_integrations;
 
+import de.teamlapen.lib.lib.util.IModCompat;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.lib.lib.util.VersionChecker;
 import net.minecraft.util.text.*;
