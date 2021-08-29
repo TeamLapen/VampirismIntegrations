@@ -28,7 +28,7 @@ class TankDataProvider implements IComponentProvider {
                     for (int i = 0; i < fh.getTanks(); i++) {
                         FluidStack c = fh.getFluidInTank(i);
                         if (!c.isEmpty()) {
-                            tooltip.add(new StringTextComponent(String.format("%s: %d/%d", UtilLib.translate(c.getTranslationKey()), c.getAmount() / VReference.FOOD_TO_FLUID_BLOOD, fh.getTankCapacity(i) / VReference.FOOD_TO_FLUID_BLOOD)).mergeStyle(TextFormatting.RED));
+                            tooltip.add(new StringTextComponent(String.format("%s: %d/%d", UtilLib.translate(c.getTranslationKey()), c.getAmount() / VReference.FOOD_TO_FLUID_BLOOD, fh.getTankCapacity(i) / VReference.FOOD_TO_FLUID_BLOOD)).withStyle(TextFormatting.RED));
                         }
                     }
 

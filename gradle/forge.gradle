@@ -64,7 +64,7 @@ minecraft {
             taskName 'runClient1'
             main 'net.minecraftforge.userdev.LaunchTesting'
             property 'forge.logging.console.level', 'debug'
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
             //property 'mixin.env.disableRefMap', 'true'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
@@ -79,7 +79,7 @@ minecraft {
             }
         }
         server {
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             //property 'mixin.env.disableRefMap', 'true'
             property 'mixin.env.remapRefMap', 'true'
@@ -111,7 +111,7 @@ dependencies {
     implementation fg.deobf('curse.maven:biomesoplenty-220318:' + project.bop_fileid) //We only want API but curse maven and forge gradle don't like me
     //Does not start in dev
     //runtimeOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':universal')
-    compile fg.deobf("curse.maven:hwyla-253449:" + project.hywla_fileid)
+    compileOnly fg.deobf("curse.maven:hwyla-253449:" + project.hywla_fileid)
 
     implementation fg.deobf("curse.maven:tan-246391:"+ project.tough_as_nails_fileid) //Only want API probably, but ...
 
@@ -164,21 +164,19 @@ dependencies {
 
 }
 
+
 processResources {
 
-    from(sourceSets.main.resources.srcDirs) {
-        include 'META-INF/mods.toml'
+    filesMatching("**/mods.toml") {
 
         expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'vampirism_version': project.vampirism_version
     }
 
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'META-INF/mods.toml'
-    }
     outputs.upToDateWhen { false }
+
 
     exclude '**/Thumbs.db'
 }
+
 
 

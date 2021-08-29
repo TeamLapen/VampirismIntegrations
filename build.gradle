@@ -10,7 +10,7 @@ buildscript {
 
     
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.0.1'
     }
 }
 
@@ -55,6 +55,7 @@ archivesBaseName = "VampirismIntegrations"
 ext.mod_version = "Test"
 ext.type = "Test"
 
+apply from: 'gradle/artifacts.gradle'
 apply from: 'gradle/versioning.gradle'
 apply from: 'gradle/forge.gradle'
 apply from: 'gradle/deploy.gradle'

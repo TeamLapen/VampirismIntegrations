@@ -22,7 +22,7 @@ class PlayerDataProvider implements IEntityComponentProvider {
             if (accessor.getEntity() instanceof PlayerEntity) {
                 VampirismAPI.getFactionPlayerHandler((PlayerEntity) accessor.getEntity()).ifPresent(fp -> {
                     if (fp.getCurrentLevel() > 0) {
-                        tooltip.add(new StringTextComponent(String.format("%s %s: %s", fp.getCurrentFaction().getName().getString(), UtilLib.translate("text.vampirism.level"), fp.getCurrentLevel())).mergeStyle(fp.getCurrentFaction().getChatColor()));
+                        tooltip.add(new StringTextComponent(String.format("%s %s: %s", fp.getCurrentFaction().getName().getString(), UtilLib.translate("text.vampirism.level"), fp.getCurrentLevel())).withStyle(fp.getCurrentFaction().getChatColor()));
                     }
                 });
 

@@ -13,6 +13,6 @@ import java.util.List;
 public class ClientUtil {
 
     public static void gatherTooltips(ItemStack stack, World world, List<ITextComponent> tooltips) {
-        stack.getItem().addInformation(stack, world, tooltips, ITooltipFlag.TooltipFlags.NORMAL);
+        stack.getItem().appendHoverText(stack, world, tooltips, ITooltipFlag.TooltipFlags.NORMAL);
     }
 }

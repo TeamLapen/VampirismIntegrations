@@ -10,9 +10,9 @@ public class HolyRegistration {
 
 
     static void registerToHolyRegistry(FMLServerStartedEvent event) {
-        ModTags.Entities.VAMPIRE.getAllElements().forEach(t -> ConsecrationApi.getHolyRegistry().addUndead(t));
-        ConsecrationApi.getHolyRegistry().addHolyDamage(VReference.VAMPIRE_IN_FIRE.getDamageType());
-        ConsecrationApi.getHolyRegistry().addHolyDamage(VReference.VAMPIRE_ON_FIRE.getDamageType());
-        ConsecrationApi.getHolyRegistry().addHolyDamage(VReference.HOLY_WATER.getDamageType());
+        ModTags.Entities.VAMPIRE.getValues().forEach(t -> ConsecrationApi.getHolyRegistry().addUndead(t));
+        ConsecrationApi.getHolyRegistry().addHolyDamage(VReference.VAMPIRE_IN_FIRE.getMsgId());
+        ConsecrationApi.getHolyRegistry().addHolyDamage(VReference.VAMPIRE_ON_FIRE.getMsgId());
+        ConsecrationApi.getHolyRegistry().addHolyDamage(VReference.HOLY_WATER.getMsgId());
     }
 }

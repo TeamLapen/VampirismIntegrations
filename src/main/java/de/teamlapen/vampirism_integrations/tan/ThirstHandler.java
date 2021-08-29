@@ -15,7 +15,7 @@ public class ThirstHandler {
     @SubscribeEvent
     public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
         Entity e = event.getEntity();
-        if (TANCompat.disableThirst.get() && e.ticksExisted % 32 == 0 && e instanceof PlayerEntity && Helper.isVampire((PlayerEntity) e)) {
+        if (TANCompat.disableThirst.get() && e.tickCount % 32 == 0 && e instanceof PlayerEntity && Helper.isVampire((PlayerEntity) e)) {
             IThirst thirst = ThirstHelper.getThirst((PlayerEntity) e);
             if (thirst.getThirst() < 10) {
                 thirst.setThirst(10);

@@ -37,7 +37,7 @@ public class ThirstHandler {
                 if (coldRes != null) {
                     if (vamp) {
                         if (coldRes.getModifier(VAMPIRE_MOD_UUID) == null) {
-                            coldRes.applyNonPersistentModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", 20, AttributeModifier.Operation.ADDITION));
+                            coldRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", 20, AttributeModifier.Operation.ADDITION));
                         }
                     } else {
                         coldRes.removeModifier(VAMPIRE_MOD_UUID);
@@ -47,7 +47,7 @@ public class ThirstHandler {
                 if (heatRes != null) {
                     if (vamp) {
                         if (heatRes.getModifier(VAMPIRE_MOD_UUID) == null) {
-                            heatRes.applyNonPersistentModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", -0.3, AttributeModifier.Operation.MULTIPLY_TOTAL));
+                            heatRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", -0.3, AttributeModifier.Operation.MULTIPLY_TOTAL));
                         }
                     } else {
                         heatRes.removeModifier(VAMPIRE_MOD_UUID);
@@ -83,7 +83,7 @@ public class ThirstHandler {
         if (SurviveCompat.enableStaminaBoostVampires.get() && event.getEntity() instanceof ServerPlayerEntity) {
             try {
                 if (Helper.isVampire((PlayerEntity) event.getEntity())) {
-                    if (event.getEntity().ticksExisted % 64 == 0) {
+                    if (event.getEntity().tickCount % 64 == 0) {
                         EnergyStats stats = SurviveEntityStats.getEnergyStats(event.getEntityLiving());
                         if (stats.isTired()) {
                             stats.addStats(1);

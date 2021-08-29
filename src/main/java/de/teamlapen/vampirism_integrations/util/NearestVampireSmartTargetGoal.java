@@ -18,10 +18,10 @@ public class NearestVampireSmartTargetGoal extends NearestAttackableTargetGoal<C
     }
 
     @Override
-    public boolean shouldExecute() {
-        if (goalOwner.ticksExisted % 32 == 0) {
-            this.insideVampireVillage = TotemHelper.isInsideVampireAreaCached(goalOwner.world.getDimensionKey(), goalOwner.getPosition());
+    public boolean canUse() {
+        if (mob.tickCount % 32 == 0) {
+            this.insideVampireVillage = TotemHelper.isInsideVampireAreaCached(mob.level.dimension(), mob.blockPosition());
         }
-        return !insideVampireVillage && super.shouldExecute();
+        return !insideVampireVillage && super.canUse();
     }
 }
