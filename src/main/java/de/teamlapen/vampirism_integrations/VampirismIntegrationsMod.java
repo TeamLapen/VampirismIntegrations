@@ -5,6 +5,7 @@ import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.lib.lib.util.IModCompat;
 import de.teamlapen.lib.lib.util.ModCompatLoader;
 import de.teamlapen.lib.lib.util.VersionChecker;
+import de.teamlapen.vampirism_integrations.betteranimalsplus.BetterAnimalsPlusCompat;
 import de.teamlapen.vampirism_integrations.bloodmagic.BloodmagicCompat;
 import de.teamlapen.vampirism_integrations.bop.BOPCompat;
 import de.teamlapen.vampirism_integrations.consecration.ConsecrationCompat;
@@ -71,6 +72,7 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new DietCompat());
         compatLoader.addModCompat(new TConstructCompat());
         compatLoader.addModCompat(new SurviveCompat());
+        compatLoader.addModCompat(new BetterAnimalsPlusCompat());
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegister);
         MinecraftForge.EVENT_BUS.register(new EventHandler());
