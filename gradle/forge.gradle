@@ -153,6 +153,8 @@ dependencies {
 
     implementation fg.deobf("curse.maven:betteranimalsplus-303557:"+project.betteranimalsplus_fileid)
 
+    implementation fg.deobf("curse.maven:betteranimals-287443:"+project.betteranimals_fileid)
+
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}") //Full for runtime
