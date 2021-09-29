@@ -3,8 +3,9 @@ package de.teamlapen.vampirism_integrations;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.lib.lib.util.IModCompat;
-import de.teamlapen.lib.lib.util.ModCompatLoader;
 import de.teamlapen.lib.lib.util.VersionChecker;
+import de.teamlapen.vampirism_integrations.betteranimals.BetterAnimalsCompat;
+import de.teamlapen.vampirism_integrations.betteranimalsplus.BetterAnimalsPlusCompat;
 import de.teamlapen.vampirism_integrations.bloodmagic.BloodmagicCompat;
 import de.teamlapen.vampirism_integrations.bop.BOPCompat;
 import de.teamlapen.vampirism_integrations.consecration.ConsecrationCompat;
@@ -28,10 +29,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,7 +44,7 @@ public class VampirismIntegrationsMod {
     public static VampirismIntegrationsMod instance;
     public static boolean inDev = false;
     @Nonnull
-    public final ModCompatLoader compatLoader;
+    public final ModifiedModCompatLoader compatLoader;
     private VersionChecker.VersionInfo versionInfo;
 
     public VampirismIntegrationsMod() {
@@ -60,7 +58,7 @@ public class VampirismIntegrationsMod {
         }
 
 
-        compatLoader = new ModCompatLoader();
+        compatLoader = new ModifiedModCompatLoader();
         compatLoader.addModCompat(new VampirismCompat());
         compatLoader.addModCompat(new BOPCompat());
         compatLoader.addModCompat(new WailaModCompat());
@@ -71,6 +69,8 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new DietCompat());
         compatLoader.addModCompat(new TConstructCompat());
         compatLoader.addModCompat(new SurviveCompat());
+        compatLoader.addModCompat(new BetterAnimalsPlusCompat());
+        compatLoader.addModCompat(new BetterAnimalsCompat());
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegister);
         MinecraftForge.EVENT_BUS.register(new EventHandler());
@@ -124,6 +124,10 @@ public class VampirismIntegrationsMod {
 
     }
 
+    @SubscribeEvent
+    public void enqueueIMC(InterModEnqueueEvent event) {
+        compatLoader.enqueueIMC(event);
+    }
 
     @SubscribeEvent
     public void processIMC(InterModProcessEvent event) {

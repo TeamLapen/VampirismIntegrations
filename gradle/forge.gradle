@@ -40,6 +40,10 @@ repositories {
         url = "https://ldtteam.jfrog.io/ldtteam/mods-maven"
     }
 
+    maven {
+        url = "https://maven.itsmeow.dev/"
+    }
+
     mavenCentral()
 
     maven {
@@ -146,6 +150,10 @@ dependencies {
     implementation fg.deobf("curse.maven:survive-367337:"+project.survive_fileid)
     runtimeOnly fg.deobf("curse.maven:unionlib-367806:"+project.unionlib_fileid)
     implementation fg.deobf("curse.maven:diet-443570:"+project.diet_fileid)
+
+    implementation fg.deobf("curse.maven:betteranimalsplus-303557:"+project.betteranimalsplus_fileid)
+
+    implementation fg.deobf("curse.maven:betteranimals-287443:"+project.betteranimals_fileid)
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
