@@ -111,26 +111,36 @@ dependencies {
 
     implementation fg.deobf("de.teamlapen.vampirism:Vampirism:" + project.vampirism_mcversion + "-" + project.vampirism_version)
 
+    // Biomes O' Plenty - https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty
     //compileOnly fg.deobf('curse.maven:biomesoplenty-220318:' + project.bop_api_fileid)
     implementation fg.deobf('curse.maven:biomesoplenty-220318:' + project.bop_fileid) //We only want API but curse maven and forge gradle don't like me
     //Does not start in dev
     //runtimeOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':universal')
+
+    // Hwyla - https://www.curseforge.com/minecraft/mc-mods/hwyla
     compileOnly fg.deobf("curse.maven:hwyla-253449:" + project.hywla_fileid)
 
+    // Tough as Nails - https://www.curseforge.com/minecraft/mc-mods/tough-as-nails
     implementation fg.deobf("curse.maven:tan-246391:"+ project.tough_as_nails_fileid) //Only want API probably, but ...
 
+    // Blood Magic - https://www.curseforge.com/minecraft/mc-mods/blood-magic
     implementation fg.deobf("curse.maven:blood-magic-224791:" + project.bloodmagic_fileid) //We only want API but curse maven and forge gradle don't like me
+
+    // Evilcraft - https://www.curseforge.com/minecraft/mc-mods/evilcraft
     implementation fg.deobf("curse.maven:evilcraft-74610:" + project.evilcraft_fileid)
+    // Cyclops Core - https://www.curseforge.com/minecraft/mc-mods/cyclops-core
     runtimeOnly fg.deobf("curse.maven:cyclops-core-232758:" + project.cyclopscore_fileid)
 
+    // Immersive Engineering - https://www.curseforge.com/minecraft/mc-mods/immersive-engineering
     implementation fg.deobf("curse.maven:immersive-engineering-231951:"+project.immersiveengineering_fileid)
 
     compileOnly "mekanism:Mekanism:${project.mekanism_version}:api"
     runtimeOnly fg.deobf("mekanism:Mekanism:${project.mekanism_version}")// core
 
-
+    // Consecration - https://www.curseforge.com/minecraft/mc-mods/consecration
     implementation fg.deobf("curse.maven:consecration-284001:"+project.consecration_fileid)
 
+    // Minecolonies - https://www.curseforge.com/minecraft/mc-mods/minecolonies
     //implementation fg.deobf("curse.maven:minecolonies-245506:3126211")
     //runtimeOnly fg.deobf("curse.maven:structurize-298744:3358385")
     // Missing com.ldtteam:datagenerators:0.1.44-ALPHA
@@ -144,11 +154,17 @@ dependencies {
         transitive = false
     })
 
-    runtimeOnly fg.deobf("slimeknights.mantle:Mantle:1.16.5-"+project.mantle_version)
+    // Tinkers Construction - https://www.curseforge.com/minecraft/mc-mods/tinkers-construct
     implementation fg.deobf("slimeknights.tconstruct:TConstruct:1.16.5-"+project.tconstruct_version)
+    // Mantle - https://www.curseforge.com/minecraft/mc-mods/mantle
+    runtimeOnly fg.deobf("slimeknights.mantle:Mantle:1.16.5-"+project.mantle_version)
 
+    // Survive - https://www.curseforge.com/minecraft/mc-mods/survive
     implementation fg.deobf("curse.maven:survive-367337:"+project.survive_fileid)
+    // UnionLib - https://www.curseforge.com/minecraft/mc-mods/unionlib
     runtimeOnly fg.deobf("curse.maven:unionlib-367806:"+project.unionlib_fileid)
+
+    // Diet - https://www.curseforge.com/minecraft/mc-mods/diet
     implementation fg.deobf("curse.maven:diet-443570:"+project.diet_fileid)
 
     implementation fg.deobf("curse.maven:betteranimalsplus-303557:"+project.betteranimalsplus_fileid)
