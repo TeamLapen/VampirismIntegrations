@@ -57,7 +57,9 @@ repositories {
         url = "../../../.m2/repository"
     }
 
-
+    maven {
+        url = 'https://maven.blamejared.com'
+    }
 }
 
 minecraft {
@@ -170,6 +172,10 @@ dependencies {
     implementation fg.deobf("curse.maven:betteranimalsplus-303557:"+project.betteranimalsplus_fileid)
 
     implementation fg.deobf("curse.maven:betteranimals-287443:"+project.betteranimals_fileid)
+
+    // CraftTweaker
+    compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${project.crafttweaker_version}")
+    //runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${project.crafttweaker_version}") // For testing
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
