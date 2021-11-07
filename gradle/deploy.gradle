@@ -44,6 +44,11 @@ curseforge {
             optionalDependency 'diet'
             optionalDependency 'survive'
             optionalDependency 'tinkers-construct'
+            optionalDependency 'better-animal-models'
+            optionalDependency 'betteranimalsplus'
+            optionalDependency 'crafttweaker'
+            optionalDependency 'evilcraft'
+            optionalDependency 'tough-as-nails'
         }
 
 
