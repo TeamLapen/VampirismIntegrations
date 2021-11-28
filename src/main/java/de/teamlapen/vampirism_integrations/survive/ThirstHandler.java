@@ -3,7 +3,7 @@ package de.teamlapen.vampirism_integrations.survive;
 
 import com.stereowalker.survive.entity.SurviveEntityStats;
 import com.stereowalker.survive.entity.ai.SAttributes;
-import com.stereowalker.survive.util.EnergyStats;
+import com.stereowalker.survive.util.StaminaStats;
 import com.stereowalker.survive.util.WaterStats;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.event.FactionEvent;
@@ -53,7 +53,7 @@ public class ThirstHandler {
                         heatRes.removeModifier(VAMPIRE_MOD_UUID);
                     }
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 if (warnTemperature) {
                     LOGGER.error("Failed to modifiy temperature resistance for vampires", e);
                     warnTemperature = false;
@@ -73,7 +73,7 @@ public class ThirstHandler {
                         SurviveEntityStats.setWaterStats(event.getEntityLiving(), stats);
                     }
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 if (warnThirst) {
                     LOGGER.error("Failed to disable thirst for vampire", e);
                     warnThirst = false;
@@ -84,15 +84,15 @@ public class ThirstHandler {
             try {
                 if (Helper.isVampire((PlayerEntity) event.getEntity())) {
                     if (event.getEntity().tickCount % 64 == 0) {
-                        EnergyStats stats = SurviveEntityStats.getEnergyStats(event.getEntityLiving());
+                        StaminaStats stats = SurviveEntityStats.getEnergyStats(event.getEntityLiving());
                         if (stats.isTired()) {
                             stats.addStats(1);
-                            SurviveEntityStats.setEnergyStats(event.getEntityLiving(), stats);
+                            SurviveEntityStats.setStaminaStats(event.getEntityLiving(), stats);
                         }
                     }
 
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 if (warnStamina) {
                     LOGGER.error("Failed to grant stamina boost for vampire", e);
                     warnStamina = false;

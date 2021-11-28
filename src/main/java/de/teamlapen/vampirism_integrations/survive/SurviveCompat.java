@@ -6,6 +6,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import org.apache.logging.log4j.LogManager;
 
+import javax.annotation.Nullable;
+
 public class SurviveCompat implements IModCompat {
 
     static ForgeConfigSpec.BooleanValue disableThirstForVampires;
@@ -24,12 +26,18 @@ public class SurviveCompat implements IModCompat {
         return "survive";
     }
 
+    @Nullable
+    @Override
+    public String getAcceptedVersionRange() {
+        return "[1.16.5-3.4.4,)";
+    }
+
     @Override
     public void onInitStep(Step step, ParallelDispatchEvent event) {
         if (step == Step.COMMON_SETUP) {
             try {
                 MinecraftForge.EVENT_BUS.register(new ThirstHandler());
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 LogManager.getLogger().error("Failed to register survive thirst handler", e);
             }
         }
