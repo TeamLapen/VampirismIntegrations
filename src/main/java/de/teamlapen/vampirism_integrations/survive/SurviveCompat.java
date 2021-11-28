@@ -6,6 +6,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import org.apache.logging.log4j.LogManager;
 
+import javax.annotation.Nullable;
+
 public class SurviveCompat implements IModCompat {
 
     static ForgeConfigSpec.BooleanValue disableThirstForVampires;
@@ -22,6 +24,12 @@ public class SurviveCompat implements IModCompat {
     @Override
     public String getModID() {
         return "survive";
+    }
+
+    @Nullable
+    @Override
+    public String getAcceptedVersionRange() {
+        return "[1.16.5-3.4.4,)";
     }
 
     @Override
