@@ -1,6 +1,7 @@
 package de.teamlapen.vampirism_integrations.survive;
 
 
+import com.stereowalker.survive.config.Config;
 import com.stereowalker.survive.entity.SurviveEntityStats;
 import com.stereowalker.survive.entity.ai.SAttributes;
 import com.stereowalker.survive.util.StaminaStats;
@@ -32,27 +33,30 @@ public class ThirstHandler {
     public void onFactionLevelChanged(FactionEvent.FactionLevelChanged event) {
         if (SurviveCompat.enableTemperatureVampires.get()) {
             try {
-                boolean vamp = event.getCurrentFaction() == VReference.VAMPIRE_FACTION;
-                ModifiableAttributeInstance coldRes = event.getPlayer().getPlayer().getAttribute(SAttributes.COLD_RESISTANCE);
-                if (coldRes != null) {
-                    if (vamp) {
-                        if (coldRes.getModifier(VAMPIRE_MOD_UUID) == null) {
-                            coldRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", 20, AttributeModifier.Operation.ADDITION));
+                if (Config.enable_temperature) {
+                    boolean vamp = event.getCurrentFaction() == VReference.VAMPIRE_FACTION;
+                    ModifiableAttributeInstance coldRes = event.getPlayer().getPlayer().getAttribute(SAttributes.COLD_RESISTANCE);
+                    if (coldRes != null) {
+                        if (vamp) {
+                            if (coldRes.getModifier(VAMPIRE_MOD_UUID) == null) {
+                                coldRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", 20, AttributeModifier.Operation.ADDITION));
+                            }
+                        } else {
+                            coldRes.removeModifier(VAMPIRE_MOD_UUID);
                         }
-                    } else {
-                        coldRes.removeModifier(VAMPIRE_MOD_UUID);
+                    }
+                    ModifiableAttributeInstance heatRes = event.getPlayer().getPlayer().getAttribute(SAttributes.HEAT_RESISTANCE);
+                    if (heatRes != null) {
+                        if (vamp) {
+                            if (heatRes.getModifier(VAMPIRE_MOD_UUID) == null) {
+                                heatRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", -0.3, AttributeModifier.Operation.MULTIPLY_TOTAL));
+                            }
+                        } else {
+                            heatRes.removeModifier(VAMPIRE_MOD_UUID);
+                        }
                     }
                 }
-                ModifiableAttributeInstance heatRes = event.getPlayer().getPlayer().getAttribute(SAttributes.HEAT_RESISTANCE);
-                if (heatRes != null) {
-                    if (vamp) {
-                        if (heatRes.getModifier(VAMPIRE_MOD_UUID) == null) {
-                            heatRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", -0.3, AttributeModifier.Operation.MULTIPLY_TOTAL));
-                        }
-                    } else {
-                        heatRes.removeModifier(VAMPIRE_MOD_UUID);
-                    }
-                }
+
             } catch (Throwable e) {
                 if (warnTemperature) {
                     LOGGER.error("Failed to modifiy temperature resistance for vampires", e);
