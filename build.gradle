@@ -33,7 +33,6 @@ configurations {
 sourceSets{
     main {
         java{
-            exclude '**/mca/*'
             exclude '**/abyssalcraft/*'
             exclude '**/toroquest/*'
         }

@@ -1,36 +1,41 @@
 package de.teamlapen.vampirism_integrations.mca;
 
-import com.google.common.base.Optional;
+import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
 import de.teamlapen.vampirism_integrations.VampirismIntegrationsMod;
-import mca.entity.EntityVillagerMCA;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.relationship.Gender;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+
 
 class EventHandlerMCA {
 
     @SubscribeEvent
     public void onCreateAggressiveVillager(VampirismVillageEvent.MakeAggressive event) {
         try {
-            if (event.getOldVillager() instanceof EntityVillagerMCA) {
-                EntityAngryVillagerMCA angry = EntityAngryVillagerMCA.makeAngry((EntityVillagerMCA) event.getOldVillager());
-                event.setAgressiveVillager(angry); //Can be null to prevent conversion
+            if (event.getOldVillager() instanceof VillagerEntityMCA) {
+                EntityAngryVillagerMCA angry = EntityAngryVillagerMCA.makeAngry((VillagerEntityMCA) event.getOldVillager());
                 event.setCanceled(true);
+                UtilLib.replaceEntity(event.getOldVillager(), angry);
             }
         } catch (Exception e) {
-            VampirismIntegrationsMod.log.e("MCA_Events", e, "Failed to make villager aggressive");
+            VampirismIntegrationsMod.LOGGER.error("Failed to make villager aggressive", e);
         }
     }
 
     @SubscribeEvent
     public void onSpawnNewVillager(VampirismVillageEvent.SpawnNewVillager event) {
         try {
-            EntityVillagerMCA villager = new EntityVillagerMCA(event.getSeedVillager().getEntityWorld(), Optional.absent(), Optional.absent());
-            villager.copyLocationAndAnglesFrom(event.getSeedVillager());
+            Gender g = Gender.getRandom();
+            VillagerEntityMCA villager = new VillagerEntityMCA(g.getVillagerType(), event.getWorld(), g);
+            if (event.getOldEntity() != null) {
+                villager.copyPosition(event.getOldEntity());
+            }
             event.setNewVillager(villager);
             event.setResult(Event.Result.ALLOW);
         } catch (Exception e) {
-            VampirismIntegrationsMod.log.e("MCA_Events", e, "Failed to spawn new MCA villager");
+            VampirismIntegrationsMod.LOGGER.error("Failed to spawn new MCA villager", e);
         }
     }
 

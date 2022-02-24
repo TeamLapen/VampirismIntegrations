@@ -1,139 +1,41 @@
 package de.teamlapen.vampirism_integrations.mca;
 
-import com.google.common.base.Optional;
-import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.api.world.IVampirismVillage;
-import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumGender;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.village.Village;
-import net.minecraft.world.EnumDifficulty;
+import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.relationship.Gender;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.VillagerRegistry;
-
-import javax.annotation.Nullable;
 
 /**
  * Vampirism's basic extension of MCA's villager
  */
-abstract class EntityVillagerVampirismMCA extends EntityVillagerMCA {
-    private static @Nullable
-    IVampirismVillage getNearestVillage(World w, BlockPos pos, int r) {
-        Village v = w.villageCollection.getNearestVillage(pos, r);
-        if (v != null) {
-            return VampirismAPI.getVampirismVillage(v);
-        }
-        return null;
-    }
-
-    private boolean peaceful = false;
-    @Nullable
-    IVampirismVillage vampirismVillage;
-    /**
-     * A timer which reaches 0 every 70 to 120 ticks
-     */
-    private int randomTickDivider;
+abstract class EntityVillagerVampirismMCA extends VillagerEntityMCA {
 
 
-    public EntityVillagerVampirismMCA(World worldIn) {
-        super(worldIn);
-    }
+    private final boolean peaceful = false;
 
-    public EntityVillagerVampirismMCA(World worldIn, Optional<VillagerRegistry.VillagerProfession> profession, Optional<EnumGender> gender) {
-        super(worldIn, profession, gender);
+
+    public EntityVillagerVampirismMCA(EntityType<? extends VillagerEntityMCA> type, World w, Gender gender) {
+        super((EntityType<VillagerEntityMCA>) type, w, gender);
     }
 
 
     @Override
-    public boolean attackEntityAsMob(Entity entity) {
-        float f = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
-        int i = 0;
-
-        if (entity instanceof EntityLivingBase) {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase) entity).getCreatureAttribute());
-            i += EnchantmentHelper.getKnockbackModifier(this);
-        }
-
-        boolean flag = entity.attackEntityFrom(DamageSource.causeMobDamage(this), f);
-
-        if (flag) {
-            if (i > 0) {
-                entity.addVelocity(-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F, 0.1D, MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F);
-                this.motionX *= 0.6D;
-                this.motionZ *= 0.6D;
-            }
-
-            int j = EnchantmentHelper.getFireAspectModifier(this);
-
-            if (j > 0) {
-                entity.setFire(j * 4);
-            }
-
-            this.applyEnchantments(this, entity);
-
-        }
-
-
-        return flag;
-    }
-
-    @Override
-    public boolean attackEntityFrom(DamageSource src, float amount) {
-        if (this.isEntityInvulnerable(src)) {
-            return false;
-        } else if (super.attackEntityFrom(src, amount)) {
-            Entity entity = src.getTrueSource();
-            if (entity instanceof EntityLivingBase) {
-                this.setAttackTarget((EntityLivingBase) entity);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean getCanSpawnHere() {
-        return (peaceful || this.world.getDifficulty() != EnumDifficulty.PEACEFUL) && super.getCanSpawnHere();
+    public boolean checkSpawnRules(IWorld worldIn, SpawnReason spawnReasonIn) {
+        return (peaceful || worldIn.getDifficulty() != Difficulty.PEACEFUL) && super.checkSpawnRules(worldIn, spawnReasonIn);
     }
 
 
     @Override
-    public void onLivingUpdate() {
-        this.updateArmSwingProgress();
-        super.onLivingUpdate();
-    }
+    public void tick() {
+        super.tick();
 
-    @Override
-    public void onUpdate() {
-        super.onUpdate();
-
-        if (!this.world.isRemote && !peaceful && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
-            this.setDead();
+        if (!this.level.isClientSide && !peaceful && this.level.getDifficulty() == Difficulty.PEACEFUL) {
+            this.remove();
         }
     }
 
-    @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE) == null) {
-            this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 
-        }
-    }
-
-    @Override
-    protected void updateAITasks() {
-        super.updateAITasks();
-        if (--this.randomTickDivider <= 0) {
-            this.randomTickDivider = 70 + rand.nextInt(50);
-            this.vampirismVillage = getNearestVillage(world, getPosition(), 32);
-        }
-
-    }
 }

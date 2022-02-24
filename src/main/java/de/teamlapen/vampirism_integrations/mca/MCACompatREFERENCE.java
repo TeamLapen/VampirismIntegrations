@@ -2,14 +2,14 @@ package de.teamlapen.vampirism_integrations.mca;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.ObjectHolder;
 
 public class MCACompatREFERENCE {
 
-    @GameRegistry.ObjectHolder("vampirism:player.bite")
+    @ObjectHolder("vampirism:player.bite")
     static final SoundEvent player_bite = null;
 
-    @GameRegistry.ObjectHolder("vampirism:pitchfork")
+    @ObjectHolder("vampirism:pitchfork")
     static final Item pitchfork = null;
 
     /**

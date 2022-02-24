@@ -1,28 +1,32 @@
 package de.teamlapen.vampirism_integrations.mca;
 
-import com.google.common.base.Predicates;
+import com.mojang.serialization.Dynamic;
+import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.VReference;
-import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
+import de.teamlapen.vampirism.api.entity.player.vampire.IBloodStats;
+import de.teamlapen.vampirism.core.ModVillage;
 import de.teamlapen.vampirism.entity.DamageHandler;
-import de.teamlapen.vampirism.entity.ai.EntityAIMoveIndoorsDay;
-import de.teamlapen.vampirism.entity.ai.VampireAIBiteNearbyEntity;
-import de.teamlapen.vampirism.entity.ai.VampireAIFleeSun;
-import de.teamlapen.vampirism.entity.ai.VampireAIMoveToBiteable;
+import de.teamlapen.vampirism.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.util.Helper;
-import mca.entity.EntityVillagerMCA;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.*;
-import net.minecraft.init.MobEffects;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
+import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.relationship.Gender;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.registries.ObjectHolder;
 
 import javax.annotation.Nonnull;
 
@@ -30,49 +34,58 @@ import javax.annotation.Nonnull;
  * Vampire version of MCA's villager
  * Tries to suck blood during the night
  */
-public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA implements IConvertedCreature<EntityVillagerMCA> {
+public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA implements IConvertedCreature<VillagerEntityMCA> {
+
+    @ObjectHolder("vampirism_integrations:mca_converted_villager_male")
+    public static final EntityType<EntityConvertedVillagerMCA> converted_villager_male = UtilLib.getNull();
+    @ObjectHolder("vampirism_integrations:mca_converted_villager_female")
+    public static final EntityType<EntityConvertedVillagerMCA> converted_villager_female = UtilLib.getNull();
 
     private EnumStrength garlicCache;
     private boolean sundamageCache;
     private int bloodTimer = 0;
 
 
-    public EntityConvertedVillagerMCA(World world) {
-        super(world);
+    public EntityConvertedVillagerMCA(EntityType<EntityConvertedVillagerMCA> type, World w, Gender gender) {
+        super(type, w, gender);
         garlicCache = EnumStrength.NONE;
     }
 
-
-
+    public void adjustBrainGoals(@Nonnull Brain<?> brain) {
+        brain.setSchedule(ModVillage.converted_default);
+        brain.updateActivityFromSchedule(this.level.getDayTime(), this.level.getGameTime());
+    }
 
     @Override
-    public void onLivingUpdate() {
-        if (this.ticksExisted % MCACompatREFERENCE.REFRESH_GARLIC_TICKS == 1) {
-            isGettingGarlicDamage(true);
+    public void aiStep() {
+        if (this.tickCount % MCACompatREFERENCE.REFRESH_GARLIC_TICKS == 1) {
+            isGettingGarlicDamage(level, true);
         }
-        if (this.ticksExisted % MCACompatREFERENCE.REFRESH_SUNDAMAGE_TICKS == 2) {
-            isGettingSundamage(true);
+        if (this.tickCount % MCACompatREFERENCE.REFRESH_SUNDAMAGE_TICKS == 2) {
+            isGettingSundamage(level, true);
         }
-        if (!world.isRemote) {
-            if (isGettingSundamage() && ticksExisted % 40 == 11) {
-                this.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 42));
-                this.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 42));
-
+        if (!level.isClientSide) {
+            if (isGettingSundamage(level) && tickCount % 40 == 11) {
+                this.addEffect(new EffectInstance(Effects.WEAKNESS, 42));
             }
-            if (isGettingGarlicDamage() != EnumStrength.NONE) {
-                DamageHandler.affectVampireGarlicAmbient(this, isGettingGarlicDamage(), this.ticksExisted);
+            if (isGettingGarlicDamage(level) != EnumStrength.NONE) {
+                DamageHandler.affectVampireGarlicAmbient(this, isGettingGarlicDamage(level), this.tickCount);
             }
         }
 
-        super.onLivingUpdate();
+        super.aiStep();
         bloodTimer++;
 
     }
 
     @Override
-    public void drinkBlood(int amt, float saturationMod, boolean useRemaining) {
-        this.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, amt * 20));
-        bloodTimer = -1200 - rand.nextInt(1200);
+    public boolean doHurtTarget(Entity entity) {
+        if (!level.isClientSide && wantsBlood() && entity instanceof PlayerEntity && !Helper.isHunter(entity) && !UtilLib.canReallySee((LivingEntity) entity, this, true)) {
+            int amt = VampirePlayer.getOpt((PlayerEntity) entity).map(vampire -> vampire.onBite(this)).orElse(0);
+            drinkBlood(amt, IBloodStats.MEDIUM_SATURATION);
+            return true;
+        }
+        return super.doHurtTarget(entity);
     }
 
     @Override
@@ -81,46 +94,36 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-
-        this.tasks.taskEntries.removeIf(entry -> entry.action instanceof EntityAIMoveIndoors || entry.action instanceof EntityAIVillagerMate || entry.action instanceof EntityAIFollowGolem);
-
-        tasks.addTask(0, new EntityAIRestrictSun(this));
-        tasks.addTask(1, new EntityAIAvoidEntity<>(this, EntityCreature.class, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, true, false, false, VReference.HUNTER_FACTION), 10, 0.45F, 0.55F));
-        tasks.addTask(2, new EntityAIMoveIndoorsDay(this));
-        tasks.addTask(5, new VampireAIFleeSun(this, 0.6F, true));
-        tasks.addTask(6, new EntityAIAttackMelee(this, 0.6F, false));
-        tasks.addTask(7, new VampireAIBiteNearbyEntity(this));
-        tasks.addTask(9, new VampireAIMoveToBiteable(this, 0.55F));
-
-
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-
+    public void drinkBlood(int amt, float saturationMod, boolean useRemaining) {
+        this.addEffect(new EffectInstance(Effects.REGENERATION, amt * 20));
+        bloodTimer = -1200 - random.nextInt(1200);
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound nbt) {
-        super.readEntityFromNBT(nbt);
-        bloodTimer = nbt.hasKey("vamp_converted_bloodtimer") ? nbt.getInteger("vamp_converted_bloodtimer") : 0;
-
+    public LivingEntity getRepresentingEntity() {
+        return this;
     }
 
     @Nonnull
     @Override
-    public EnumStrength isGettingGarlicDamage(boolean forceRefresh) {
+    public EnumStrength isGettingGarlicDamage(IWorld iWorld, boolean forceRefresh) {
         if (forceRefresh) {
-            garlicCache = Helper.getGarlicStrength(this);
+            garlicCache = Helper.getGarlicStrength(this, iWorld);
         }
         return garlicCache;
     }
 
     @Override
-    public boolean isGettingSundamage(boolean forceRefresh) {
+    public boolean isGettingSundamage(IWorld iWorld, boolean forceRefresh) {
         if (!forceRefresh) return sundamageCache;
-        return (sundamageCache = Helper.gettingSundamge(this));
+        return (sundamageCache = Helper.gettingSundamge(this, iWorld, this.level.getProfiler()));
     }
 
+    @Override
+    public void refreshBrain(ServerWorld world) {
+        super.refreshBrain(world);
+        adjustBrainGoals(getMCABrain());
+    }
 
     @Override
     public boolean isIgnoringSundamage() {
@@ -143,25 +146,21 @@ public class EntityConvertedVillagerMCA extends EntityVillagerVampirismMCA imple
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound nbt) {
-        super.writeEntityToNBT(nbt);
-        nbt.setInteger("vamp_converted_bloodtimer", bloodTimer);
+    protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+        Brain<?> b = super.makeBrain(dynamic);
+        adjustBrainGoals(b);
+        return b;
     }
 
-    @Override
-    public EntityLivingBase getRepresentingEntity() {
-        return this;
-    }
-
-    public static class ConvertingHandler implements IConvertingHandler<EntityVillagerMCA> {
+    public static class ConvertingHandler implements IConvertingHandler<VillagerEntityMCA> {
 
         @Override
-        public IConvertedCreature<EntityVillagerMCA> createFrom(EntityVillagerMCA entity) {
-            NBTTagCompound nbt = new NBTTagCompound();
-            entity.writeToNBT(nbt);
-            EntityConvertedVillagerMCA converted = new EntityConvertedVillagerMCA(entity.world);
-            converted.readFromNBT(nbt);
-            converted.setUniqueId(MathHelper.getRandomUUID(converted.rand));
+        public IConvertedCreature<VillagerEntityMCA> createFrom(VillagerEntityMCA entity) {
+            CompoundNBT nbt = new CompoundNBT();
+            entity.saveWithoutId(nbt);
+            EntityConvertedVillagerMCA converted = new EntityConvertedVillagerMCA(entity.getGenetics().getGender() == Gender.FEMALE ? converted_villager_female : converted_villager_male, entity.level, entity.getGenetics().getGender());
+            converted.load(nbt);
+            converted.setUUID(MathHelper.createInsecureUUID(converted.random));
             return converted;
         }
     }
