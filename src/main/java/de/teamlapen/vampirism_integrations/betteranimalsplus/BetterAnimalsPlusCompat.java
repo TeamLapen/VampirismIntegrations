@@ -6,6 +6,8 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 
+import de.teamlapen.lib.lib.util.IInitListener.Step;
+
 public class BetterAnimalsPlusCompat implements IModCompat, IInterModeEnqueue {
 
     @Override

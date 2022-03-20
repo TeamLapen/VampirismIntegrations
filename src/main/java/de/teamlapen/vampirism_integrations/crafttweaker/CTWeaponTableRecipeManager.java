@@ -11,10 +11,10 @@ import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.core.ModRecipes;
 import de.teamlapen.vampirism.inventory.recipes.ShapedWeaponTableRecipe;
 import de.teamlapen.vampirism.inventory.recipes.ShapelessWeaponTableRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
 
 import java.util.Arrays;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class CTWeaponTableRecipeManager implements IRecipeManager {
 
     @Override
-    public IRecipeType getRecipeType() {
+    public RecipeType getRecipeType() {
         return ModRecipes.WEAPONTABLE_CRAFTING_TYPE;
     }
 

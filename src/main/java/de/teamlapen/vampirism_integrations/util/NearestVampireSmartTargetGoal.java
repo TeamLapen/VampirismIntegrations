@@ -3,18 +3,18 @@ package de.teamlapen.vampirism_integrations.util;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.tileentity.TotemHelper;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 
 
 /**
  * Entity target AI that targets vampires unless in a vampire village
  */
-public class NearestVampireSmartTargetGoal extends NearestAttackableTargetGoal<CreatureEntity> {
+public class NearestVampireSmartTargetGoal extends NearestAttackableTargetGoal<PathfinderMob> {
     private boolean insideVampireVillage;
 
-    public NearestVampireSmartTargetGoal(CreatureEntity creature, boolean checkSight, boolean onlyNearby) {
-        super(creature, CreatureEntity.class, 10, checkSight, onlyNearby, VampirismAPI.factionRegistry().getPredicate(VReference.HUNTER_FACTION, false, true, false, false, VReference.VAMPIRE_FACTION));
+    public NearestVampireSmartTargetGoal(PathfinderMob creature, boolean checkSight, boolean onlyNearby) {
+        super(creature, PathfinderMob.class, 10, checkSight, onlyNearby, VampirismAPI.factionRegistry().getPredicate(VReference.HUNTER_FACTION, false, true, false, false, VReference.VAMPIRE_FACTION));
     }
 
     @Override

@@ -10,7 +10,7 @@ buildscript {
 
     
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.0.1'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1+'
     }
 }
 
@@ -23,6 +23,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
 
 configurations {
@@ -52,6 +53,7 @@ idea {
 
 group = "de.teamlapen.vampirism_integrations"
 archivesBaseName = "VampirismIntegrations"
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 ext.mod_version = "Test"
 ext.type = "Test"
 

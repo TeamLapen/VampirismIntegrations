@@ -17,12 +17,12 @@ import de.teamlapen.vampirism_integrations.tan.TANCompat;
 import de.teamlapen.vampirism_integrations.tconstruct.TConstructCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import de.teamlapen.vampirism_integrations.waila.WailaModCompat;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.item.Item;
-import net.minecraft.util.SharedConstants;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.world.item.Item;
+import net.minecraft.SharedConstants;
 import net.minecraft.util.text.*;
-import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -38,6 +38,12 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 @Mod(value = REFERENCE.MODID)
 public class VampirismIntegrationsMod {
@@ -95,31 +101,31 @@ public class VampirismIntegrationsMod {
 
     public void onCommandRegister(RegisterCommandsEvent event) {
 
-        event.getDispatcher().register(LiteralArgumentBuilder.<CommandSource>literal("vampirism-integrations")
+        event.getDispatcher().register(LiteralArgumentBuilder.<CommandSourceStack>literal("vampirism-integrations")
                 .then(Commands.literal("loaded").executes(context -> {
-                    context.getSource().sendSuccess(new StringTextComponent("Loaded and active mods"), false);
+                    context.getSource().sendSuccess(new TextComponent("Loaded and active mods"), false);
                     for (IModCompat compat : compatLoader.getLoadedModCompats()) {
-                        ModList.get().getModContainerById(compat.getModID()).ifPresent(container -> context.getSource().sendSuccess(new StringTextComponent("Active: " + compat.getModID() + " Version: " + container.getModInfo().getVersion().getQualifier()), false));
+                        ModList.get().getModContainerById(compat.getModID()).ifPresent(container -> context.getSource().sendSuccess(new TextComponent("Active: " + compat.getModID() + " Version: " + container.getModInfo().getVersion().getQualifier()), false));
                     }
                     return 0;
                 }))
                 .then(Commands.literal("changelog").executes(context -> {
                     if (!getVersionInfo().isNewVersionAvailable()) {
-                        context.getSource().sendSuccess(new TranslationTextComponent("command.vampirism.base.changelog.newversion"), false);
+                        context.getSource().sendSuccess(new TranslatableComponent("command.vampirism.base.changelog.newversion"), false);
                         return 0;
                     }
                     VersionChecker.Version newVersion = getVersionInfo().getNewVersion();
                     List<String> changes = newVersion.getChanges();
-                    context.getSource().sendSuccess(new StringTextComponent(TextFormatting.GREEN + "Vampirism Integrations" + newVersion.name + "(" + SharedConstants.getCurrentVersion().getName() + ")"), true);
+                    context.getSource().sendSuccess(new TextComponent(ChatFormatting.GREEN + "Vampirism Integrations" + newVersion.name + "(" + SharedConstants.getCurrentVersion().getName() + ")"), true);
                     for (String c : changes) {
-                        context.getSource().sendSuccess(new StringTextComponent("-" + c), false);
+                        context.getSource().sendSuccess(new TextComponent("-" + c), false);
                     }
-                    context.getSource().sendSuccess(new StringTextComponent(""), false);
+                    context.getSource().sendSuccess(new TextComponent(""), false);
                     String homepage = getVersionInfo().getHomePage();
 
-                    IFormattableTextComponent download = new TranslationTextComponent("text.vampirism.update_message.download").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, newVersion.getUrl() == null ? homepage : newVersion.getUrl())).setUnderlined(true).withColor(TextFormatting.BLUE));
-                    ITextComponent changelog = new TranslationTextComponent("text.vampirism.update_message.changelog").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/vampirism-integrations changelog")).setUnderlined(true));
-                    ITextComponent modpage = new TranslationTextComponent("text.vampirism.update_message.modpage").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, homepage)).setUnderlined(true).withColor(TextFormatting.BLUE));
+                    MutableComponent download = new TranslatableComponent("text.vampirism.update_message.download").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, newVersion.getUrl() == null ? homepage : newVersion.getUrl())).setUnderlined(true).withColor(ChatFormatting.BLUE));
+                    Component changelog = new TranslatableComponent("text.vampirism.update_message.changelog").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/vampirism-integrations changelog")).setUnderlined(true));
+                    Component modpage = new TranslatableComponent("text.vampirism.update_message.modpage").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, homepage)).setUnderlined(true).withColor(ChatFormatting.BLUE));
                     context.getSource().sendSuccess(download.append(" ").append(changelog).append(" ").append(modpage), false);
                     return 0;
                 })));

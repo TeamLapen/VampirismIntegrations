@@ -5,6 +5,8 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 
+import de.teamlapen.lib.lib.util.IInitListener.Step;
+
 public class ConsecrationCompat implements IModCompat {
     public static final String ID = "consecration";
 

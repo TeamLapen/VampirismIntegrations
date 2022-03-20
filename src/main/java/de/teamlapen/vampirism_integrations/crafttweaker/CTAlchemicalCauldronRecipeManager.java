@@ -12,8 +12,8 @@ import com.mojang.datafixers.util.Either;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.core.ModRecipes;
 import de.teamlapen.vampirism.inventory.recipes.AlchemicalCauldronRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.resources.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
 
 /**
@@ -27,7 +27,7 @@ import org.openzen.zencode.java.ZenCodeType;
 public class CTAlchemicalCauldronRecipeManager implements IRecipeManager {
 
     @Override
-    public IRecipeType getRecipeType() {
+    public RecipeType getRecipeType() {
         return ModRecipes.ALCHEMICAL_CAULDRON_TYPE;
     }
 

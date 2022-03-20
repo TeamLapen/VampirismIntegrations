@@ -9,17 +9,17 @@ import de.teamlapen.vampirism.entity.ai.EntityAIDefendVillage;
 import de.teamlapen.vampirism.entity.ai.EntityAIMoveThroughVillageCustom;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
@@ -30,10 +30,10 @@ import javax.annotation.Nullable;
 public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implements IAggressiveVillager {
 
     private ItemStack pitchforkStack;
-    private AxisAlignedBB area;
+    private AABB area;
 
 
-    public EntityAngryVillagerMCA(World world) {
+    public EntityAngryVillagerMCA(Level world) {
         super(world);
         pitchforkStack = new ItemStack(MCACompatREFERENCE.pitchfork);
     }

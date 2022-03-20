@@ -5,6 +5,8 @@ import de.teamlapen.lib.lib.util.IModCompat;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 
+import de.teamlapen.lib.lib.util.IInitListener.Step;
+
 public class BOPCompat implements IModCompat {
 
     public static final String ID = "biomesoplenty";

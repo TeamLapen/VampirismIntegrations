@@ -8,6 +8,8 @@ import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
 
+import de.teamlapen.lib.lib.util.IInitListener.Step;
+
 public class SurviveCompat implements IModCompat {
 
     static ForgeConfigSpec.BooleanValue disableThirstForVampires;

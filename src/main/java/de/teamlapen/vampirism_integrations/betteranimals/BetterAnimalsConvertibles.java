@@ -3,8 +3,8 @@ package de.teamlapen.vampirism_integrations.betteranimals;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.IVampirismEntityRegistry;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Function;
 

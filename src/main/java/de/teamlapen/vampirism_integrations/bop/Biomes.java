@@ -2,7 +2,7 @@ package de.teamlapen.vampirism_integrations.bop;
 
 import biomesoplenty.api.biome.BOPBiomes;
 import de.teamlapen.vampirism.api.VampirismAPI;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Arrays;
 

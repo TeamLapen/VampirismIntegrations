@@ -5,6 +5,8 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 
+import de.teamlapen.lib.lib.util.IInitListener.Step;
+
 public class DietCompat implements IModCompat {
 
     static ForgeConfigSpec.BooleanValue disableDiet;

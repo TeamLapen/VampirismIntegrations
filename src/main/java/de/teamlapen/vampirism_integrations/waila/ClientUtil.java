@@ -1,9 +1,9 @@
 package de.teamlapen.vampirism_integrations.waila;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ClientUtil {
 
-    public static void gatherTooltips(ItemStack stack, World world, List<ITextComponent> tooltips) {
-        stack.getItem().appendHoverText(stack, world, tooltips, ITooltipFlag.TooltipFlags.NORMAL);
+    public static void gatherTooltips(ItemStack stack, Level world, List<Component> tooltips) {
+        stack.getItem().appendHoverText(stack, world, tooltips, TooltipFlag.Default.NORMAL);
     }
 }
