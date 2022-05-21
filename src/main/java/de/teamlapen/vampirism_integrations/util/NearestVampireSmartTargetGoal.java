@@ -2,12 +2,14 @@ package de.teamlapen.vampirism_integrations.util;
 
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.tileentity.TotemHelper;
+import de.teamlapen.vampirism.blockentity.TotemHelper;
+import de.teamlapen.vampirism.world.VampirismWorld;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 
 
-/**
+/** 
  * Entity target AI that targets vampires unless in a vampire village
  */
 public class NearestVampireSmartTargetGoal extends NearestAttackableTargetGoal<PathfinderMob> {
@@ -19,8 +21,8 @@ public class NearestVampireSmartTargetGoal extends NearestAttackableTargetGoal<P
 
     @Override
     public boolean canUse() {
-        if (mob.tickCount % 32 == 0) {
-            this.insideVampireVillage = TotemHelper.isInsideVampireAreaCached(mob.level.dimension(), mob.blockPosition());
+        if (mob.tickCount % 32 == 0 && mob.level instanceof ServerLevel serverLevel) {
+            this.insideVampireVillage = TotemHelper.getTotemNearPos(serverLevel, mob.blockPosition(), true).map(totem -> totem.getControllingFaction() == VReference.VAMPIRE_FACTION).orElse(false);
         }
         return !insideVampireVillage && super.canUse();
     }

@@ -3,7 +3,6 @@ package de.teamlapen.vampirism_integrations.consecration;
 
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.core.ModTags;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import top.theillusivec4.consecration.api.ConsecrationApi;
 
 public class HolyRegistration {

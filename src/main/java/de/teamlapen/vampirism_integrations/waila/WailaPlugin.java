@@ -1,8 +1,9 @@
 package de.teamlapen.vampirism_integrations.waila;
 
-import de.teamlapen.vampirism.tileentity.AltarInspirationTileEntity;
-import de.teamlapen.vampirism.tileentity.BloodContainerTileEntity;
-import de.teamlapen.vampirism.tileentity.GarlicBeaconTileEntity;
+
+import de.teamlapen.vampirism.blockentity.AltarInspirationBlockEntity;
+import de.teamlapen.vampirism.blockentity.BloodContainerBlockEntity;
+import de.teamlapen.vampirism.blockentity.GarlicDiffuserBlockEntity;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.IRegistrar;
@@ -12,7 +13,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.ResourceLocation;
 
-@mcp.mobius.waila.api.WailaPlugin
+@mcp.mobius.waila.api.WailaPlugin(id = REFERENCE.VAMPIRISM_ID)
 public class WailaPlugin implements IWailaPlugin {
 
     private final static ResourceLocation showCreatureInfo = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "show_creature_info");
@@ -34,10 +35,11 @@ public class WailaPlugin implements IWailaPlugin {
         registrar.registerComponentProvider(new CreatureDataProvider(), TooltipPosition.BODY, PathfinderMob.class);
         registrar.registerComponentProvider(new PlayerDataProvider(), TooltipPosition.BODY, Player.class);
         IComponentProvider tankDataProvider = new TankDataProvider();
-        registrar.registerComponentProvider(tankDataProvider, TooltipPosition.BODY, AltarInspirationTileEntity.class);
-        registrar.registerComponentProvider(tankDataProvider, TooltipPosition.BODY, BloodContainerTileEntity.class);
+        registrar.registerComponentProvider(tankDataProvider, TooltipPosition.BODY, AltarInspirationBlockEntity.class);
+        registrar.registerComponentProvider(tankDataProvider, TooltipPosition.BODY, BloodContainerBlockEntity.class);
         GarlicBeaconProvider garlicBeaconProvider = new GarlicBeaconProvider();
-        registrar.registerComponentProvider(garlicBeaconProvider, TooltipPosition.BODY, GarlicBeaconTileEntity.class);
+        registrar.registerComponentProvider(garlicBeaconProvider, TooltipPosition.BODY, GarlicDiffuserBlockEntity.class);
+
     }
 
 

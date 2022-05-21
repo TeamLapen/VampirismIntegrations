@@ -3,7 +3,7 @@ package de.teamlapen.vampirism_integrations.betteranimalsplus;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.IVampirismEntityRegistry;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
-import its_meow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Function;
@@ -22,7 +22,6 @@ public class BetterAnimalsPlusConvertibles {
         registry.addConvertible(ModEntities.BOAR.getEntityType(), overlay.apply("boar"));
         registry.addConvertible(ModEntities.DEER.getEntityType(), overlay.apply("deer"));
         registry.addConvertible(ModEntities.REINDEER.getEntityType(), overlay.apply("deer"));
-        registry.addConvertible(ModEntities.GOAT.getEntityType(), overlay.apply("goat"));
         registry.addConvertible(ModEntities.BROWN_BEAR.getEntityType(), overlay.apply("bear"));
         registry.addConvertible(ModEntities.TURKEY.getEntityType(), overlay.apply("turkey"));
         registry.addConvertible(ModEntities.WALRUS.getEntityType(), overlay.apply("walrus"));

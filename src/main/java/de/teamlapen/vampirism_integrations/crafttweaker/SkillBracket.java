@@ -1,13 +1,13 @@
 package de.teamlapen.vampirism_integrations.crafttweaker;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
-import com.blamejared.crafttweaker.api.annotations.BracketResolver;
-import com.blamejared.crafttweaker.api.annotations.ZenRegister;
+import com.blamejared.crafttweaker.api.annotation.BracketResolver;
+import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker_annotations.annotations.Document;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.core.ModRegistries;
-import net.minecraft.block.Block;
 import net.minecraft.resources.ResourceLocation;
+import org.apache.logging.log4j.LogManager;
 import org.openzen.zencode.java.ZenCodeType;
 
 import java.util.Locale;
@@ -30,7 +30,7 @@ public class SkillBracket {
     @BracketResolver("skill")
     public static ISkill getSkill(String tokens) {
         if(!tokens.toLowerCase(Locale.ENGLISH).equals(tokens)) {
-            CraftTweakerAPI.logWarning("Skill BEP <skill:%s> does not seem to be lower-cased!", tokens);
+            LogManager.getLogger().warn("Skill BEP <skill:{}> does not seem to be lower-cased!", tokens);
         }
 
         final String[] split = tokens.split(":");

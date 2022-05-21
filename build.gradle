@@ -37,6 +37,8 @@ sourceSets{
             exclude '**/mca/*'
             exclude '**/abyssalcraft/*'
             exclude '**/toroquest/*'
+            exclude '**/tan/*'
+            exclude '**/consecration/*'
         }
     }
 }

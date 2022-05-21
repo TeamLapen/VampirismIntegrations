@@ -21,8 +21,8 @@ class TankDataProvider implements IComponentProvider {
 
     @Override
     public void appendBody(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        if (accessor.getBlockState().hasTileEntity()) {
-            BlockEntity tileEntity = accessor.getTileEntity();
+        if (accessor.getBlockState().hasBlockEntity()) {
+            BlockEntity tileEntity = accessor.getBlockEntity();
             if (tileEntity != null) {
                 tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, accessor.getSide()).ifPresent(fh -> {
                     for (int i = 0; i < fh.getTanks(); i++) {
