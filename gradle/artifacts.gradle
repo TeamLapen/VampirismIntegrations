@@ -24,7 +24,6 @@ javadoc {
 artifacts {
     archives sourcesJar
     archives deobfJar
-    archives javadocJar
 }
 //jar.finalizedBy('reobfJar')
 //reobf {

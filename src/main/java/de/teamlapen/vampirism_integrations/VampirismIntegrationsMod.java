@@ -12,14 +12,16 @@ import de.teamlapen.vampirism_integrations.crafttweaker.CrafttweakerCompat;
 import de.teamlapen.vampirism_integrations.diet.DietCompat;
 import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
 import de.teamlapen.vampirism_integrations.survive.SurviveCompat;
+import de.teamlapen.vampirism_integrations.tan.TANCompat;
 import de.teamlapen.vampirism_integrations.tconstruct.TConstructCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import de.teamlapen.vampirism_integrations.waila.WailaModCompat;
+import net.minecraft.ChatFormatting;
+import net.minecraft.SharedConstants;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.*;
 import net.minecraft.world.item.Item;
-import net.minecraft.SharedConstants;
-import net.minecraft.network.chat.ClickEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -35,12 +37,6 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
-
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 @Mod(value = REFERENCE.MODID)
 public class VampirismIntegrationsMod {
@@ -74,6 +70,7 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new BetterAnimalsPlusCompat());
         compatLoader.addModCompat(new BetterAnimalsCompat());
         compatLoader.addModCompat(new CrafttweakerCompat());
+        compatLoader.addModCompat(new TANCompat());
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegister);
         MinecraftForge.EVENT_BUS.register(new EventHandler());
