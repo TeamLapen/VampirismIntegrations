@@ -21,11 +21,11 @@ public class BetterAnimalsPlusConvertibles {
         registry.addConvertible(ModEntities.GOOSE.getEntityType(), overlay.apply("goose"));
         registry.addConvertible(ModEntities.BOAR.getEntityType(), overlay.apply("boar"));
         registry.addConvertible(ModEntities.DEER.getEntityType(), overlay.apply("deer"));
-        registry.addConvertible(ModEntities.REINDEER.getEntityType(), overlay.apply("deer"));
-        registry.addConvertible(ModEntities.BROWN_BEAR.getEntityType(), overlay.apply("bear"));
+        registry.addConvertible(ModEntities.REINDEER.getEntityType(), overlay.apply("reindeer"));
+        registry.addConvertible(ModEntities.BROWN_BEAR.getEntityType(), overlay.apply("brownbear"));
         registry.addConvertible(ModEntities.TURKEY.getEntityType(), overlay.apply("turkey"));
         registry.addConvertible(ModEntities.WALRUS.getEntityType(), overlay.apply("walrus"));
-        registry.addConvertible(ModEntities.BLACK_BEAR.getEntityType(), overlay.apply("bear"));
+        registry.addConvertible(ModEntities.BLACK_BEAR.getEntityType(), overlay.apply("blackbear"));
         registry.addConvertible(ModEntities.FERAL_WOLF.getEntityType(), overlay.apply("feralwolf"));
     }
 }
