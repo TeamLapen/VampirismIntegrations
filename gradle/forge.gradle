@@ -44,6 +44,15 @@ repositories {
         url = "https://maven.itsmeow.dev/"
     }
 
+    maven {
+        url = "https://maven.shedaniel.me/"
+    }
+
+    repositories {
+        maven { url "https://maven.bai.lol" }
+    }
+
+
     mavenCentral()
 
     maven {
@@ -113,16 +122,21 @@ dependencies {
     implementation fg.deobf("de.teamlapen.vampirism:Vampirism:" + project.vampirism_mcversion + "-" + project.vampirism_version)
 
     // Biomes O' Plenty - https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty
-    //compileOnly fg.deobf('curse.maven:biomesoplenty-220318:' + project.bop_api_fileid)
-    //implementation fg.deobf('curse.maven:biomesoplenty-220318:' + project.bop_fileid) //We only want API but curse maven and forge gradle don't like me
-    //Does not start in dev
-    //runtimeOnly fg.deobf('com.github.glitchfiend.biomesoplenty:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version + ':universal')
+    compileOnly fg.deobf('com.github.glitchfiend:BiomesOPlenty:' +  project.minecraft_version + '-' + project.bop_version+":api")
+    runtimeOnly fg.deobf('com.github.glitchfiend:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version)
+    runtimeOnly fg.deobf('com.github.glitchfiend:TerraBlender-forge:'+ project.minecraft_version + '-' + project.terrablender_version)
 
     // Hwyla - https://www.curseforge.com/minecraft/mc-mods/hwyla
-    compileOnly fg.deobf("curse.maven:wthit-440979:" + project.hywla_fileid)
+    // compile against the API
+    compileOnly fg.deobf("mcp.mobius.waila:wthit-api:forge-${project.wthit_version}")
+    // run against the full jar
+    runtimeOnly fg.deobf("mcp.mobius.waila:wthit:forge-${project.wthit_version}")
+    runtimeOnly fg.deobf("lol.bai:badpackets:forge-${project.bad_packets_version}")
+
 
     // Tough as Nails - https://www.curseforge.com/minecraft/mc-mods/tough-as-nails
-    //implementation fg.deobf("curse.maven:tan-246391:"+ project.tough_as_nails_fileid) //Only want API probably, but ...
+    compileOnly fg.deobf("com.github.glitchfiend:ToughAsNails:"+ project.minecraft_version + '-' + project.tan_version+":api")
+    runtimeOnly fg.deobf("com.github.glitchfiend:ToughAsNails:"+ project.minecraft_version + '-' + project.tan_version)
 
     // Blood Magic - https://www.curseforge.com/minecraft/mc-mods/blood-magic
 //    implementation fg.deobf("curse.maven:blood-magic-224791:" + project.bloodmagic_fileid) //We only want API but curse maven and forge gradle don't like me
@@ -140,6 +154,8 @@ dependencies {
 
     // Consecration - https://www.curseforge.com/minecraft/mc-mods/consecration
     implementation fg.deobf("curse.maven:consecration-284001:"+project.consecration_fileid)
+
+    implementation fg.deobf("curse.maven:minecraft-comes-alive-reborn-535291:"+project.mca_fileid)
 
     // Minecolonies - https://www.curseforge.com/minecraft/mc-mods/minecolonies
     //implementation fg.deobf("curse.maven:minecolonies-245506:3126211")
@@ -170,6 +186,7 @@ dependencies {
     implementation fg.deobf("curse.maven:diet-443570:"+project.diet_fileid)
 
     implementation fg.deobf("curse.maven:betteranimalsplus-303557:"+project.betteranimalsplus_fileid)
+    runtimeOnly fg.deobf("dev.architectury:architectury-forge:"+project.architectury_version)
 
 //    implementation fg.deobf("curse.maven:betteranimals-287443:"+project.betteranimals_fileid)
 
@@ -195,18 +212,30 @@ dependencies {
 }
 
 
+//Replace strings in IDEA folders as well
+def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
+def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
+def replaceProperties = ['version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'vampirism_version': project.vampirism_version]
 processResources {
+    inputs.properties replaceProperties
+    replaceProperties.put 'project', project
 
-    filesMatching("**/mods.toml") {
-
-        expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'vampirism_version': project.vampirism_version
+    filesMatching(resourceTargets) {
+        expand replaceProperties
     }
 
-    outputs.upToDateWhen { false }
-
-
+    intoTargets.each { target ->
+        if (file(target).exists()) {
+            copy {
+                from(sourceSets.main.resources) {
+                    include resourceTargets
+                    expand replaceProperties
+                }
+                into target
+            }
+        }
+    }
     exclude '**/Thumbs.db'
 }
-
 
 

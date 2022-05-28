@@ -37,7 +37,6 @@ sourceSets{
             exclude '**/mca/*'
             exclude '**/abyssalcraft/*'
             exclude '**/toroquest/*'
-            exclude '**/tan/*'
             exclude '**/consecration/*'
         }
     }
@@ -58,6 +57,7 @@ archivesBaseName = "VampirismIntegrations"
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 ext.mod_version = "Test"
 ext.type = "Test"
+ext.classification="test"
 
 apply from: 'gradle/artifacts.gradle'
 apply from: 'gradle/versioning.gradle'
