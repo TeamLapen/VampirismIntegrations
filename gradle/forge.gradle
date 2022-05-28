@@ -177,7 +177,8 @@ dependencies {
     //runtimeOnly fg.deobf("slimeknights.mantle:Mantle:"+project.mantle_version)
 
     // Survive - https://www.curseforge.com/minecraft/mc-mods/survive
-    implementation fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
+    compileOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
+    runtimeOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
 
     // UnionLib - https://www.curseforge.com/minecraft/mc-mods/unionlib
     runtimeOnly fg.deobf("com.stereowalker.unionlib:UnionLib:${project.unionlib_version}")
@@ -192,7 +193,7 @@ dependencies {
 
     // CraftTweaker
     compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}")
-    //runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${project.crafttweaker_version}") // For testing
+    runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}") // For testing
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
