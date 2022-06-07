@@ -1,21 +1,38 @@
 package de.teamlapen.vampirism_integrations.crafttweaker;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
+import com.blamejared.crafttweaker.api.annotation.BracketDumper;
 import com.blamejared.crafttweaker.api.annotation.BracketResolver;
+import com.blamejared.crafttweaker.api.annotation.BracketValidator;
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
+import com.blamejared.crafttweaker.api.bracket.BracketValidators;
 import com.blamejared.crafttweaker_annotations.annotations.Document;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.core.ModRegistries;
 import net.minecraft.resources.ResourceLocation;
-import org.apache.logging.log4j.LogManager;
 import org.openzen.zencode.java.ZenCodeType;
 
-import java.util.Locale;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 @ZenRegister
 @Document("mods/vampirism/BracketHandlers")
 @ZenCodeType.Name("mods.vampirism.BracketHandlers")
 public class SkillBracket {
+
+    @SuppressWarnings("unused")
+    @ZenCodeType.Method
+    @BracketValidator("skill")
+    public static boolean validateSkill(String tokens) {
+        if (ResourceLocation.tryParse(tokens) == null) {
+            CraftTweakerAPI.LOGGER.error("Invalid Bracket Syntax: <skill:" + tokens + ">! Syntax is <skill:modid:skill_id>");
+            return false;
+        }
+
+        return BracketValidators.validateBracket("skill", tokens, SkillBracket::getSkill);
+    }
 
     /**
      * Gets the give {@link ISkill}. Throws an Exception if not found
@@ -28,19 +45,28 @@ public class SkillBracket {
      */
     @ZenCodeType.Method
     @BracketResolver("skill")
-    public static ISkill getSkill(String tokens) {
-        if(!tokens.toLowerCase(Locale.ENGLISH).equals(tokens)) {
-            LogManager.getLogger().warn("Skill BEP <skill:{}> does not seem to be lower-cased!", tokens);
-        }
+    public static ISkill<?> getSkill(String tokens) {
 
-        final String[] split = tokens.split(":");
-        if(split.length != 2)
-            throw new IllegalArgumentException("Could not get skill with name: <skill:" + tokens + ">! Syntax is <skill:modid:skillname>");
-        ResourceLocation key = new ResourceLocation(split[0], split[1]);
-        if(!ModRegistries.SKILLS.containsKey(key)) {
-            throw new IllegalArgumentException("Could not get skill with name: <skill:" + tokens + ">! Skill does not appear to exist!");
+        final int length = tokens.split(":").length;
+        if (length != 2) {
+            throw new IllegalArgumentException("Could not get skill <skill:" + tokens + ">");
         }
+        final ResourceLocation resourceLocation = new ResourceLocation(tokens);
 
-        return ModRegistries.SKILLS.getValue(key);
+        ISkill<?> skill = ModRegistries.SKILLS.getValue(resourceLocation);
+        if (skill == null) {
+            throw new IllegalArgumentException("Could not get skill <skill:" + tokens + ">");
+        }
+        return skill;
+    }
+
+    public static String getCommandString(ISkill<?> skill) {
+        return "<skill:" + skill.getRegistryName() + ">";
+    }
+
+    @ZenCodeType.Method
+    @BracketDumper("skill")
+    public static Collection<String> getSkillDump(){
+        return ModRegistries.SKILLS.getValues().stream().map(SkillBracket::getCommandString).collect(Collectors.toList());
     }
 }
