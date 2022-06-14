@@ -6,11 +6,6 @@ import net.minecraftforge.registries.ObjectHolder;
 
 public class MCACompatREFERENCE {
 
-    @ObjectHolder("vampirism:player.bite")
-    static final SoundEvent player_bite = null;
-
-    @ObjectHolder("vampirism:pitchfork")
-    static final Item pitchfork = null;
 
     /**
      * Check for vampire garlic damage every n ticks

@@ -11,9 +11,12 @@ import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import mca.entity.EntitiesMCA;
 import mca.entity.ai.relationship.Gender;
 import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
@@ -35,6 +38,15 @@ public class MCACompat implements IModCompat, IInterModeEnqueue {
         }
     }
 
+    public static void registerEntityTypeAttributes(EntityAttributeCreationEvent event) {
+        if (ModList.get().isLoaded(ID)) { //TODO is this a good idea?
+            event.put(EntityAngryVillagerMCA.angry_villager_male, EntityAngryVillagerMCA.createVillagerAttributes().build());
+            event.put(EntityAngryVillagerMCA.angry_villager_female, EntityAngryVillagerMCA.createVillagerAttributes().build());
+            event.put(EntityConvertedVillagerMCA.converted_villager_male, EntityConvertedVillagerMCA.createVillagerAttributes().build());
+            event.put(EntityConvertedVillagerMCA.converted_villager_female, EntityConvertedVillagerMCA.createVillagerAttributes().build());
+        }
+    }
+
     private static <T extends EntityVillagerVampirismMCA> EntityType<T> prepareEntity(EntityType.IFactory<T> factory, String id) {
         EntityType.Builder<T> builder = EntityType.Builder.of(factory, VReference.VAMPIRE_CREATURE_TYPE).sized(0.6F, 1.95F).setTrackingRange(80).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true);
         EntityType<T> entry = builder.build(REFERENCE.MODID + ":" + id);
@@ -49,6 +61,7 @@ public class MCACompat implements IModCompat, IInterModeEnqueue {
 
     public MCACompat() {
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(EntityType.class, MCACompat::registerEntities);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener( MCACompat::registerEntityTypeAttributes);
     }
 
     @Override
@@ -70,19 +83,12 @@ public class MCACompat implements IModCompat, IInterModeEnqueue {
 
     @Override
     public void onInitStep(IInitListener.Step step, ParallelDispatchEvent event) {
-
-    }
-
-    @Override
-    public void onInitStep(Step step, FMLStateEvent event) {
-        if (step == Step.PRE_INIT) {
-
-
-            if (FMLCommonHandler.instance().getSide().isClient()) {
-                ClientProxy.registerRenderer();
-                OverlayAssignmentLoader.init(((FMLPreInitializationEvent) event).getModConfigurationDirectory());
-                OverlayAssignmentLoader.registerSaveCommand();
-            }
+        if (step == Step.CLIENT_SETUP) {
+            DistExecutor.runWhenOn(Dist.CLIENT, () -> //                OverlayAssignmentLoader.init((event).getModConfigurationDirectory());
+                    //                OverlayAssignmentLoader.registerSaveCommand();
+                    ClientProxy::registerRenderer);
+        }
+        if (step == Step.COMMON_SETUP) {
             MinecraftForge.EVENT_BUS.register(new EventHandlerMCA());
         }
     }

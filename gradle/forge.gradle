@@ -52,10 +52,7 @@ repositories {
         name = "LocalForge"
         url = "../../MinecraftForge/repo/"
     }
-    maven {
-        name = "Local2"
-        url = "../../../.m2/repository"
-    }
+    mavenLocal()
 
     maven {
         url = 'https://maven.blamejared.com'
@@ -162,7 +159,7 @@ dependencies {
     runtimeOnly fg.deobf("slimeknights.mantle:Mantle:1.16.5-"+project.mantle_version)
 
     // Survive - https://www.curseforge.com/minecraft/mc-mods/survive
-    implementation fg.deobf("curse.maven:survive-367337:"+project.survive_fileid)
+    compileOnly fg.deobf("curse.maven:survive-367337:"+project.survive_fileid)
     // UnionLib - https://www.curseforge.com/minecraft/mc-mods/unionlib
     runtimeOnly fg.deobf("curse.maven:unionlib-367806:"+project.unionlib_fileid)
 

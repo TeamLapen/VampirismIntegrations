@@ -40,9 +40,9 @@ import javax.annotation.Nullable;
 public class EntityAngryVillagerMCA extends EntityVillagerVampirismMCA implements IAggressiveVillager {
 
     @ObjectHolder("vampirism_integrations:mca_angry_villager_male")
-    private static final EntityType<EntityAngryVillagerMCA> angry_villager_male = UtilLib.getNull();
+    public static final EntityType<EntityAngryVillagerMCA> angry_villager_male = UtilLib.getNull();
     @ObjectHolder("vampirism_integrations:mca_angry_villager_female")
-    private static final EntityType<EntityAngryVillagerMCA> angry_villager_female = UtilLib.getNull();
+    public static final EntityType<EntityAngryVillagerMCA> angry_villager_female = UtilLib.getNull();
 
     @Nullable
     public static EntityAngryVillagerMCA makeAngry(VillagerEntityMCA villager) {
