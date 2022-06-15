@@ -2,7 +2,6 @@ package de.teamlapen.vampirism_integrations.mca.client;
 
 import de.teamlapen.vampirism_integrations.mca.EntityAngryVillagerMCA;
 import de.teamlapen.vampirism_integrations.mca.EntityConvertedVillagerMCA;
-import de.teamlapen.vampirism_integrations.mca.MCACompat;
 import mca.client.render.VillagerEntityMCARenderer;
 
 public class ClientProxy {

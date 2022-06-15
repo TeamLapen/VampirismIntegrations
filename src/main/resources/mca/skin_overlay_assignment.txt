@@ -1,7 +1,0 @@
-#MCA Texture -> Eye Fang Overlay assignment. Format: texture=eye,fang. Use -1 for fang or eye to disable
-mca:skins/female/baker/bakerf1_converted.png=2,3
-mca:skins/female/baker/bakerf2_converted.png=1,4
-mca:skins/female/baker/bakerf3_converted.png=11,0
-mca:skins/female/baker/bakerf4_converted.png=11,0
-mca:skins/female/baker/bakerf5_converted.png=8,-1
-mca:skins/female/baker/bakerf6_converted.png=5,0

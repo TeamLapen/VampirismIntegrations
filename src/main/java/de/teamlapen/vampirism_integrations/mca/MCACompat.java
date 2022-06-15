@@ -6,7 +6,6 @@ import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism_integrations.IInterModeEnqueue;
 import de.teamlapen.vampirism_integrations.mca.client.ClientProxy;
-import de.teamlapen.vampirism_integrations.mca.client.OverlayAssignmentLoader;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import mca.entity.EntitiesMCA;
 import mca.entity.ai.relationship.Gender;
