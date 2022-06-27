@@ -19,7 +19,6 @@ import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -130,7 +129,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     public VillagerEntityMCA cureEntity(ServerLevel world, PathfinderMob entity, EntityType<VillagerEntityMCA> newType) {
         VillagerEntityMCA villager = ICurableConvertedCreature.super.cureEntity(world, entity, newType);
         villager.setVillagerData(this.getVillagerData());
-        villager.setGossips((Tag) this.getGossips().store(NbtOps.INSTANCE).getValue());
+        villager.setGossips(this.getGossips().store(NbtOps.INSTANCE).getValue());
         villager.setOffers(this.getOffers());
         villager.setVillagerXp(this.getVillagerXp());
         if (this.conversationStarter != null) {
