@@ -24,10 +24,10 @@ import org.openzen.zencode.java.ZenCodeType;
 @ZenRegister
 @Document("mods/vampirism/AlchemicalCauldronRecipe")
 @ZenCodeType.Name("mods.vampirism.AlchemicalCauldronRecipe")
-public class CTAlchemicalCauldronRecipeManager implements IRecipeManager {
+public class CTAlchemicalCauldronRecipeManager implements IRecipeManager<AlchemicalCauldronRecipe> {
 
     @Override
-    public RecipeType getRecipeType() {
+    public RecipeType<AlchemicalCauldronRecipe> getRecipeType() {
         return ModRecipes.ALCHEMICAL_CAULDRON_TYPE;
     }
 
@@ -52,10 +52,10 @@ public class CTAlchemicalCauldronRecipeManager implements IRecipeManager {
      * @docParam skills [<skill:vampirism:basic_alchemy>]
      */
     @ZenCodeType.Method
-    public void addRecipe(String recipePath, IItemStack result, IIngredient ingredients, IIngredient fluid, int level, int cookTime, int exp, ISkill[] skills) {
+    public void addRecipe(String recipePath, IItemStack result, IIngredient ingredients, IIngredient fluid, int level, int cookTime, int exp, ISkill<?>[] skills) {
         ResourceLocation id = new ResourceLocation("crafttweaker", recipePath);
         AlchemicalCauldronRecipe recipe = new AlchemicalCauldronRecipe(id, "", ingredients.asVanillaIngredient(), Either.left(fluid.asVanillaIngredient()), result.getInternal(), skills, level, cookTime, exp);
-        CraftTweakerAPI.apply(new ActionAddRecipe(this, recipe, ""));
+        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, recipe, ""));
     }
 
     /**
@@ -79,9 +79,9 @@ public class CTAlchemicalCauldronRecipeManager implements IRecipeManager {
      * @docParam skills [<skill:vampirism:basic_alchemy>]
      */
     @ZenCodeType.Method
-    public void addRecipe(String recipePath, IItemStack result, IIngredient ingredients, IFluidStack fluid, int level, int cookTime, int exp, ISkill[] skills) {
+    public void addRecipe(String recipePath, IItemStack result, IIngredient ingredients, IFluidStack fluid, int level, int cookTime, int exp, ISkill<?>[] skills) {
         ResourceLocation id = new ResourceLocation("crafttweaker", recipePath);
         AlchemicalCauldronRecipe recipe = new AlchemicalCauldronRecipe(id, "", ingredients.asVanillaIngredient(), Either.right(fluid.getInternal()), result.getInternal(), skills, level, cookTime, exp);
-        CraftTweakerAPI.apply(new ActionAddRecipe(this, recipe, ""));
+        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, recipe, ""));
     }
 }

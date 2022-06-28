@@ -7,7 +7,9 @@ import com.blamejared.crafttweaker.api.ingredient.IIngredient;
 import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.blamejared.crafttweaker.api.recipe.manager.base.IRecipeManager;
 import com.blamejared.crafttweaker_annotations.annotations.Document;
+import de.teamlapen.vampirism.api.entity.player.hunter.IHunterPlayer;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
+import de.teamlapen.vampirism.api.items.IWeaponTableRecipe;
 import de.teamlapen.vampirism.core.ModRecipes;
 import de.teamlapen.vampirism.inventory.recipes.ShapedWeaponTableRecipe;
 import de.teamlapen.vampirism.inventory.recipes.ShapelessWeaponTableRecipe;
@@ -18,7 +20,6 @@ import net.minecraft.resources.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 /**
  * Allows you to add or remove weapon table recipes.
@@ -28,10 +29,10 @@ import java.util.stream.Collectors;
 @ZenRegister
 @Document("mods/vampirism/WeaponTableRecipe")
 @ZenCodeType.Name("mods.vampirism.WeaponTableRecipe")
-public class CTWeaponTableRecipeManager implements IRecipeManager {
+public class CTWeaponTableRecipeManager implements IRecipeManager<IWeaponTableRecipe> {
 
     @Override
-    public RecipeType getRecipeType() {
+    public RecipeType<IWeaponTableRecipe> getRecipeType() {
         return ModRecipes.WEAPONTABLE_CRAFTING_TYPE;
     }
 
@@ -52,12 +53,13 @@ public class CTWeaponTableRecipeManager implements IRecipeManager {
      * @docParam skills [<skill:vampirism:tech_weapons>]
      */
     @ZenCodeType.Method
-    public void addShapeless(String recipePath, IItemStack result, IIngredient[] ingredients, int level, int lava, ISkill[] skills) {
+    public void addShapeless(String recipePath, IItemStack result, IIngredient[] ingredients, int level, int lava, ISkill<?>[] skills) {
         ResourceLocation id = new ResourceLocation("crafttweaker", recipePath);
         NonNullList<Ingredient> nonnulllist = NonNullList.create();
-        nonnulllist.addAll(Arrays.stream(ingredients).map(IIngredient::asVanillaIngredient).collect(Collectors.toList()));
-        ShapelessWeaponTableRecipe recipe = new ShapelessWeaponTableRecipe(id, "", nonnulllist, result.getInternal(), level, lava, skills);
-        CraftTweakerAPI.apply(new ActionAddRecipe(this, recipe, "shapeless"));
+        nonnulllist.addAll(Arrays.stream(ingredients).map(IIngredient::asVanillaIngredient).toList());
+        //noinspection unchecked
+        ShapelessWeaponTableRecipe recipe = new ShapelessWeaponTableRecipe(id, "", nonnulllist, result.getInternal(), level, lava, (ISkill<IHunterPlayer>[]) skills);
+        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, recipe, "shapeless"));
     }
 
     /**
@@ -77,11 +79,12 @@ public class CTWeaponTableRecipeManager implements IRecipeManager {
      * @docParam skills [<skill:vampirism:tech_weapons>]
      */
     @ZenCodeType.Method
-    public void addShaped(String recipePath, IItemStack result, IIngredient[][] ingredients, int level, int lava, ISkill[] skills) {
+    public void addShaped(String recipePath, IItemStack result, IIngredient[][] ingredients, int level, int lava, ISkill<?>[] skills) {
         ResourceLocation id = new ResourceLocation("crafttweaker", recipePath);
         NonNullList<Ingredient> nonnulllist = NonNullList.create();
-        nonnulllist.addAll(Arrays.stream(ingredients).flatMap(Arrays::stream).map(IIngredient::asVanillaIngredient).collect(Collectors.toList()));
-        ShapedWeaponTableRecipe recipe = new ShapedWeaponTableRecipe(id, "", ingredients[0].length, ingredients.length, nonnulllist, result.getInternal(), level, skills, lava);
-        CraftTweakerAPI.apply(new ActionAddRecipe(this, recipe, "shaped"));
+        nonnulllist.addAll(Arrays.stream(ingredients).flatMap(Arrays::stream).map(IIngredient::asVanillaIngredient).toList());
+        //noinspection unchecked
+        ShapedWeaponTableRecipe recipe = new ShapedWeaponTableRecipe(id, "", ingredients[0].length, ingredients.length, nonnulllist, result.getInternal(), level, (ISkill<IHunterPlayer>[]) skills, lava);
+        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, recipe, "shaped"));
     }
 }
