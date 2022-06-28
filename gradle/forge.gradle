@@ -155,7 +155,7 @@ dependencies {
     // Consecration - https://www.curseforge.com/minecraft/mc-mods/consecration
     implementation fg.deobf("curse.maven:consecration-284001:"+project.consecration_fileid)
 
-    implementation fg.deobf("curse.maven:minecraft-comes-alive-reborn-535291:"+project.mca_fileid)
+    compileOnly fg.deobf("curse.maven:minecraft-comes-alive-reborn-535291:"+project.mca_fileid)
 
     // Minecolonies - https://www.curseforge.com/minecraft/mc-mods/minecolonies
     //implementation fg.deobf("curse.maven:minecolonies-245506:3126211")

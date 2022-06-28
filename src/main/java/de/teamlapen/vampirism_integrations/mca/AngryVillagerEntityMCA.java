@@ -48,8 +48,8 @@ public class AngryVillagerEntityMCA extends VillagerEntityMCA implements IAggres
     @Nullable
     private ICaptureAttributes villageAttributes;
 
-    public AngryVillagerEntityMCA(EntityType<VillagerEntityMCA> type, Level w, Gender gender) {
-        super(type, w, gender);
+    public AngryVillagerEntityMCA(EntityType<AngryVillagerEntityMCA> type, Level w, Gender gender) {
+        super(((EntityType) type), w, gender);
     }
 
     @Override
