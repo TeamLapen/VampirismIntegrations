@@ -1,6 +1,7 @@
 package de.teamlapen.vampirism_integrations.mca;
 
 import de.teamlapen.lib.lib.util.UtilLib;
+import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
 import mca.entity.VillagerEntityMCA;
 import net.minecraft.world.entity.EntityType;
@@ -24,7 +25,10 @@ public class MCAEventHandler {
 
     @SubscribeEvent
     public void onSpawnNewVillager(VampirismVillageEvent.SpawnNewVillager event) {
-        EntityType<?> t = event.getOldEntity() != null && event.getOldEntity().getRandom().nextBoolean() ? ForgeRegistries.ENTITIES.getValue(MCACompat.MALE_VILLAGER) : ForgeRegistries.ENTITIES.getValue(MCACompat.FEMALE_VILLAGER);
+        boolean gender = event.getNewVillager().getRandom().nextBoolean();
+        boolean vampire = event.getNewVillager() instanceof IConvertedCreature<?>;
+
+        EntityType<?> t = vampire ?  (gender ? MCARegistration.MALE_CONVERTED_VILLAGER.get() : MCARegistration.FEMALE_CONVERTED_VILLAGER.get()) : gender ? ForgeRegistries.ENTITIES.getValue(MCACompat.MALE_VILLAGER) : ForgeRegistries.ENTITIES.getValue(MCACompat.FEMALE_VILLAGER);
         event.setNewVillager((Villager) t.create(event.getWorld()));
     }
 }
