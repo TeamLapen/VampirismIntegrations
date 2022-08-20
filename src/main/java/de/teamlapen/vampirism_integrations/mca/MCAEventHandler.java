@@ -3,7 +3,7 @@ package de.teamlapen.vampirism_integrations.mca;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
-import mca.entity.VillagerEntityMCA;
+import forge.net.mca.entity.VillagerEntityMCA;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

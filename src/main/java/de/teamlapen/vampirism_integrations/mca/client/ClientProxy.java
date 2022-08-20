@@ -1,7 +1,7 @@
 package de.teamlapen.vampirism_integrations.mca.client;
 
 import de.teamlapen.vampirism_integrations.mca.MCARegistration;
-import mca.client.render.VillagerEntityMCARenderer;
+import forge.net.mca.client.render.VillagerEntityMCARenderer;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
 public class ClientProxy {

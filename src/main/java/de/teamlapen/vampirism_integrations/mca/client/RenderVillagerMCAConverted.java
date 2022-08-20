@@ -1,8 +1,8 @@
 package de.teamlapen.vampirism_integrations.mca.client;
 
-import mca.client.model.VillagerEntityModelMCA;
-import mca.client.render.VillagerEntityMCARenderer;
-import mca.entity.VillagerEntityMCA;
+import forge.net.mca.client.model.VillagerEntityModelMCA;
+import forge.net.mca.client.render.VillagerEntityMCARenderer;
+import forge.net.mca.entity.VillagerEntityMCA;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;

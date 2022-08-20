@@ -1,19 +1,13 @@
 package de.teamlapen.vampirism_integrations.mca.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
-import mca.client.model.VillagerEntityModelMCA;
-import mca.client.render.layer.VillagerLayer;
-import mca.entity.VillagerLike;
-import mca.entity.ai.Genetics;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.MultiBufferSource;
+import forge.net.mca.client.model.VillagerEntityModelMCA;
+import forge.net.mca.client.render.layer.VillagerLayer;
+import forge.net.mca.entity.VillagerLike;
+import forge.net.mca.entity.ai.Genetics;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import org.jetbrains.annotations.Nullable;
 
 public class LayerVampireFace<T extends Mob & VillagerLike<T>> extends VillagerLayer<T, VillagerEntityModelMCA<T>> {
 

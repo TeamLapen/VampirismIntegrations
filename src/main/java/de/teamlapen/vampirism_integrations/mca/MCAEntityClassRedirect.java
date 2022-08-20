@@ -1,6 +1,6 @@
 package de.teamlapen.vampirism_integrations.mca;
 
-import mca.entity.ai.relationship.Gender;
+import forge.net.mca.entity.ai.relationship.Gender;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 

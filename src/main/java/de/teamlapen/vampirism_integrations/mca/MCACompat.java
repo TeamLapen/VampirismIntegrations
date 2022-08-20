@@ -6,6 +6,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.jetbrains.annotations.Nullable;
 
 public class MCACompat implements IModCompat {
 
@@ -25,6 +26,12 @@ public class MCACompat implements IModCompat {
     @Override
     public void buildConfig(ForgeConfigSpec.Builder builder) {
 
+    }
+
+    @Nullable
+    @Override
+    public String getAcceptedVersionRange() {
+        return "[7.3.19,)";
     }
 
     @Override
