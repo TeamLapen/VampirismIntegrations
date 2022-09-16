@@ -5,8 +5,6 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 
-import de.teamlapen.lib.lib.util.IInitListener.Step;
-
 public class TANCompat implements IModCompat {
 
     static ForgeConfigSpec.BooleanValue disableThirst;
@@ -25,6 +23,7 @@ public class TANCompat implements IModCompat {
     public void onInitStep(Step step, ParallelDispatchEvent event) {
         if (step == Step.COMMON_SETUP) {
             MinecraftForge.EVENT_BUS.register(new ThirstHandler());
+            TemperatureModifier.register();
         }
     }
 }

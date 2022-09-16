@@ -38,9 +38,8 @@ curseforge {
         relations {
             requiredDependency 'vampirism-become-a-vampire'
             optionalDependency 'biomes-o-plenty'
-            optionalDependency 'hwyla'
+            optionalDependency 'wthit'
             optionalDependency 'blood-magic'
-            optionalDependency 'consecration'
             optionalDependency 'diet'
             optionalDependency 'survive'
             optionalDependency 'tinkers-construct'
@@ -49,6 +48,7 @@ curseforge {
             optionalDependency 'crafttweaker'
             optionalDependency 'evilcraft'
             optionalDependency 'tough-as-nails'
+            optionalDependency 'minecraft-comes-alive-reborn'
         }
 
 
@@ -110,18 +110,18 @@ publishing {
 
 
             // Adds the sources as an artifact.
-            artifact sourcesJar {
-                classifier 'sources'
-            }
+//            artifact sourcesJar {
+//                classifier 'sources'
+//            }
 
             // Adds the deobfuscated jar as an artifact.
-            artifact deobfJar {
-                classifier 'deobf'
-            }
-
-            artifact javadocJar {
-                classifier 'javadoc'
-            }
+//            artifact deobfJar {
+//                classifier 'deobf'
+//            }
+//
+//            artifact javadocJar {
+//                classifier 'javadoc'
+//            }
 
         }
     }
