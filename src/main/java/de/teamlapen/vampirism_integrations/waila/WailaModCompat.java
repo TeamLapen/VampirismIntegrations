@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ObjectHolder;
 
 public class WailaModCompat implements IModCompat {
 
-    @ObjectHolder("vampirism:garlic_beacon")
+    @ObjectHolder(registryName="blocks", value= "vampirism:garlic_beacon")
     static Block garlicBeacon;
 
     @Override

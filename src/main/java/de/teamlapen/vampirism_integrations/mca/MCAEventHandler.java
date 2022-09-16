@@ -28,7 +28,7 @@ public class MCAEventHandler {
         boolean gender = event.getNewVillager().getRandom().nextBoolean();
         boolean vampire = event.getNewVillager() instanceof IConvertedCreature<?>;
 
-        EntityType<?> t = vampire ?  (gender ? MCARegistration.MALE_CONVERTED_VILLAGER.get() : MCARegistration.FEMALE_CONVERTED_VILLAGER.get()) : gender ? ForgeRegistries.ENTITIES.getValue(MCACompat.MALE_VILLAGER) : ForgeRegistries.ENTITIES.getValue(MCACompat.FEMALE_VILLAGER);
+        EntityType<?> t = vampire ?  (gender ? MCARegistration.MALE_CONVERTED_VILLAGER.get() : MCARegistration.FEMALE_CONVERTED_VILLAGER.get()) : gender ? ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.MALE_VILLAGER) : ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.FEMALE_VILLAGER);
         event.setNewVillager((Villager) t.create(event.getWorld()));
     }
 }

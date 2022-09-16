@@ -24,7 +24,7 @@ import java.util.function.Supplier;
 
 
 public class MCARegistration {
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, REFERENCE.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, REFERENCE.MODID);
 
 
     public static final RegistryObject<EntityType<ConvertedVillagerEntityMCA>> MALE_CONVERTED_VILLAGER = MCARegistration.prepareEntityType(MCACompat.CONVERTED_MALE_VILLAGER_ID, getBuilder(MCAEntityClassRedirect::createConverted,true), true);
@@ -58,7 +58,7 @@ public class MCARegistration {
                 return type.build(de.teamlapen.vampirism_integrations.util.REFERENCE.MODID + ":" + id);
             });
         } else {
-            return RegistryObject.createOptional(new ResourceLocation(REFERENCE.MODID, id),ForgeRegistries.ENTITIES.getRegistryName(),REFERENCE.MODID);
+            return RegistryObject.createOptional(new ResourceLocation(REFERENCE.MODID, id),ForgeRegistries.ENTITY_TYPES.getRegistryName(),REFERENCE.MODID);
         }
 
     }
@@ -66,8 +66,8 @@ public class MCARegistration {
     static void registerConvertibles() {
         ResourceLocation overlay = new ResourceLocation(REFERENCE.MODID, "mca/overlay.png");
         IConvertingHandler<?> c = new ConvertedVillagerEntityMCA.ConvertingHandler();
-        VampirismAPI.entityRegistry().addConvertible((EntityType<? extends PathfinderMob>) ForgeRegistries.ENTITIES.getValue(MCACompat.MALE_VILLAGER), overlay, c);
-        VampirismAPI.entityRegistry().addConvertible((EntityType<? extends PathfinderMob>) ForgeRegistries.ENTITIES.getValue(MCACompat.FEMALE_VILLAGER), overlay, c);
+        VampirismAPI.entityRegistry().addConvertible((EntityType<? extends PathfinderMob>) ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.MALE_VILLAGER), overlay, c);
+        VampirismAPI.entityRegistry().addConvertible((EntityType<? extends PathfinderMob>) ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.FEMALE_VILLAGER), overlay, c);
     }
 
     static void onRegisterEntityTypeAttributes(EntityAttributeCreationEvent event) {

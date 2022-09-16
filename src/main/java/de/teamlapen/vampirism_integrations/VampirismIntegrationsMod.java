@@ -3,16 +3,14 @@ package de.teamlapen.vampirism_integrations;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.lib.lib.util.IModCompat;
+import de.teamlapen.lib.lib.util.ModCompatLoader;
 import de.teamlapen.lib.lib.util.VersionChecker;
 import de.teamlapen.vampirism_integrations.betteranimals.BetterAnimalsCompat;
 import de.teamlapen.vampirism_integrations.betteranimalsplus.BetterAnimalsPlusCompat;
 import de.teamlapen.vampirism_integrations.bloodmagic.BloodmagicCompat;
 import de.teamlapen.vampirism_integrations.bop.BOPCompat;
-import de.teamlapen.vampirism_integrations.crafttweaker.CrafttweakerCompat;
-import de.teamlapen.vampirism_integrations.diet.DietCompat;
 import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
 import de.teamlapen.vampirism_integrations.mca.MCACompat;
-import de.teamlapen.vampirism_integrations.survive.SurviveCompat;
 import de.teamlapen.vampirism_integrations.tan.TANCompat;
 import de.teamlapen.vampirism_integrations.tconstruct.TConstructCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
@@ -25,13 +23,13 @@ import net.minecraft.network.chat.*;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,7 +43,7 @@ public class VampirismIntegrationsMod {
     public static VampirismIntegrationsMod instance;
     public static boolean inDev = false;
     @Nonnull
-    public final ModifiedModCompatLoader compatLoader;
+    public final ModCompatLoader compatLoader;
     private VersionChecker.VersionInfo versionInfo;
 
     public VampirismIntegrationsMod() {
@@ -59,18 +57,18 @@ public class VampirismIntegrationsMod {
         }
 
 
-        compatLoader = new ModifiedModCompatLoader();
+        compatLoader = new ModCompatLoader();
         compatLoader.addModCompat(new VampirismCompat());
         compatLoader.addModCompat(new BOPCompat());
         compatLoader.addModCompat(new WailaModCompat());
         compatLoader.addModCompat(new BloodmagicCompat());
         compatLoader.addModCompat(new EvilCraftCompat());
-        compatLoader.addModCompat(new DietCompat());
+//        compatLoader.addModCompat(new DietCompat());
         compatLoader.addModCompat(new TConstructCompat());
-        compatLoader.addModCompat(new SurviveCompat());
+//        compatLoader.addModCompat(new SurviveCompat());
         compatLoader.addModCompat(new BetterAnimalsPlusCompat());
         compatLoader.addModCompat(new BetterAnimalsCompat());
-        compatLoader.addModCompat(new CrafttweakerCompat());
+//        compatLoader.addModCompat(new CrafttweakerCompat());
         compatLoader.addModCompat(new TANCompat());
         compatLoader.addModCompat(new MCACompat());
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
@@ -97,29 +95,29 @@ public class VampirismIntegrationsMod {
 
         event.getDispatcher().register(LiteralArgumentBuilder.<CommandSourceStack>literal("vampirism-integrations")
                 .then(Commands.literal("loaded").executes(context -> {
-                    context.getSource().sendSuccess(new TextComponent("Loaded and active mods"), false);
+                    context.getSource().sendSuccess(Component.literal("Loaded and active mods"), false);
                     for (IModCompat compat : compatLoader.getLoadedModCompats()) {
-                        ModList.get().getModContainerById(compat.getModID()).ifPresent(container -> context.getSource().sendSuccess(new TextComponent("Active: " + compat.getModID() + " Version: " + container.getModInfo().getVersion().getQualifier()), false));
+                        ModList.get().getModContainerById(compat.getModID()).ifPresent(container -> context.getSource().sendSuccess(Component.literal("Active: " + compat.getModID() + " Version: " + container.getModInfo().getVersion().getQualifier()), false));
                     }
                     return 0;
                 }))
                 .then(Commands.literal("changelog").executes(context -> {
                     if (!getVersionInfo().isNewVersionAvailable()) {
-                        context.getSource().sendSuccess(new TranslatableComponent("command.vampirism.base.changelog.newversion"), false);
+                        context.getSource().sendSuccess(Component.translatable("command.vampirism.base.changelog.newversion"), false);
                         return 0;
                     }
                     VersionChecker.Version newVersion = getVersionInfo().getNewVersion();
                     List<String> changes = newVersion.getChanges();
-                    context.getSource().sendSuccess(new TextComponent(ChatFormatting.GREEN + "Vampirism Integrations" + newVersion.name + "(" + SharedConstants.getCurrentVersion().getName() + ")"), true);
+                    context.getSource().sendSuccess(Component.literal(ChatFormatting.GREEN + "Vampirism Integrations" + newVersion.name + "(" + SharedConstants.getCurrentVersion().getName() + ")"), true);
                     for (String c : changes) {
-                        context.getSource().sendSuccess(new TextComponent("-" + c), false);
+                        context.getSource().sendSuccess(Component.literal("-" + c), false);
                     }
-                    context.getSource().sendSuccess(new TextComponent(""), false);
+                    context.getSource().sendSuccess(Component.literal(""), false);
                     String homepage = getVersionInfo().getHomePage();
 
-                    MutableComponent download = new TranslatableComponent("text.vampirism.update_message.download").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, newVersion.getUrl() == null ? homepage : newVersion.getUrl())).setUnderlined(true).withColor(ChatFormatting.BLUE));
-                    Component changelog = new TranslatableComponent("text.vampirism.update_message.changelog").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/vampirism-integrations changelog")).setUnderlined(true));
-                    Component modpage = new TranslatableComponent("text.vampirism.update_message.modpage").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, homepage)).setUnderlined(true).withColor(ChatFormatting.BLUE));
+                    MutableComponent download = Component.translatable("text.vampirism.update_message.download").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, newVersion.getUrl() == null ? homepage : newVersion.getUrl())).withUnderlined(true).withColor(ChatFormatting.BLUE));
+                    Component changelog = Component.translatable("text.vampirism.update_message.changelog").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/vampirism-integrations changelog")).withUnderlined(true));
+                    Component modpage = Component.translatable("text.vampirism.update_message.modpage").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, homepage)).withUnderlined(true).withColor(ChatFormatting.BLUE));
                     context.getSource().sendSuccess(download.append(" ").append(changelog).append(" ").append(modpage), false);
                     return 0;
                 })));
@@ -128,7 +126,7 @@ public class VampirismIntegrationsMod {
 
     @SubscribeEvent
     public void enqueueIMC(InterModEnqueueEvent event) {
-        compatLoader.enqueueIMC(event);
+        compatLoader.onInitStep(IInitListener.Step.ENQUEUE_IMC, event);
     }
 
     @SubscribeEvent
@@ -137,7 +135,7 @@ public class VampirismIntegrationsMod {
     }
 
     @SubscribeEvent
-    public void registerItems(RegistryEvent.Register<Item> event) {
+    public void registerItems(RegisterEvent event) {
         Config.buildConfiguration();
     }
 

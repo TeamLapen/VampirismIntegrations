@@ -1,0 +1,10 @@
+{
+  "vampirism_integrations:plugin": {
+    "initializer": "de.teamlapen.vampirism_integrations.waila.WailaPlugin",
+
+    "side": "*",
+
+    "required": ["vampirism"]
+  }
+
+}

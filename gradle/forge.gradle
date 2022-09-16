@@ -135,8 +135,8 @@ dependencies {
 
 
     // Tough as Nails - https://www.curseforge.com/minecraft/mc-mods/tough-as-nails
-    compileOnly fg.deobf("com.github.glitchfiend:ToughAsNails:"+ project.minecraft_version + '-' + project.tan_version+":api")
-    runtimeOnly fg.deobf("com.github.glitchfiend:ToughAsNails:"+ project.minecraft_version + '-' + project.tan_version)
+    compileOnly fg.deobf("com.github.glitchfiend:ToughAsNails:"+ project.tan_version+":api")
+    runtimeOnly fg.deobf("com.github.glitchfiend:ToughAsNails:"+ project.tan_version)
 
     // Blood Magic - https://www.curseforge.com/minecraft/mc-mods/blood-magic
 //    implementation fg.deobf("curse.maven:blood-magic-224791:" + project.bloodmagic_fileid) //We only want API but curse maven and forge gradle don't like me
@@ -153,7 +153,7 @@ dependencies {
 //    runtimeOnly fg.deobf("mekanism:Mekanism:${project.mekanism_version}")// core
 
     // Consecration - https://www.curseforge.com/minecraft/mc-mods/consecration
-    implementation fg.deobf("curse.maven:consecration-284001:"+project.consecration_fileid)
+    //implementation fg.deobf("curse.maven:consecration-284001:"+project.consecration_fileid)
 
     implementation fg.deobf("curse.maven:minecraft-comes-alive-reborn-535291:"+project.mca_fileid)
 
@@ -177,14 +177,14 @@ dependencies {
     //runtimeOnly fg.deobf("slimeknights.mantle:Mantle:"+project.mantle_version)
 
     // Survive - https://www.curseforge.com/minecraft/mc-mods/survive
-    compileOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
-    runtimeOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
+    //compileOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
+    //runtimeOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
 
     // UnionLib - https://www.curseforge.com/minecraft/mc-mods/unionlib
-    runtimeOnly fg.deobf("com.stereowalker.unionlib:UnionLib:${project.unionlib_version}")
+    //runtimeOnly fg.deobf("com.stereowalker.unionlib:UnionLib:${project.unionlib_version}")
 
     // Diet - https://www.curseforge.com/minecraft/mc-mods/diet
-    implementation fg.deobf("curse.maven:diet-443570:"+project.diet_fileid)
+    //implementation fg.deobf("curse.maven:diet-443570:"+project.diet_fileid)
 
     implementation fg.deobf("curse.maven:betteranimalsplus-303557:"+project.betteranimalsplus_fileid)
     runtimeOnly fg.deobf("dev.architectury:architectury-forge:"+project.architectury_version)
@@ -192,12 +192,12 @@ dependencies {
 //    implementation fg.deobf("curse.maven:betteranimals-287443:"+project.betteranimals_fileid)
 
     // CraftTweaker
-    compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}")
-    runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}") // For testing
+    //compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}")
+    //runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}") // For testing
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}") //Full for runtime
+    runtimeOnly fg.deobf("mezz.jei:jei-1.19.2-forge:${project.jei_version}") //Full for runtime
 
     //Old
     //deobfCompile 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version // +':api'

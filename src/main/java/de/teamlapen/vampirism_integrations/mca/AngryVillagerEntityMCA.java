@@ -34,7 +34,7 @@ import javax.annotation.Nonnull;
 public class AngryVillagerEntityMCA extends VillagerEntityMCA implements IAggressiveVillager {
     @Nullable
     public static Villager makeAngry(VillagerEntityMCA villager) {
-        if (villager.getProfession() == ForgeRegistries.PROFESSIONS.getValue(new ResourceLocation("mca:guard")) || villager.getProfession() == ForgeRegistries.PROFESSIONS.getValue(new ResourceLocation("mca:outlaw")) || villager.isInfected()) {
+        if (villager.getProfession() == ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation("mca:guard")) || villager.getProfession() == ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation("mca:outlaw")) || villager.isInfected()) {
             return null;
         }
         EntityType<? extends Villager> t = villager.getGenetics().getGender() == Gender.FEMALE ? MCARegistration.FEMALE_AGGRESSIVE_VILLAGER.get() : MCARegistration.MALE_AGGRESSIVE_VILLAGER.get();
@@ -65,7 +65,7 @@ public class AngryVillagerEntityMCA extends VillagerEntityMCA implements IAggres
     @Override
     public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor worldIn, @Nonnull DifficultyInstance difficultyIn, @Nonnull MobSpawnType reason, @javax.annotation.Nullable SpawnGroupData spawnDataIn, @javax.annotation.Nullable CompoundTag dataTag) {
         SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.pitchfork));
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.PITCHFORK.get()));
         return data;
     }
 
@@ -98,7 +98,7 @@ public class AngryVillagerEntityMCA extends VillagerEntityMCA implements IAggres
 
     @Override
     public void stopVillageAttackDefense() {
-        LivingEntity villager = (LivingEntity) (this.getGenetics().getGender() == Gender.FEMALE ? ForgeRegistries.ENTITIES.getValue(MCACompat.FEMALE_VILLAGER) : ForgeRegistries.ENTITIES.getValue(MCACompat.MALE_VILLAGER)).create(this.level);
+        LivingEntity villager = (LivingEntity) (this.getGenetics().getGender() == Gender.FEMALE ? ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.FEMALE_VILLAGER) : ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.MALE_VILLAGER)).create(this.level);
 
         assert villager != null;
 

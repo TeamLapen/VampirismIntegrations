@@ -13,7 +13,7 @@ import toughasnails.api.thirst.ThirstHelper;
  */
 public class ThirstHandler {
     @SubscribeEvent
-    public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
+    public void onPlayerUpdate(LivingEvent.LivingTickEvent event) {
         Entity e = event.getEntity();
         if (TANCompat.disableThirst.get() && e.tickCount % 32 == 0 && e instanceof Player && Helper.isVampire((Player) e)) {
             IThirst thirst = ThirstHelper.getThirst((Player) e);

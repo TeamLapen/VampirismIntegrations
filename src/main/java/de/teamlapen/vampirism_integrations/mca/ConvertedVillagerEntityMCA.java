@@ -20,7 +20,6 @@ import forge.net.mca.entity.ai.relationship.Gender;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -41,6 +40,7 @@ import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.ai.village.ReputationEventType;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -63,7 +63,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
         CONVERTING = SynchedEntityData.defineId(ConvertedVillagerEntityMCA.class, EntityDataSerializers.BOOLEAN);
         SENSOR_TYPES = Lists.newArrayList(Villager.SENSOR_TYPES);
         SENSOR_TYPES.remove(SensorType.VILLAGER_HOSTILES);
-        SENSOR_TYPES.add(ModVillage.vampire_villager_hostiles);
+        SENSOR_TYPES.add(ModVillage.VAMPIRE_VILLAGER_HOSTILES.get());
     }
 
     private EnumStrength garlicCache;
@@ -94,7 +94,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
             if (this.conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.VILLAGER, (timer) -> {
                 this.conversionTime = timer;
             })) {
-                this.cureEntity((ServerLevel) this.level, this, (EntityType) ForgeRegistries.ENTITIES.getValue(this.getGenetics().getGender() == Gender.FEMALE ? MCACompat.FEMALE_VILLAGER : MCACompat.MALE_VILLAGER));
+                this.cureEntity((ServerLevel) this.level, this, (EntityType) ForgeRegistries.ENTITY_TYPES.getValue(this.getGenetics().getGender() == Gender.FEMALE ? MCACompat.FEMALE_VILLAGER : MCACompat.MALE_VILLAGER));
             }
         }
 
@@ -174,9 +174,9 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
     @Override
     protected Component getTypeName() {
-        ResourceLocation profName = this.getVillagerData().getProfession().getRegistryName();
+        ResourceLocation profName = ForgeRegistries.VILLAGER_PROFESSIONS.getKey(this.getVillagerData().getProfession());
         String var10002 = EntityType.VILLAGER.getDescriptionId();
-        return new TranslatableComponent(var10002 + "." + (!"minecraft".equals(profName.getNamespace()) ? profName.getNamespace() + "." : "") + profName.getPath());
+        return Component.translatable(var10002 + "." + (!"minecraft".equals(profName.getNamespace()) ? profName.getNamespace() + "." : "") + profName.getPath());
     }
 
     @Override
@@ -211,7 +211,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     @Nonnull
     public InteractionResult mobInteract(Player player, @Nonnull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        return stack.getItem() != ModItems.cure_apple ? super.mobInteract(player, hand) : this.interactWithCureItem(player, stack, this);
+        return stack.getItem() != ModItems.CURE_APPLE.get() ? super.mobInteract(player, hand) : this.interactWithCureItem(player, stack, this);
     }
 
     @Override
@@ -234,7 +234,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
         VillagerTasksMCA.initializeTasks(this, brain);
         AgeState age = AgeState.byCurrentAge(this.getAge());
         if (age != AgeState.ADULT) {
-            brain.setSchedule(ModVillage.converted_default);
+            brain.setSchedule(ModVillage.CONVERTED_DEFAULT.get());
             brain.updateActivityFromSchedule(this.level.getDayTime(), this.level.getGameTime() + 21 /*Trick update*/);
         }
     }
