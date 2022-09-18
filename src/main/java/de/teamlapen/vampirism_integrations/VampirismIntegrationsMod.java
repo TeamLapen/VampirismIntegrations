@@ -2,8 +2,6 @@ package de.teamlapen.vampirism_integrations;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.teamlapen.lib.lib.util.IInitListener;
-import de.teamlapen.lib.lib.util.IModCompat;
-import de.teamlapen.lib.lib.util.ModCompatLoader;
 import de.teamlapen.lib.lib.util.VersionChecker;
 import de.teamlapen.vampirism_integrations.betteranimals.BetterAnimalsCompat;
 import de.teamlapen.vampirism_integrations.betteranimalsplus.BetterAnimalsPlusCompat;
@@ -13,14 +11,17 @@ import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
 import de.teamlapen.vampirism_integrations.mca.MCACompat;
 import de.teamlapen.vampirism_integrations.tan.TANCompat;
 import de.teamlapen.vampirism_integrations.tconstruct.TConstructCompat;
+import de.teamlapen.vampirism_integrations.util.IModCompat;
+import de.teamlapen.vampirism_integrations.util.ModCompatLoader;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import de.teamlapen.vampirism_integrations.waila.WailaModCompat;
 import net.minecraft.ChatFormatting;
 import net.minecraft.SharedConstants;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.*;
-import net.minecraft.world.item.Item;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,6 +30,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -136,7 +138,9 @@ public class VampirismIntegrationsMod {
 
     @SubscribeEvent
     public void registerItems(RegisterEvent event) {
-        Config.buildConfiguration();
+        if (event.getRegistryKey().equals(ForgeRegistries.ITEMS.getRegistryKey())) {
+            Config.buildConfiguration();
+        }
     }
 
     @SubscribeEvent

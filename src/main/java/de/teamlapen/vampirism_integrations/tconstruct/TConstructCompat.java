@@ -1,6 +1,6 @@
 package de.teamlapen.vampirism_integrations.tconstruct;
 
-import de.teamlapen.lib.lib.util.IModCompat;
+import de.teamlapen.vampirism_integrations.util.IModCompat;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 

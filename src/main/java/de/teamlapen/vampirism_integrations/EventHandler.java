@@ -1,9 +1,12 @@
 package de.teamlapen.vampirism_integrations;
 
-import de.teamlapen.lib.lib.util.IModCompat;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.lib.lib.util.VersionChecker;
+import de.teamlapen.vampirism_integrations.util.IModCompat;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
@@ -14,10 +17,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
-
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 
 public class EventHandler {
 

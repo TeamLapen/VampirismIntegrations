@@ -1,6 +1,6 @@
 package de.teamlapen.vampirism_integrations;
 
-import de.teamlapen.lib.lib.util.IModCompat;
+import de.teamlapen.vampirism_integrations.util.IModCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -26,7 +26,7 @@ public class VampirismCompat implements IModCompat {
     @Nullable
     @Override
     public String getAcceptedVersionRange() {
-        return "[1.8.0-beta.3,)";
+        return "[1.8.0,)";
     }
 
 

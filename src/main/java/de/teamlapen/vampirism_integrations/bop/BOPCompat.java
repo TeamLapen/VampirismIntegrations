@@ -1,11 +1,9 @@
 package de.teamlapen.vampirism_integrations.bop;
 
 import de.teamlapen.lib.lib.util.IInitListener;
-import de.teamlapen.lib.lib.util.IModCompat;
+import de.teamlapen.vampirism_integrations.util.IModCompat;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
-
-import de.teamlapen.lib.lib.util.IInitListener.Step;
 
 public class BOPCompat implements IModCompat {
 

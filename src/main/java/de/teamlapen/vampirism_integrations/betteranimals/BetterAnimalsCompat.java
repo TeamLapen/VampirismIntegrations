@@ -1,11 +1,10 @@
 package de.teamlapen.vampirism_integrations.betteranimals;
 
-import de.teamlapen.lib.lib.util.IModCompat;
-import de.teamlapen.vampirism_integrations.IInterModeEnqueue;
+import de.teamlapen.vampirism_integrations.util.IModCompat;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 
-public class BetterAnimalsCompat implements IModCompat, IInterModeEnqueue {
+public class BetterAnimalsCompat implements IModCompat {
 
     @Override
     public void buildConfig(ForgeConfigSpec.Builder builder) {
@@ -18,7 +17,9 @@ public class BetterAnimalsCompat implements IModCompat, IInterModeEnqueue {
     }
 
     @Override
-    public void enqueueIMC(InterModEnqueueEvent event) {
-        BetterAnimalsConvertibles.changeConvertibles();
+    public void onInitStep(Step step, ParallelDispatchEvent event) {
+        if (step == Step.ENQUEUE_IMC) {
+            BetterAnimalsConvertibles.changeConvertibles();
+        }
     }
 }

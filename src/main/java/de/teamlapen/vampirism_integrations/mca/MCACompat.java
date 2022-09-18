@@ -1,6 +1,6 @@
 package de.teamlapen.vampirism_integrations.mca;
 
-import de.teamlapen.lib.lib.util.IModCompat;
+import de.teamlapen.vampirism_integrations.util.IModCompat;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
