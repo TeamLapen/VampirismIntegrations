@@ -7,11 +7,10 @@ import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism.api.entity.convertible.ICurableConvertedCreature;
-import de.teamlapen.vampirism.core.ModItems;
 import de.teamlapen.vampirism.core.ModVillage;
-import de.teamlapen.vampirism.entity.DamageHandler;
+import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.entity.villager.Trades;
-import de.teamlapen.vampirism.player.vampire.VampirePlayer;
+import de.teamlapen.vampirism.util.DamageHandler;
 import de.teamlapen.vampirism.util.Helper;
 import forge.net.mca.entity.VillagerEntityMCA;
 import forge.net.mca.entity.ai.brain.VillagerTasksMCA;
@@ -40,9 +39,9 @@ import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.ai.village.ReputationEventType;
 import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -146,9 +145,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     @Override
     public boolean doHurtTarget(@Nonnull Entity entity) {
         if (!this.level.isClientSide && this.wantsBlood() && entity instanceof Player && !Helper.isHunter(entity) && !UtilLib.canReallySee((LivingEntity) entity, this, true)) {
-            int amt = (Integer) VampirePlayer.getOpt((Player) entity).map((vampire) -> {
-                return vampire.onBite(this);
-            }).orElse(0);
+            int amt = VampirePlayer.getOpt((Player) entity).map((vampire) -> vampire.onBite(this)).orElse(0);
             this.drinkBlood(amt, 0.7F);
             return true;
         } else {
@@ -211,7 +208,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     @Nonnull
     public InteractionResult mobInteract(Player player, @Nonnull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        return stack.getItem() != ModItems.CURE_APPLE.get() ? super.mobInteract(player, hand) : this.interactWithCureItem(player, stack, this);
+        return stack.getItem() != Items.GOLDEN_APPLE ? super.mobInteract(player, hand) : this.interactWithCureItem(player, stack, this);
     }
 
     @Override

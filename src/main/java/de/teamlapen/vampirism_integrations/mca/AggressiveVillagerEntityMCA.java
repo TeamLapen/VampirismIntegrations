@@ -3,10 +3,9 @@ package de.teamlapen.vampirism_integrations.mca;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.IAggressiveVillager;
-import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.world.ICaptureAttributes;
 import de.teamlapen.vampirism.core.ModItems;
-import de.teamlapen.vampirism.entity.goals.DefendVillageGoal;
+import de.teamlapen.vampirism.entity.ai.goals.DefendVillageGoal;
 import forge.net.mca.entity.VillagerEntityMCA;
 import forge.net.mca.entity.ai.relationship.Gender;
 import net.minecraft.nbt.CompoundTag;
@@ -31,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 
 
-public class AngryVillagerEntityMCA extends VillagerEntityMCA implements IAggressiveVillager {
+public class AggressiveVillagerEntityMCA extends VillagerEntityMCA implements IAggressiveVillager {
     @Nullable
     public static Villager makeAngry(VillagerEntityMCA villager) {
         if (villager.getProfession() == ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation("mca:guard")) || villager.getProfession() == ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation("mca:outlaw")) || villager.isInfected()) {
@@ -48,7 +47,7 @@ public class AngryVillagerEntityMCA extends VillagerEntityMCA implements IAggres
     @Nullable
     private ICaptureAttributes villageAttributes;
 
-    public AngryVillagerEntityMCA(EntityType<AngryVillagerEntityMCA> type, Level w, Gender gender) {
+    public AggressiveVillagerEntityMCA(EntityType<AggressiveVillagerEntityMCA> type, Level w, Gender gender) {
         super(((EntityType) type), w, gender);
     }
 
@@ -117,10 +116,10 @@ public class AngryVillagerEntityMCA extends VillagerEntityMCA implements IAggres
         this.goalSelector.addGoal(8, new MoveThroughVillageGoal(this, 0.55D, false, 400, () -> {
             return true;
         }));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, new Class[0]));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(this.getFaction(), true, false, false, false, (IFaction) null)));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(this.getFaction(), true, false, false, false, null)));
         this.targetSelector.addGoal(3, new DefendVillageGoal(this));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<PathfinderMob>(this, PathfinderMob.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(this.getFaction(), false, true, false, false, (IFaction) null)) {
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<PathfinderMob>(this, PathfinderMob.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(this.getFaction(), false, true, false, false, null)) {
             protected double getFollowDistance() {
                 return super.getFollowDistance() / 2.0D;
             }

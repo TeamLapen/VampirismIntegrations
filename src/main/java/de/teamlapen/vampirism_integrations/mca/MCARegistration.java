@@ -27,10 +27,10 @@ public class MCARegistration {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, REFERENCE.MODID);
 
 
-    public static final RegistryObject<EntityType<ConvertedVillagerEntityMCA>> MALE_CONVERTED_VILLAGER = MCARegistration.prepareEntityType(MCACompat.CONVERTED_MALE_VILLAGER_ID, getBuilder(MCAEntityClassRedirect::createConverted,true), true);
-    public static final RegistryObject<EntityType<ConvertedVillagerEntityMCA>> FEMALE_CONVERTED_VILLAGER = MCARegistration.prepareEntityType(MCACompat.CONVERTED_FEMALE_VILLAGER_ID, getBuilder(MCAEntityClassRedirect::createConverted,false), false);
-    public static final RegistryObject<EntityType<AngryVillagerEntityMCA>> MALE_AGGRESSIVE_VILLAGER = MCARegistration.prepareEntityType(MCACompat.ANGRY_MALE_VILLAGER_ID, getBuilder(MCAEntityClassRedirect::createAngry,true), true);
-    public static final RegistryObject<EntityType<AngryVillagerEntityMCA>> FEMALE_AGGRESSIVE_VILLAGER = MCARegistration.prepareEntityType(MCACompat.ANGRY_FEMALE_VILLAGER_ID, getBuilder(MCAEntityClassRedirect::createAngry,false), true);
+    public static final RegistryObject<EntityType<ConvertedVillagerEntityMCA>> MALE_CONVERTED_VILLAGER = MCARegistration.prepareEntityType(MCACompat.CONVERTED_MALE_VILLAGER_ID, getBuilder(MCAEntityClassRedirect::createConverted, true), true);
+    public static final RegistryObject<EntityType<ConvertedVillagerEntityMCA>> FEMALE_CONVERTED_VILLAGER = MCARegistration.prepareEntityType(MCACompat.CONVERTED_FEMALE_VILLAGER_ID, getBuilder(MCAEntityClassRedirect::createConverted, false), false);
+    public static final RegistryObject<EntityType<AggressiveVillagerEntityMCA>> MALE_AGGRESSIVE_VILLAGER = MCARegistration.prepareEntityType(MCACompat.ANGRY_MALE_VILLAGER_ID, getBuilder(MCAEntityClassRedirect::createAngry, true), true);
+    public static final RegistryObject<EntityType<AggressiveVillagerEntityMCA>> FEMALE_AGGRESSIVE_VILLAGER = MCARegistration.prepareEntityType(MCACompat.ANGRY_FEMALE_VILLAGER_ID, getBuilder(MCAEntityClassRedirect::createAngry, false), true);
 
 
     static void registerEntities(IEventBus bus) {

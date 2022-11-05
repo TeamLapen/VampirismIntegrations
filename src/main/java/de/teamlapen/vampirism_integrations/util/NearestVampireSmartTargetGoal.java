@@ -2,8 +2,7 @@ package de.teamlapen.vampirism_integrations.util;
 
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.blockentity.TotemHelper;
-import de.teamlapen.vampirism.world.VampirismWorld;
+import de.teamlapen.vampirism.util.TotemHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;

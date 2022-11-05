@@ -9,7 +9,7 @@ public class MCAEntityClassRedirect {
         return EntityType.Builder.<ConvertedVillagerEntityMCA>of((type, level) -> new ConvertedVillagerEntityMCA(type, level, male ? Gender.MALE : Gender.FEMALE), MobCategory.CREATURE).sized(0.6f, 2f);
     }
 
-    public static EntityType.Builder<AngryVillagerEntityMCA> createAngry(boolean male) {
-        return EntityType.Builder.<AngryVillagerEntityMCA>of((type, level) -> new AngryVillagerEntityMCA(type, level, male ? Gender.MALE : Gender.FEMALE), MobCategory.CREATURE).sized(0.6f, 2f);
+    public static EntityType.Builder<AggressiveVillagerEntityMCA> createAngry(boolean male) {
+        return EntityType.Builder.<AggressiveVillagerEntityMCA>of((type, level) -> new AggressiveVillagerEntityMCA(type, level, male ? Gender.MALE : Gender.FEMALE), MobCategory.CREATURE).sized(0.6f, 2f);
     }
 }

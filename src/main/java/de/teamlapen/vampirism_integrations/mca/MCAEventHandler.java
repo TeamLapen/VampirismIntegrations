@@ -15,7 +15,7 @@ public class MCAEventHandler {
     @SubscribeEvent
     public void onCreateAggressiveVillager(VampirismVillageEvent.MakeAggressive event) {
         if (event.getOldVillager() instanceof VillagerEntityMCA villagerEntityMCA) {
-            Villager v = AngryVillagerEntityMCA.makeAngry(villagerEntityMCA);
+            Villager v = AggressiveVillagerEntityMCA.makeAngry(villagerEntityMCA);
             if (v != null) {
                 UtilLib.replaceEntity(event.getOldVillager(), v);
                 event.setCanceled(true);
