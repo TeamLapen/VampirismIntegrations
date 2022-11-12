@@ -45,10 +45,11 @@ curseforge {
             optionalDependency 'tinkers-construct'
             optionalDependency 'better-animal-models'
             optionalDependency 'betteranimalsplus'
-//            optionalDependency 'crafttweaker'
+            optionalDependency 'crafttweaker'
             optionalDependency 'evilcraft'
             optionalDependency 'tough-as-nails'
             optionalDependency 'minecraft-comes-alive-reborn'
+            optionalDependency 'better-combat-by-daedelus'
         }
 
 
