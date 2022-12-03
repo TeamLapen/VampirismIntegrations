@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "biomesoplenty:blood",
+      "value": 0.4
+    },
+    {
+      "id": "evilcraft:blood",
+      "value": 0.8
+    },
+    {
+      "id": "bloodmagic:life_essence_fluid",
+      "value": 0.8
+    },
+    {
+      "id": "tconstruct:blood",
+      "value": 0.8
+    }
+  ]
+}

@@ -1,2 +1,0 @@
-#Tinkers Construct
-tconstruct:blood=80

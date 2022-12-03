@@ -8,7 +8,6 @@ import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 public class BOPCompat implements IModCompat {
 
     public static final String ID = "biomesoplenty";
-    static ForgeConfigSpec.DoubleValue conversion_factor;
     ForgeConfigSpec.BooleanValue disabled_sundamage_ominous_woods;
 
     @Override
@@ -19,7 +18,6 @@ public class BOPCompat implements IModCompat {
     @Override
     public void buildConfig(ForgeConfigSpec.Builder builder) {
         disabled_sundamage_ominous_woods = builder.comment("Whether sundamage should be applied to vampires in this biome or not").define("disable_sundamage_ominous_woods", true);
-        conversion_factor = builder.comment("BOP Hell Blood * factor = Vampirism Blood").defineInRange("hell_blood_conversion_factor", 0.4, 0d, 10d);
     }
 
 

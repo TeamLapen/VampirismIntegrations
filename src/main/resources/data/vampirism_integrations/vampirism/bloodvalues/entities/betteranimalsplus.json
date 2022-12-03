@@ -1,0 +1,150 @@
+{
+  "replace": false,
+  "author": "Unknown",
+  "values": [
+    {
+      "id": "betteranimalsplus:pheasant",
+      "value": 7
+    },
+    {
+      "id": "betteranimalsplus:badger",
+      "value": 3
+    },
+    {
+      "id": "betteranimalsplus:moose",
+      "value": 20
+    },
+    {
+      "id": "betteranimalsplus:coyote",
+      "value": 4
+    },
+    {
+      "id": "betteranimalsplus:goose",
+      "value": 3
+    },
+    {
+      "id": "betteranimalsplus:boar",
+      "value": 5
+    },
+    {
+      "id": "betteranimalsplus:deer",
+      "value": 8
+    },
+    {
+      "id": "betteranimalsplus:reindeer",
+      "value": 8
+    },
+    {
+      "id": "betteranimalsplus:goat",
+      "value": 6
+    },
+    {
+      "id": "betteranimalsplus:brownbear",
+      "value": 10
+    },
+    {
+      "id": "betteranimalsplus:turkey",
+      "value": 4
+    },
+    {
+      "id": "betteranimalsplus:walrus",
+      "value": 8
+    },
+    {
+      "id": "betteranimalsplus:blackbear",
+      "value": 10
+    },
+    {
+      "id": "betteranimalsplus:feralwolf",
+      "value": 6
+    },
+    {
+      "id": "betteranimalsplus:horseshoecrab",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:songbird",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:crab",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:shark",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:tarantula",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:piranha",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:bobbit_worm",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:barracuda",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:nautilus",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:eel_saltwater",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:flying_fish",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:dragonfly",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:squirrel",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:squid_colossal",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:lammergeier",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:jellyfish",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:octopus",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:squid_giant",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:eel_freshwater",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:whale",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:lamprey",
+      "value": 0
+    },
+    {
+      "id": "betteranimalsplus:butterfly",
+      "value": 0
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "evilcraft:blood_orb_filled",
+      "value": 800
+    }
+  ]
+}
