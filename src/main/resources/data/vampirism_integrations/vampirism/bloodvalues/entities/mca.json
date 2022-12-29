@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "author": "Vampirism Team",
+  "values": [
+    {
+      "id": "mca:female_villager",
+      "value": 15
+    },
+    {
+      "id": "mca:male_villager",
+      "value": 15
+    }
+  ]
+}
