@@ -21,7 +21,7 @@ public class TANCompat implements IModCompat {
 
     @Override
     public void onInitStep(Step step, ParallelDispatchEvent event) {
-        if (step == Step.COMMON_SETUP) {
+        if (step == Step.LOAD_COMPLETE) {
             MinecraftForge.EVENT_BUS.register(new ThirstHandler());
             TemperatureModifier.register();
         }
