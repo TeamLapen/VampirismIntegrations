@@ -197,7 +197,7 @@ dependencies {
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.19.3-forge:${project.jei_version}") //Full for runtime
+    runtimeOnly fg.deobf("mezz.jei:jei-1.19.2-forge:${project.jei_version}") //Full for runtime
 
     //Old
     //deobfCompile 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version // +':api'
