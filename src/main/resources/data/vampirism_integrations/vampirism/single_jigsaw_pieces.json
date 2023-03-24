@@ -1,0 +1,26 @@
+{
+  "single_pieces": [
+    "ctov:village/beach/jobsite/hunter_trainer",
+    "ctov:village/christmas/jobsite/hunter_trainer",
+    "ctov:village/desert/jobsite/hunter_trainer",
+    "ctov:village/desert_oasis/jobsite/hunter_trainer",
+    "ctov:village/halloween/jobsite/hunter_trainer",
+    "ctov:village/jungle/jobsite/hunter_trainer",
+    "ctov:village/jungle_tree/jobsite/hunter_trainer",
+    "ctov:village/mesa/jobsite/hunter_trainer",
+    "ctov:village/mesa_fortified/jobsite/hunter_trainer",
+    "ctov:village/mountain/jobsite/hunter_trainer",
+    "ctov:village/mountain_alpine/jobsite/hunter_trainer",
+    "ctov:village/mushroom/jobsite/hunter_trainer",
+    "ctov:village/plains/jobsite/hunter_trainer",
+    "ctov:village/plains_fortified/jobsite/hunter_trainer",
+    "ctov:village/savanna/jobsite/hunter_trainer",
+    "ctov:village/savanna_na/jobsite/hunter_trainer",
+    "ctov:village/snowy_igloo/jobsite/hunter_trainer",
+    "ctov:village/swamp/jobsite/hunter_trainer",
+    "ctov:village/swamp_fortified/jobsite/hunter_trainer",
+    "ctov:village/taiga/jobsite/hunter_trainer",
+    "ctov:village/swamp_fortified/jobsite/hunter_trainer",
+    "ctov:village/taiga_fortified/jobsite/hunter_trainer"
+  ]
+}
