@@ -7,6 +7,7 @@ import de.teamlapen.vampirism_integrations.betteranimals.BetterAnimalsCompat;
 import de.teamlapen.vampirism_integrations.betteranimalsplus.BetterAnimalsPlusCompat;
 import de.teamlapen.vampirism_integrations.bloodmagic.BloodmagicCompat;
 import de.teamlapen.vampirism_integrations.bop.BOPCompat;
+import de.teamlapen.vampirism_integrations.ctov.ChoiceTheoremOverhauledVillage;
 import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
 import de.teamlapen.vampirism_integrations.mca.MCACompat;
 import de.teamlapen.vampirism_integrations.tan.TANCompat;
@@ -73,6 +74,7 @@ public class VampirismIntegrationsMod {
 //        compatLoader.addModCompat(new CrafttweakerCompat());
         compatLoader.addModCompat(new TANCompat());
         compatLoader.addModCompat(new MCACompat());
+        compatLoader.addModCompat(new ChoiceTheoremOverhauledVillage());
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegister);
         MinecraftForge.EVENT_BUS.register(new EventHandler());
