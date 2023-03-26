@@ -7,6 +7,7 @@ import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism.api.entity.convertible.ICurableConvertedCreature;
+import de.teamlapen.vampirism.core.ModAdvancements;
 import de.teamlapen.vampirism.core.ModVillage;
 import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.entity.villager.Trades;
@@ -56,6 +57,7 @@ import java.util.UUID;
 public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICurableConvertedCreature<VillagerEntityMCA> {
 
     public static final List<SensorType<? extends Sensor<? super Villager>>> SENSOR_TYPES;
+    private static final byte EVENT_ID_CURE = 40;
     private static final EntityDataAccessor<Boolean> CONVERTING;
 
     static {
@@ -134,7 +136,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
         if (this.conversationStarter != null) {
             Player playerentity = world.getPlayerByUUID(this.conversationStarter);
             if (playerentity instanceof ServerPlayer) {
-                //ModAdvancements.TRIGGER_CURED_VAMPIRE_VILLAGER.trigger((ServerPlayer)playerentity, this, villager); TODO wait for new Vampirism version
+                ModAdvancements.TRIGGER_CURED_VAMPIRE_VILLAGER.trigger((ServerPlayer) playerentity, this, villager);
                 world.onReputationEvent(ReputationEventType.ZOMBIE_VILLAGER_CURED, playerentity, villager);
             }
         }
@@ -178,6 +180,14 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
     @Override
     public void handleEntityEvent(byte id) {
+        //MCA villagers use 16 as sound event for reward hearts. ICurableConvertedCreature uses 16 for curing sound
+        //We use SOUND_ID_CURE
+        if (id == 16) {
+            super.handleEntityEvent(id);
+            return;
+        } else if (id == EVENT_ID_CURE) {
+            id = 16;
+        }
         if (!this.handleSound(id, this)) {
             super.handleEntityEvent(id);
         }
@@ -223,6 +233,8 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     @Override
     public void startConverting(@Nullable UUID conversionStarterIn, int conversionTimeIn, @Nonnull PathfinderMob entity) {
         ICurableConvertedCreature.super.startConverting(conversionStarterIn, conversionTimeIn, entity);
+        entity.level.broadcastEntityEvent(entity, EVENT_ID_CURE); //Use our own id to avoid clash with MCA reward hearts event
+
         this.conversationStarter = conversionStarterIn;
         this.conversionTime = conversionTimeIn;
     }
