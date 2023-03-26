@@ -9,6 +9,7 @@ import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism.api.entity.convertible.ICurableConvertedCreature;
 import de.teamlapen.vampirism.core.ModAdvancements;
 import de.teamlapen.vampirism.core.ModVillage;
+import de.teamlapen.vampirism.entity.ExtendedCreature;
 import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.entity.villager.Trades;
 import de.teamlapen.vampirism.util.DamageHandler;
@@ -301,7 +302,10 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
             CompoundTag nbt = new CompoundTag();
             entity.saveWithoutId(nbt);
             Villager converted = (entity.getGenetics().getGender() == Gender.FEMALE ? MCARegistration.FEMALE_CONVERTED_VILLAGER : MCARegistration.MALE_CONVERTED_VILLAGER).get().create(entity.level);
+            CompoundTag nbtExtended = new CompoundTag();
+            ExtendedCreature.getSafe(converted).ifPresent(ec -> ec.saveData(nbtExtended));
             converted.load(nbt);
+            ExtendedCreature.getSafe(converted).ifPresent(ec -> ec.loadData(nbtExtended));
             converted.setUUID(Mth.createInsecureUUID(converted.getRandom()));
             converted.yBodyRot = entity.yBodyRot;
             converted.yHeadRot = entity.yHeadRot;
