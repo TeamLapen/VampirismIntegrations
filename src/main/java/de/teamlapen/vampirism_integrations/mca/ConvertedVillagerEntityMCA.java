@@ -14,6 +14,7 @@ import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.entity.villager.Trades;
 import de.teamlapen.vampirism.util.DamageHandler;
 import de.teamlapen.vampirism.util.Helper;
+import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import forge.net.mca.entity.VillagerEntityMCA;
 import forge.net.mca.entity.ai.brain.VillagerTasksMCA;
 import forge.net.mca.entity.ai.relationship.AgeState;
@@ -27,7 +28,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -47,6 +47,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -299,14 +302,14 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
         @Override
         public IConvertedCreature<VillagerEntityMCA> createFrom(VillagerEntityMCA entity) {
-            CompoundTag nbt = new CompoundTag();
-            entity.saveWithoutId(nbt);
             Villager converted = (entity.getGenetics().getGender() == Gender.FEMALE ? MCARegistration.FEMALE_CONVERTED_VILLAGER : MCARegistration.MALE_CONVERTED_VILLAGER).get().create(entity.level);
             CompoundTag nbtExtended = new CompoundTag();
             ExtendedCreature.getSafe(converted).ifPresent(ec -> ec.saveData(nbtExtended));
-            converted.load(nbt);
+            converted.restoreFrom(entity);
             ExtendedCreature.getSafe(converted).ifPresent(ec -> ec.loadData(nbtExtended));
-            converted.setUUID(Mth.createInsecureUUID(converted.getRandom()));
+            if (ModList.get().getModContainerById(REFERENCE.VAMPIRISM_ID).map(ModContainer::getModInfo).map(IModInfo::getVersion).map(version -> version.getMinorVersion() <= 9 && version.getIncrementalVersion() <= 3).orElse(true)) {
+                entity.discard(); //Force discard the entity ourselves. Older Vampirism versions add the new entity first and thereby cause an UUID conflict
+            }
             converted.yBodyRot = entity.yBodyRot;
             converted.yHeadRot = entity.yHeadRot;
             return (IConvertedCreature<VillagerEntityMCA>) converted;

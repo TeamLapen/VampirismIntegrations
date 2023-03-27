@@ -6,11 +6,11 @@ import de.teamlapen.vampirism.api.entity.IAggressiveVillager;
 import de.teamlapen.vampirism.api.world.ICaptureAttributes;
 import de.teamlapen.vampirism.core.ModItems;
 import de.teamlapen.vampirism.entity.ai.goals.DefendVillageGoal;
+import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import forge.net.mca.entity.VillagerEntityMCA;
 import forge.net.mca.entity.ai.relationship.Gender;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
@@ -24,6 +24,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,7 +43,9 @@ public class AggressiveVillagerEntityMCA extends VillagerEntityMCA implements IA
         Villager angry = t.create(villager.level);
         if (angry == null) return null;
         angry.restoreFrom(villager);
-        angry.setUUID(Mth.createInsecureUUID());
+        if (ModList.get().getModContainerById(REFERENCE.VAMPIRISM_ID).map(ModContainer::getModInfo).map(IModInfo::getVersion).map(version -> version.getMinorVersion() <= 9 && version.getIncrementalVersion() <= 3).orElse(true)) {
+            villager.discard(); //Force discard the entity ourselves. Older Vampirism versions add the new entity first and thereby cause an UUID conflict
+        }
         return angry;
     }
 
@@ -102,10 +107,10 @@ public class AggressiveVillagerEntityMCA extends VillagerEntityMCA implements IA
         assert villager != null;
 
         this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
-        CompoundTag nbt = new CompoundTag();
-        this.saveWithoutId(nbt);
-        villager.load(nbt);
-        villager.setUUID(Mth.createInsecureUUID(this.random));
+        villager.restoreFrom(this);
+        if (ModList.get().getModContainerById(REFERENCE.VAMPIRISM_ID).map(ModContainer::getModInfo).map(IModInfo::getVersion).map(version -> version.getMinorVersion() <= 9 && version.getIncrementalVersion() <= 3).orElse(true)) {
+            this.discard(); //Force discard the entity ourselves. Older Vampirism versions add the new entity first and thereby cause an UUID conflict
+        }
         UtilLib.replaceEntity(this, villager);
     }
 

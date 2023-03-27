@@ -2,6 +2,7 @@ package de.teamlapen.vampirism_integrations.mca;
 
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
+import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
 import forge.net.mca.entity.VillagerEntityMCA;
 import net.minecraft.world.entity.EntityType;
@@ -15,6 +16,8 @@ public class MCAEventHandler {
     @SubscribeEvent
     public void onCreateAggressiveVillager(VampirismVillageEvent.MakeAggressive event) {
         if (event.getOldVillager() instanceof VillagerEntityMCA villagerEntityMCA) {
+            if (villagerEntityMCA instanceof IFactionEntity) return;
+            if (villagerEntityMCA.getAge() < 0) return;
             Villager v = AggressiveVillagerEntityMCA.makeAngry(villagerEntityMCA);
             if (v != null) {
                 UtilLib.replaceEntity(event.getOldVillager(), v);
