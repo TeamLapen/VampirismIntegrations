@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.UUID;
 
 
-public class ThirstHandler {
+public class SurviveHandler {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final static UUID VAMPIRE_MOD_UUID = UUID.fromString("3625f8a1-3ac3-4289-8c26-b50ddccf066c");
@@ -70,7 +70,7 @@ public class ThirstHandler {
             try {
                 if (Helper.isVampire((Player) event.getEntity())) {
                     WaterData stats = SurviveEntityStats.getWaterStats(event.getEntity());
-                    if (stats.needWater()) {
+                    if (stats.needWater() && stats.getWaterLevel() < 20) {
                         stats.setWaterLevel(stats.getWaterLevel() + 1);
                         SurviveEntityStats.setWaterStats(event.getEntity(), stats);
                     }

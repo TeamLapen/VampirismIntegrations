@@ -36,7 +36,7 @@ public class SurviveCompat implements IModCompat {
     public void onInitStep(Step step, ParallelDispatchEvent event) {
         if (step == Step.COMMON_SETUP) {
             try {
-                MinecraftForge.EVENT_BUS.register(new ThirstHandler());
+                MinecraftForge.EVENT_BUS.register(new SurviveHandler());
             } catch (Exception e) {
                 LogManager.getLogger().error("Failed to register survive thirst handler", e);
             }
