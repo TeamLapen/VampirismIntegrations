@@ -20,7 +20,6 @@ import forge.net.mca.entity.ai.brain.VillagerTasksMCA;
 import forge.net.mca.entity.ai.relationship.AgeState;
 import forge.net.mca.entity.ai.relationship.Gender;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -51,6 +50,7 @@ import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -131,12 +131,23 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     }
 
     @Override
+    public VillagerEntityMCA createCuredEntity(@NotNull PathfinderMob entity, @NotNull EntityType<VillagerEntityMCA> newType) {
+        VillagerEntityMCA villager = newType.create(entity.level);
+        assert villager != null;
+        villager.restoreFrom(entity);
+        villager.setUUID(Mth.createInsecureUUID(this.random));
+        villager.yBodyRot = entity.yBodyRot;
+        villager.yHeadRot = entity.yHeadRot;
+        return villager;
+    }
+
+    @Override
     public VillagerEntityMCA cureEntity(ServerLevel world, PathfinderMob entity, EntityType<VillagerEntityMCA> newType) {
         VillagerEntityMCA villager = ICurableConvertedCreature.super.cureEntity(world, entity, newType);
-        villager.setVillagerData(this.getVillagerData());
-        villager.setGossips(this.getGossips().store(NbtOps.INSTANCE).getValue());
-        villager.setOffers(this.getOffers());
-        villager.setVillagerXp(this.getVillagerXp());
+//        villager.setVillagerData(this.getVillagerData());
+//        villager.setGossips(this.getGossips().store(NbtOps.INSTANCE).getValue());
+//        villager.setOffers(this.getOffers());
+//        villager.setVillagerXp(this.getVillagerXp());
         if (this.conversationStarter != null) {
             Player playerentity = world.getPlayerByUUID(this.conversationStarter);
             if (playerentity instanceof ServerPlayer) {

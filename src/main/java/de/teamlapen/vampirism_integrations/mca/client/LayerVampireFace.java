@@ -27,9 +27,9 @@ public class LayerVampireFace<T extends Mob & VillagerLike<T>> extends VillagerL
     }
 
     @Override
-    protected ResourceLocation getSkin(T villager) {
+    public ResourceLocation getSkin(T villager) {
         int totalFaces = this.eyeOverlays.length;
-        int index = (int)Math.min((float)(totalFaces - 1), Math.max(0.0F, villager.getGenetics().getGene(Genetics.FACE) * (float)totalFaces));
+        int index = (int) Math.min((float) (totalFaces - 1), Math.max(0.0F, villager.getGenetics().getGene(Genetics.FACE) * (float) totalFaces));
         return eyeOverlays[index];
     }
 

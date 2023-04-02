@@ -103,9 +103,7 @@ public class AggressiveVillagerEntityMCA extends VillagerEntityMCA implements IA
     @Override
     public void stopVillageAttackDefense() {
         LivingEntity villager = (LivingEntity) (this.getGenetics().getGender() == Gender.FEMALE ? ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.FEMALE_VILLAGER) : ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.MALE_VILLAGER)).create(this.level);
-
         assert villager != null;
-
         this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
         villager.restoreFrom(this);
         if (ModList.get().getModContainerById(REFERENCE.VAMPIRISM_ID).map(ModContainer::getModInfo).map(IModInfo::getVersion).map(version -> version.getMinorVersion() <= 9 && version.getIncrementalVersion() <= 3).orElse(true)) {

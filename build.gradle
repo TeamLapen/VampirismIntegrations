@@ -35,12 +35,10 @@ configurations {
 sourceSets{
     main {
         java{
-            exclude '**/abyssalcraft/*'
-            exclude '**/toroquest/*'
             exclude '**/consecration/*'
-            exclude '**/survive/*'
             exclude '**/crafttweaker/*'
             exclude '**/diet/*'
+            exclude '**/betteranimalsplus/*'
         }
     }
 }

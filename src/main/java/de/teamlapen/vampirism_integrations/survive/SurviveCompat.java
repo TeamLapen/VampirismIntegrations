@@ -1,14 +1,12 @@
 package de.teamlapen.vampirism_integrations.survive;
 
-import de.teamlapen.lib.lib.util.IModCompat;
+import de.teamlapen.vampirism_integrations.util.IModCompat;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
-
-import de.teamlapen.lib.lib.util.IInitListener.Step;
 
 public class SurviveCompat implements IModCompat {
 

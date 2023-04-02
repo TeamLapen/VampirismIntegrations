@@ -1,7 +1,6 @@
 package de.teamlapen.vampirism_integrations.survive;
 
 
-import com.stereowalker.survive.config.Config;
 import com.stereowalker.survive.core.SurviveEntityStats;
 import com.stereowalker.survive.needs.StaminaData;
 import com.stereowalker.survive.needs.WaterData;
@@ -9,10 +8,10 @@ import com.stereowalker.survive.world.entity.ai.attributes.SAttributes;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.event.PlayerFactionEvent;
 import de.teamlapen.vampirism.util.Helper;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
@@ -66,14 +65,14 @@ public class ThirstHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
+    public void onPlayerUpdate(LivingEvent.LivingTickEvent event) {
         if (SurviveCompat.disableThirstForVampires.get() && event.getEntity() instanceof ServerPlayer) {
             try {
                 if (Helper.isVampire((Player) event.getEntity())) {
-                    WaterData stats = SurviveEntityStats.getWaterStats(event.getEntityLiving());
+                    WaterData stats = SurviveEntityStats.getWaterStats(event.getEntity());
                     if (stats.needWater()) {
                         stats.setWaterLevel(stats.getWaterLevel() + 1);
-                        SurviveEntityStats.setWaterStats(event.getEntityLiving(), stats);
+                        SurviveEntityStats.setWaterStats(event.getEntity(), stats);
                     }
                 }
             } catch (Throwable e) {
@@ -87,10 +86,10 @@ public class ThirstHandler {
             try {
                 if (Helper.isVampire((Player) event.getEntity())) {
                     if (event.getEntity().tickCount % 64 == 0) {
-                        StaminaData stats = SurviveEntityStats.getEnergyStats(event.getEntityLiving());
+                        StaminaData stats = SurviveEntityStats.getEnergyStats(event.getEntity());
                         if (stats.isTired()) {
-                            stats.setEnergyLevel(stats.getEnergyLevel()+1); //Since we are tired, we should be below maxStamina
-                            SurviveEntityStats.setStaminaStats(event.getEntityLiving(), stats);
+                            stats.setEnergyLevel(stats.getEnergyLevel() + 1); //Since we are tired, we should be below maxStamina
+                            SurviveEntityStats.setStaminaStats(event.getEntity(), stats);
                         }
                     }
 
