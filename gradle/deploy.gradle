@@ -40,6 +40,7 @@ curseforge {
             optionalDependency 'better-combat-by-daedelus'
             optionalDependency 'the-graveyard-biomes-forge'
             optionalDependency 'choicetheorems-overhauled-village'
+            optionalDependency 'player-companions'
         }
 
 

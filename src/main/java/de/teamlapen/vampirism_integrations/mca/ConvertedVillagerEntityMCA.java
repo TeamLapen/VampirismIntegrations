@@ -236,6 +236,17 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     }
 
     @Override
+    public ItemStack eat(Level world, ItemStack stack) {
+        //Also allow curing when gifting a golden apple
+        if (stack.getItem() == Items.GOLDEN_APPLE) {
+            if (!isConverting(this) && this.hasEffect(MobEffects.WEAKNESS)) {
+                this.startConverting(this.getInteractions().getInteractingPlayer().map(Entity::getUUID).orElse(null), this.getRandom().nextInt(2400) + 2400, this);
+            }
+        }
+        return super.eat(world, stack);
+    }
+
+    @Override
     public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains("ConversionTime", 99) && compound.getInt("ConversionTime") > -1) {

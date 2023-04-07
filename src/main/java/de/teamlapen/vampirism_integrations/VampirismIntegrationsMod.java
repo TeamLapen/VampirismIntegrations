@@ -9,6 +9,7 @@ import de.teamlapen.vampirism_integrations.ctov.ChoiceTheoremOverhauledVillage;
 import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
 import de.teamlapen.vampirism_integrations.graveyard.GraveyardCompat;
 import de.teamlapen.vampirism_integrations.mca.MCACompat;
+import de.teamlapen.vampirism_integrations.player_companion.PlayerCompanionCompat;
 import de.teamlapen.vampirism_integrations.survive.SurviveCompat;
 import de.teamlapen.vampirism_integrations.tan.TANCompat;
 import de.teamlapen.vampirism_integrations.util.IModCompat;
@@ -75,6 +76,7 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new TANCompat());
         compatLoader.addModCompat(new MCACompat());
         compatLoader.addModCompat(new ChoiceTheoremOverhauledVillage());
+        compatLoader.addModCompat(new PlayerCompanionCompat());
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegister);
         MinecraftForge.EVENT_BUS.register(new EventHandler());
