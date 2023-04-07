@@ -6,6 +6,8 @@
       <directory url="file://$PROJECT_DIR$/src/main/java/de/teamlapen/vampirism_integrations/betteranimalsplus" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/src/main/java/de/teamlapen/vampirism_integrations/crafttweaker" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/src/main/java/de/teamlapen/vampirism_integrations/diet" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/java/de/teamlapen/vampirism_integrations/tconstruct" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/java/de/teamlapen/vampirism_integrations/bloodmagic" includeSubdirectories="true" />
     </excludeFromCompile>
     <bytecodeTargetLevel target="17" />
   </component>

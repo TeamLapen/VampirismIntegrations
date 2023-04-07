@@ -1,6 +1,7 @@
 package de.teamlapen.vampirism_integrations.bop;
 
 import de.teamlapen.lib.lib.util.IInitListener;
+import de.teamlapen.vampirism_integrations.VampirismIntegrationsMod;
 import de.teamlapen.vampirism_integrations.util.IModCompat;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
@@ -24,7 +25,11 @@ public class BOPCompat implements IModCompat {
     @Override
     public void onInitStep(IInitListener.Step step, ParallelDispatchEvent event) {
         if (step == Step.COMMON_SETUP) {
-            Biomes.registerNoSundamageBiomes(this);
+            try {
+                Biomes.registerNoSundamageBiomes(this);
+            } catch (Exception e) {
+                VampirismIntegrationsMod.LOGGER.error("Failed to disable sundamage for biomes o plenty biomes", e);
+            }
         }
     }
 }

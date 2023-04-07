@@ -135,7 +135,6 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
         VillagerEntityMCA villager = newType.create(entity.level);
         assert villager != null;
         villager.restoreFrom(entity);
-        villager.setUUID(Mth.createInsecureUUID(this.random));
         villager.yBodyRot = entity.yBodyRot;
         villager.yHeadRot = entity.yHeadRot;
         return villager;

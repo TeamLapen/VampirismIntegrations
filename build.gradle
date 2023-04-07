@@ -39,6 +39,8 @@ sourceSets{
             exclude '**/crafttweaker/*'
             exclude '**/diet/*'
             exclude '**/betteranimalsplus/*'
+            exclude '**/tconstruct/*'
+            exclude '**/bloodmagic/*'
         }
     }
 }

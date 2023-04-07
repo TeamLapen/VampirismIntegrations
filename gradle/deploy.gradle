@@ -29,15 +29,17 @@ curseforge {
             optionalDependency 'wthit'
 //            optionalDependency 'blood-magic'
 //            optionalDependency 'diet'
-//            optionalDependency 'survive'
-            optionalDependency 'tinkers-construct'
-            optionalDependency 'better-animal-models'
-            optionalDependency 'betteranimalsplus'
-            optionalDependency 'crafttweaker'
+            optionalDependency 'survive'
+//            optionalDependency 'tinkers-construct'
+//            optionalDependency 'better-animal-models'
+//            optionalDependency 'betteranimalsplus'
+//            optionalDependency 'crafttweaker'
             optionalDependency 'evilcraft'
             optionalDependency 'tough-as-nails'
             optionalDependency 'minecraft-comes-alive-reborn'
             optionalDependency 'better-combat-by-daedelus'
+            optionalDependency 'the-graveyard-biomes-forge'
+            optionalDependency 'choicetheorems-overhauled-village'
         }
 
 

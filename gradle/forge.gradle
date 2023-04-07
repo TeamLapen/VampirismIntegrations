@@ -160,7 +160,7 @@ dependencies {
     implementation fg.deobf("curse.maven:minecraft-comes-alive-reborn-535291:"+project.mca_fileid)
 
     //The Graveyard Biome https://www.curseforge.com/minecraft/mc-mods/the-graveyard-biomes-forge
-    runtimeOnly fg.deobf("curse.maven:the-graveyard-biomes-forge-584868:"+project.graveyard_fileid)
+    implementation fg.deobf("curse.maven:the-graveyard-biomes-forge-584868:"+project.graveyard_fileid)
 
     // Minecolonies - https://www.curseforge.com/minecraft/mc-mods/minecolonies
     //implementation fg.deobf("curse.maven:minecolonies-245506:3126211")
@@ -194,8 +194,10 @@ dependencies {
     //implementation fg.deobf("curse.maven:betteranimalsplus-303557:"+project.betteranimalsplus_fileid)
     runtimeOnly fg.deobf("dev.architectury:architectury-forge:"+project.architectury_version)
 
-//    implementation fg.deobf("curse.maven:betteranimals-287443:"+project.betteranimals_fileid)
+    //implementation fg.deobf("curse.maven:betteranimals-287443:"+project.betteranimals_fileid)
 
+    //https://www.curseforge.com/minecraft/mc-mods/player-companions
+    implementation fg.deobf("curse.maven:player-companion-552456:"+project.playercompanion_fileid)
     // CraftTweaker
     //compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}")
     //runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}") // For testing
