@@ -41,6 +41,8 @@ sourceSets{
             exclude '**/betteranimalsplus/*'
             exclude '**/tconstruct/*'
             exclude '**/bloodmagic/*'
+            exclude '**/survive/*'
+            exclude '**/graveyard/*'
         }
     }
 }
