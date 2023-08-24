@@ -20,7 +20,7 @@ public class NearestVampireSmartTargetGoal extends NearestAttackableTargetGoal<P
 
     @Override
     public boolean canUse() {
-        if (mob.tickCount % 32 == 0 && mob.level instanceof ServerLevel serverLevel) {
+        if (mob.tickCount % 32 == 0 && mob.level() instanceof ServerLevel serverLevel) {
             this.insideVampireVillage = TotemHelper.getTotemNearPos(serverLevel, mob.blockPosition(), true).map(totem -> totem.getControllingFaction() == VReference.VAMPIRE_FACTION).orElse(false);
         }
         return !insideVampireVillage && super.canUse();

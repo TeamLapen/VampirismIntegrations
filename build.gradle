@@ -1,40 +1,24 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-        maven {
-            name = "forge"
-            url = "https://files.minecraftforge.net/maven"
-        }
-    }
-
-    
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1+'
-    }
-}
-
-
 plugins {
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'org.spongepowered.mixin' version '0.7.+'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
-    id 'de.undercouch.download' version '3.3.0'
     id "com.modrinth.minotaur" version "2.4.5"
+    id 'de.undercouch.download' version '3.3.0'
+    id 'idea'
+    id 'eclipse'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
-
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 configurations {
     optionalRuntime
     runtime.extendsFrom optionalRuntime // optionalRuntime dependencies are downloaded but not exported to POM
 }
 
-sourceSets{
+sourceSets {
     main {
-        java{
+        java {
             exclude '**/consecration/*'
             exclude '**/crafttweaker/*'
             exclude '**/diet/*'
@@ -49,7 +33,7 @@ sourceSets{
 
 idea {
     module {
-        for (String excludeDirName in ["run", "out", "logs", "gradle"]) {
+        for (String excludeDirName in ["run", "out", "logs"]) {
             File excludeDir = new File(projectDir, excludeDirName)
             excludeDirs.add(excludeDir)
         }
@@ -57,14 +41,33 @@ idea {
 }
 
 
-group = "de.teamlapen.vampirism_integrations"
-archivesBaseName = "VampirismIntegrations"
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-ext.mod_version = "Test"
-ext.type = "Test"
-ext.classification="test"
+group = mod_group_id
+base {
+    archivesName = mod_id
+    mod_version = "1.0.0"
+}
 
 apply from: 'gradle/artifacts.gradle'
 apply from: 'gradle/versioning.gradle'
 apply from: 'gradle/forge.gradle'
 apply from: 'gradle/deploy.gradle'
+
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version: forge_version, forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors: mod_authors, mod_description: mod_description,
+            jei_version: jei_version,
+            vampirism_version: vampirism_version,
+            guideapi_version: guideapi_version,
+            mod_url: mod_url,
+            mod_issue_tracker: mod_issue_tracker,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}

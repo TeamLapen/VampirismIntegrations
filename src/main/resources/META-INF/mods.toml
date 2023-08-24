@@ -1,23 +1,23 @@
 modLoader = "javafml"
-loaderVersion = "[44,)"
-issueTrackerURL = "https://github.com/TeamLapen/Vampirism/issues"
-license = "LGPLv3"
+loaderVersion = "${loader_version_range}"
+issueTrackerURL = "${mod_issue_tracker}"
+license = "${mod_license}"
 [[mods]]
-    modId="vampirism_integrations"
+    modId="${mod_id}"
     namespace="vampirism_integrations"
-    version="${version}"
-    displayName="Vampirism Integrations"
-    authors="Maxanier"
-    description="Adds integration for Vampirism with several other mods"
-    displayURL="https://vampirism.maxanier.de"
-    updateJSONURL="https://maxanier.de/projects/vampirism/versions_integrations.json"
-    [[dependencies.vampirism_integrations]]
+    version="${mod_version}"
+    displayName="${mod_name}"
+    authors="${mod_authors}"
+    description='''${mod_description}'''
+    displayURL="${mod_url}"
+    updateJSONURL="https://api.modrinth.com/updates/vampirism-integrations/forge_updates.json"
+    [[dependencies.${mod_id}]]
         modId="forge"
         mandatory=true
-        versionRange="[${forge_version},)"
+        versionRange="${forge_version_range}"
         ordering="NONE"
         side="BOTH"
-    [[dependencies.vampirism_integrations]]
+    [[dependencies.${mod_id}]]
         modId="vampirism"
         mandatory=true
         versionRange="[${vampirism_version},)"

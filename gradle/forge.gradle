@@ -1,18 +1,18 @@
 repositories {
+    mavenCentral()
+
     maven { url = 'https://files.minecraftforge.net/maven' }
+    maven { url 'https://modmaven.dev/' }
+    maven { url = "https://maven.itsmeow.dev/" }
+    maven { url = "https://maven.shedaniel.me/" }
+    maven { url "https://maven.bai.lol" }
+    maven { url = 'https://maven.blamejared.com' }
+    maven { url = "https://maven.paube.de/releases" }
 
     maven {
-        url "https://dvs1.progwml6.com/files/maven"
-    }
-
-    maven { url 'https://modmaven.dev/' }
-
-    repositories {
-        maven {
-            url "https://www.cursemaven.com"
-            content {
-                includeGroup "curse.maven"
-            }
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
         }
     }
 
@@ -20,8 +20,6 @@ repositories {
         name = "Maxanier"
         url = "https://maven.maxanier.de/releases"
     }
-
-    maven { url = "https://maven.paube.de/releases"}
 
     maven {
         name = "Evilcraft JFrog"
@@ -33,29 +31,9 @@ repositories {
     }
 
     maven {
-        name 'LDTTeam - Modding - Minecolonies - Old - For datagenerators'
-        url 'https://ldtteam.jfrog.io/ldtteam/modding/'
-    }
-
-    maven {
         name = "Minecolonies Maven - Newer"
         url = "https://ldtteam.jfrog.io/ldtteam/mods-maven"
     }
-
-    maven {
-        url = "https://maven.itsmeow.dev/"
-    }
-
-    maven {
-        url = "https://maven.shedaniel.me/"
-    }
-
-    repositories {
-        maven { url "https://maven.bai.lol" }
-    }
-
-
-    mavenCentral()
 
     maven {
         //Local repo for custom forge builds.
@@ -68,46 +46,29 @@ repositories {
         url = "../../../.m2/repository"
     }
 
-    maven {
-        url = 'https://maven.blamejared.com'
-    }
 }
 
 minecraft {
-    mappings channel: "${project.mcp_channel}".toString(), version: "${project.mcp_mappings}".toString()
+    mappings channel: project.mcp_channel, version: project.mcp_mappings
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     runs {
-        client {
-            taskName 'runClient1'
+        configureEach {
             property 'forge.logging.console.level', 'debug'
-            property 'forge.logging.markers', 'REGISTRIES'
             //property 'mixin.env.disableRefMap', 'true'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            workingDirectory project.file('run/client1').canonicalPath
             jvmArg '-ea:de.teamlapen...'
-
             mods {
                 vampirism_integrations {
                     source sourceSets.main
-
                 }
             }
         }
+        client {
+            workingDirectory project.file('run/client').canonicalPath
+        }
         server {
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            //property 'mixin.env.disableRefMap', 'true'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             workingDirectory project.file('run/server').canonicalPath
-            jvmArg '-ea:de.teamlapen...'
-
-            mods {
-                vampirism_integrations {
-                    source sourceSets.main
-                }
-            }
         }
     }
 
@@ -115,56 +76,60 @@ minecraft {
 
 
 dependencies {
-    minecraft([
-            group  : "net.minecraftforge",
-            name   : "forge",
-            version: "${project.minecraft_version}-${project.forge_version}"
-    ])
+    minecraft group: "net.minecraftforge", name: "forge", version: "${minecraft_version}-${forge_version}"
 
+    // Vampirism - https://www.curseforge.com/minecraft/mc-mods/vampirism
+    // Maven - https://maven.maxanier.de/releases/de/teamlapen/vampirism/Vampirism
     implementation fg.deobf("de.teamlapen.vampirism:Vampirism:" + project.vampirism_mcversion + "-" + project.vampirism_version)
 
     // Biomes O' Plenty - https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty
-    compileOnly fg.deobf('com.github.glitchfiend:BiomesOPlenty:' +  project.minecraft_version + '-' + project.bop_version) // + ":api", but bugged right now
+    compileOnly fg.deobf('com.github.glitchfiend:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version) // + ":api", but bugged right now
     runtimeOnly fg.deobf('com.github.glitchfiend:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version)
-    runtimeOnly fg.deobf('com.github.glitchfiend:TerraBlender-forge:'+ project.minecraft_version + '-' + project.terrablender_version)
 
-    // Hwyla - https://www.curseforge.com/minecraft/mc-mods/hwyla
+    // Terrablender - https://www.curseforge.com/minecraft/mc-mods/terrablender
+    runtimeOnly fg.deobf('com.github.glitchfiend:TerraBlender-forge:' + project.minecraft_version + '-' + project.terrablender_version)
+
+    // Hwyla / WTHIT - https://www.curseforge.com/minecraft/mc-mods/wthit-forge
     // compile against the API
     compileOnly fg.deobf("mcp.mobius.waila:wthit-api:forge-${project.wthit_version}")
     // run against the full jar
     runtimeOnly fg.deobf("mcp.mobius.waila:wthit:forge-${project.wthit_version}")
+    // Bad Packets - https://www.curseforge.com/minecraft/mc-mods/badpackets
     runtimeOnly fg.deobf("lol.bai:badpackets:forge-${project.bad_packets_version}")
 
 
     // Tough as Nails - https://www.curseforge.com/minecraft/mc-mods/tough-as-nails
-    compileOnly fg.deobf("com.github.glitchfiend:ToughAsNails:"+ project.tan_version+":api")
-    runtimeOnly fg.deobf("com.github.glitchfiend:ToughAsNails:"+ project.tan_version)
+    compileOnly fg.deobf("com.github.glitchfiend:ToughAsNails:" + project.tan_version + ":api")
+    runtimeOnly fg.deobf("com.github.glitchfiend:ToughAsNails:" + project.tan_version)
 
     // Blood Magic - https://www.curseforge.com/minecraft/mc-mods/blood-magic
 //    implementation fg.deobf("curse.maven:blood-magic-224791:" + project.bloodmagic_fileid) //We only want API but curse maven and forge gradle don't like me
 
     // Evilcraft - https://www.curseforge.com/minecraft/mc-mods/evilcraft
-    implementation fg.deobf("curse.maven:evilcraft-74610:" + project.evilcraft_fileid)
+//    implementation fg.deobf("curse.maven:evilcraft-74610:" + project.evilcraft_fileid)
     // Cyclops Core - https://www.curseforge.com/minecraft/mc-mods/cyclops-core
     runtimeOnly fg.deobf("curse.maven:cyclops-core-232758:" + project.cyclopscore_fileid)
 
     // Immersive Engineering - https://www.curseforge.com/minecraft/mc-mods/immersive-engineering
-    implementation fg.deobf("curse.maven:immersive-engineering-231951:"+project.immersiveengineering_fileid)
+//    implementation fg.deobf("curse.maven:immersive-engineering-231951:"+project.immersiveengineering_fileid)
 
 //    compileOnly "mekanism:Mekanism:${project.mekanism_version}:api"
 //    runtimeOnly fg.deobf("mekanism:Mekanism:${project.mekanism_version}")// core
 
     // Consecration - https://www.curseforge.com/minecraft/mc-mods/consecration
-    //implementation fg.deobf("curse.maven:consecration-284001:"+project.consecration_fileid)
+    implementation fg.deobf("curse.maven:consecration-284001:" + project.consecration_fileid)
 
-    implementation fg.deobf("curse.maven:minecraft-comes-alive-reborn-535291:"+project.mca_fileid)
+    // MCA Reborn - https://www.curseforge.com/minecraft/mc-mods/minecraft-comes-alive-reborn
+    implementation fg.deobf("curse.maven:minecraft-comes-alive-reborn-535291:" + project.mca_fileid)
 
     //The Graveyard Biome https://www.curseforge.com/minecraft/mc-mods/the-graveyard-biomes-forge
-//    implementation fg.deobf("curse.maven:the-graveyard-biomes-forge-584868:"+project.graveyard_fileid)
+    implementation fg.deobf("curse.maven:the-graveyard-biomes-forge-584868:" + project.graveyard_fileid)
 
     // Minecolonies - https://www.curseforge.com/minecraft/mc-mods/minecolonies
-    //implementation fg.deobf("curse.maven:minecolonies-245506:3126211")
-    //runtimeOnly fg.deobf("curse.maven:structurize-298744:3358385")
+    implementation fg.deobf("curse.maven:minecolonies-245506:4708238")
+    runtimeOnly fg.deobf("curse.maven:structurize-298744:4704639")
+    runtimeOnly fg.deobf("curse.maven:domum-ornamentum-527361:4702884")
+    runtimeOnly fg.deobf("curse.maven:blockui-522992:4713627")
     // Missing com.ldtteam:datagenerators:0.1.44-ALPHA
 //    compileOnly fg.deobf(project.dependencies.create("com.minecolonies:minecolonies:"+project.minecolonies_version+":api") {
 //        transitive = false
@@ -182,29 +147,30 @@ dependencies {
     //runtimeOnly fg.deobf("slimeknights.mantle:Mantle:"+project.mantle_version)
 
     // Survive - https://www.curseforge.com/minecraft/mc-mods/survive
-//    compileOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
-//    runtimeOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
+    compileOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
+    runtimeOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
 
     // UnionLib - https://www.curseforge.com/minecraft/mc-mods/unionlib
     runtimeOnly fg.deobf("com.stereowalker.unionlib:UnionLib:${project.unionlib_version}")
 
     // Diet - https://www.curseforge.com/minecraft/mc-mods/diet
-    //implementation fg.deobf("curse.maven:diet-443570:"+project.diet_fileid)
+    implementation fg.deobf("curse.maven:diet-443570:" + project.diet_fileid)
 
     //implementation fg.deobf("curse.maven:betteranimalsplus-303557:"+project.betteranimalsplus_fileid)
-    runtimeOnly fg.deobf("dev.architectury:architectury-forge:"+project.architectury_version)
+    // Architectury - https://www.curseforge.com/minecraft/mc-mods/architectury-api
+    runtimeOnly fg.deobf("dev.architectury:architectury-forge:" + project.architectury_version)
 
     //implementation fg.deobf("curse.maven:betteranimals-287443:"+project.betteranimals_fileid)
 
     //https://www.curseforge.com/minecraft/mc-mods/player-companions
-    implementation fg.deobf("curse.maven:player-companions-552456:"+project.playercompanion_fileid)
+    implementation fg.deobf("curse.maven:player-companions-552456:" + project.playercompanion_fileid)
     // CraftTweaker
     //compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}")
     //runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}") // For testing
 
     //Optional
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.19.4-forge:${project.jei_version}") //Full for runtime
+    runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:${project.jei_version}") //Full for runtime
 
     //Old
     //deobfCompile 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version // +':api'
@@ -218,32 +184,3 @@ dependencies {
     //deobfCompile "ancient-warfare-2:ancientwarfare:1.12.2:"+project.ancient_warfare2_version
 
 }
-
-
-//Replace strings in IDEA folders as well
-def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
-def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
-def replaceProperties = ['version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'vampirism_version': project.vampirism_version]
-processResources {
-    inputs.properties replaceProperties
-    replaceProperties.put 'project', project
-
-    filesMatching(resourceTargets) {
-        expand replaceProperties
-    }
-
-    intoTargets.each { target ->
-        if (file(target).exists()) {
-            copy {
-                from(sourceSets.main.resources) {
-                    include resourceTargets
-                    expand replaceProperties
-                }
-                into target
-            }
-        }
-    }
-    exclude '**/Thumbs.db'
-}
-
-

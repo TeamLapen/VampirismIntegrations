@@ -94,30 +94,30 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 //    }
     @Override
     public void aiStep() {
-        if (!this.level.isClientSide && this.isAlive() && this.isConverting(this)) {
+        if (!this.level().isClientSide && this.isAlive() && this.isConverting(this)) {
             --this.conversionTime;
             if (this.conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.VILLAGER, (timer) -> {
                 this.conversionTime = timer;
             })) {
-                this.cureEntity((ServerLevel) this.level, this, (EntityType) ForgeRegistries.ENTITY_TYPES.getValue(this.getGenetics().getGender() == Gender.FEMALE ? MCACompat.FEMALE_VILLAGER : MCACompat.MALE_VILLAGER));
+                this.cureEntity((ServerLevel) this.level(), this, (EntityType) ForgeRegistries.ENTITY_TYPES.getValue(this.getGenetics().getGender() == Gender.FEMALE ? MCACompat.FEMALE_VILLAGER : MCACompat.MALE_VILLAGER));
             }
         }
 
         if (this.tickCount % 40 == 1) {
-            this.isGettingGarlicDamage(this.level, true);
+            this.isGettingGarlicDamage(this.level(), true);
         }
 
         if (this.tickCount % 8 == 2) {
-            this.isGettingSundamage(this.level, true);
+            this.isGettingSundamage(this.level(), true);
         }
 
-        if (!this.level.isClientSide) {
-            if (this.isGettingSundamage(this.level) && this.tickCount % 40 == 11) {
+        if (!this.level().isClientSide) {
+            if (this.isGettingSundamage(this.level()) && this.tickCount % 40 == 11) {
                 this.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 42));
             }
 
-            if (this.isGettingGarlicDamage(this.level) != EnumStrength.NONE) {
-                DamageHandler.affectVampireGarlicAmbient(this, this.isGettingGarlicDamage(this.level), this.tickCount);
+            if (this.isGettingGarlicDamage(this.level()) != EnumStrength.NONE) {
+                DamageHandler.affectVampireGarlicAmbient(this, this.isGettingGarlicDamage(this.level()), this.tickCount);
             }
         }
 
@@ -132,7 +132,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
     @Override
     public VillagerEntityMCA createCuredEntity(@NotNull PathfinderMob entity, @NotNull EntityType<VillagerEntityMCA> newType) {
-        VillagerEntityMCA villager = newType.create(entity.level);
+        VillagerEntityMCA villager = newType.create(entity.level());
         assert villager != null;
         villager.restoreFrom(entity);
         villager.yBodyRot = entity.yBodyRot;
@@ -160,7 +160,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
     @Override
     public boolean doHurtTarget(@Nonnull Entity entity) {
-        if (!this.level.isClientSide && this.wantsBlood() && entity instanceof Player && !Helper.isHunter(entity) && !UtilLib.canReallySee((LivingEntity) entity, this, true)) {
+        if (!this.level().isClientSide && this.wantsBlood() && entity instanceof Player && !Helper.isHunter(entity) && !UtilLib.canReallySee((LivingEntity) entity, this, true)) {
             int amt = VampirePlayer.getOpt((Player) entity).map((vampire) -> vampire.onBite(this)).orElse(0);
             this.drinkBlood(amt, 0.7F);
             return true;
@@ -220,7 +220,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
     @Override
     public boolean isGettingSundamage(LevelAccessor iWorld, boolean forceRefresh) {
-        return !forceRefresh ? this.sundamageCache : (this.sundamageCache = Helper.gettingSundamge(this, iWorld, this.level.getProfiler()));
+        return !forceRefresh ? this.sundamageCache : (this.sundamageCache = Helper.gettingSundamge(this, iWorld, this.level().getProfiler()));
     }
 
     @Override
@@ -258,7 +258,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     @Override
     public void startConverting(@Nullable UUID conversionStarterIn, int conversionTimeIn, @Nonnull PathfinderMob entity) {
         ICurableConvertedCreature.super.startConverting(conversionStarterIn, conversionTimeIn, entity);
-        entity.level.broadcastEntityEvent(entity, EVENT_ID_CURE); //Use our own id to avoid clash with MCA reward hearts event
+        entity.level().broadcastEntityEvent(entity, EVENT_ID_CURE); //Use our own id to avoid clash with MCA reward hearts event
 
         this.conversationStarter = conversionStarterIn;
         this.conversionTime = conversionTimeIn;
@@ -269,7 +269,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
         AgeState age = AgeState.byCurrentAge(this.getAge());
         if (age != AgeState.ADULT) {
             brain.setSchedule(ModVillage.CONVERTED_DEFAULT.get());
-            brain.updateActivityFromSchedule(this.level.getDayTime(), this.level.getGameTime() + 21 /*Trick update*/);
+            brain.updateActivityFromSchedule(this.level().getDayTime(), this.level().getGameTime() + 21 /*Trick update*/);
         }
     }
 
@@ -323,7 +323,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
         @Override
         public IConvertedCreature<VillagerEntityMCA> createFrom(VillagerEntityMCA entity) {
-            Villager converted = (entity.getGenetics().getGender() == Gender.FEMALE ? MCARegistration.FEMALE_CONVERTED_VILLAGER : MCARegistration.MALE_CONVERTED_VILLAGER).get().create(entity.level);
+            Villager converted = (entity.getGenetics().getGender() == Gender.FEMALE ? MCARegistration.FEMALE_CONVERTED_VILLAGER : MCARegistration.MALE_CONVERTED_VILLAGER).get().create(entity.level());
             CompoundTag nbtExtended = new CompoundTag();
             ExtendedCreature.getSafe(converted).ifPresent(ec -> ec.saveData(nbtExtended));
             converted.restoreFrom(entity);

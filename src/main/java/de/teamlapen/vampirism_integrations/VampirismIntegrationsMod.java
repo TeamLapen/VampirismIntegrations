@@ -99,30 +99,30 @@ public class VampirismIntegrationsMod {
 
         event.getDispatcher().register(LiteralArgumentBuilder.<CommandSourceStack>literal("vampirism-integrations")
                 .then(Commands.literal("loaded").executes(context -> {
-                    context.getSource().sendSuccess(Component.literal("Loaded and active mods"), false);
+                    context.getSource().sendSuccess(() -> Component.literal("Loaded and active mods"), false);
                     for (IModCompat compat : compatLoader.getLoadedModCompats()) {
-                        ModList.get().getModContainerById(compat.getModID()).ifPresent(container -> context.getSource().sendSuccess(Component.literal("Active: " + compat.getModID() + " Version: " + container.getModInfo().getVersion().getQualifier()), false));
+                        ModList.get().getModContainerById(compat.getModID()).ifPresent(container -> context.getSource().sendSuccess(() -> Component.literal("Active: " + compat.getModID() + " Version: " + container.getModInfo().getVersion().getQualifier()), false));
                     }
                     return 0;
                 }))
                 .then(Commands.literal("changelog").executes(context -> {
                     if (!getVersionInfo().isNewVersionAvailable()) {
-                        context.getSource().sendSuccess(Component.translatable("command.vampirism.base.changelog.newversion"), false);
+                        context.getSource().sendSuccess(() -> Component.translatable("command.vampirism.base.changelog.newversion"), false);
                         return 0;
                     }
                     VersionChecker.Version newVersion = getVersionInfo().getNewVersion();
                     List<String> changes = newVersion.getChanges();
-                    context.getSource().sendSuccess(Component.literal(ChatFormatting.GREEN + "Vampirism Integrations" + newVersion.name + "(" + SharedConstants.getCurrentVersion().getName() + ")"), true);
+                    context.getSource().sendSuccess(() -> Component.literal(ChatFormatting.GREEN + "Vampirism Integrations" + newVersion.name + "(" + SharedConstants.getCurrentVersion().getName() + ")"), true);
                     for (String c : changes) {
-                        context.getSource().sendSuccess(Component.literal("-" + c), false);
+                        context.getSource().sendSuccess(() -> Component.literal("-" + c), false);
                     }
-                    context.getSource().sendSuccess(Component.literal(""), false);
+                    context.getSource().sendSuccess(() -> Component.literal(""), false);
                     String homepage = getVersionInfo().getHomePage();
 
                     MutableComponent download = Component.translatable("text.vampirism.update_message.download").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, newVersion.getUrl() == null ? homepage : newVersion.getUrl())).withUnderlined(true).withColor(ChatFormatting.BLUE));
                     Component changelog = Component.translatable("text.vampirism.update_message.changelog").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/vampirism-integrations changelog")).withUnderlined(true));
                     Component modpage = Component.translatable("text.vampirism.update_message.modpage").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, homepage)).withUnderlined(true).withColor(ChatFormatting.BLUE));
-                    context.getSource().sendSuccess(download.append(" ").append(changelog).append(" ").append(modpage), false);
+                    context.getSource().sendSuccess(() -> download.append(" ").append(changelog).append(" ").append(modpage), false);
                     return 0;
                 })));
 
