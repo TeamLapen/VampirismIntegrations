@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 /**
  * Handles compatibility for a single mod.
  * Should not load any classes outside of init
- * Updated copy of {@link de.teamlapen.lib.lib.util.IModCompat}
  */
 public interface IModCompat extends IInitListener {
     void buildConfig(ForgeConfigSpec.Builder builder);

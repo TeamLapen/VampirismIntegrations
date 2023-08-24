@@ -1,8 +1,8 @@
 package de.teamlapen.vampirism_integrations.diet;
 
+import com.illusivesoulworks.diet.common.capability.DietCapability;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.event.PlayerFactionEvent;
-import top.theillusivec4.diet.api.DietCapability;
 
 
 public class DietEventHandler {

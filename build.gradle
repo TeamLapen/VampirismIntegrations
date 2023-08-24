@@ -19,14 +19,9 @@ configurations {
 sourceSets {
     main {
         java {
-            exclude '**/consecration/*'
-            exclude '**/crafttweaker/*'
-            exclude '**/diet/*'
-            exclude '**/betteranimalsplus/*'
-            exclude '**/tconstruct/*'
-            exclude '**/bloodmagic/*'
-            exclude '**/survive/*'
-            exclude '**/graveyard/*'
+            for(String s : getDisabledFolder(project)) {
+                exclude ('**/' + s + '/*')
+            }
         }
     }
 }
@@ -38,6 +33,67 @@ idea {
             excludeDirs.add(excludeDir)
         }
     }
+}
+
+def getDisabledFolder(project) {
+    Set<String> set = new HashSet<>();
+
+    if (!include_biomes_o_plenty.toBoolean()) {
+        set += 'bop'
+    }
+    if (!include_waila.toBoolean()) {
+        set += 'waila'
+    }
+    if (!include_immersive_engineering.toBoolean()) {
+        set += 'immersive_engineering'
+    }
+    if (!include_evilcraft.toBoolean()) {
+        set += 'evilcraft'
+    }
+    if (!include_tough_as_nails.toBoolean()) {
+        set += 'tan'
+    }
+    if (!include_nyctophobia.toBoolean()) {
+        set += 'graveyard'
+    }
+    if (!include_survive.toBoolean()) {
+        set += 'survive'
+    }
+    if (!include_diet.toBoolean()) {
+        set += 'diet'
+    }
+    if (!include_tinkers_construction.toBoolean()) {
+        set += 'tconstruct'
+    }
+    if (!include_crafttweaker.toBoolean()) {
+        set += 'crafttweaker'
+    }
+    if (!include_betteranimalsplus.toBoolean()) {
+        set += 'betteranimalsplus'
+    }
+    if (!include_consecration.toBoolean()) {
+        set += 'consecration'
+    }
+    if (!include_minecraft_comes_alive.toBoolean()) {
+        set += 'mca'
+    }
+    if (!include_minecolonies.toBoolean()) {
+        set += 'minecolonies'
+    }
+    if (!include_player_companion.toBoolean()) {
+        set += 'player_companion'
+    }
+    if (!include_betteranimals.toBoolean()) {
+        set += 'betteranimals'
+    }
+    if (!include_bloodmagic.toBoolean()) {
+        set += 'bloodmagic'
+    }
+    if (!include_mekanism.toBoolean()) {
+        set += 'mekanism'
+    }
+
+    return set;
 }
 
 

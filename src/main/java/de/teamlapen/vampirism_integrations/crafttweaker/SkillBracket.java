@@ -6,6 +6,7 @@ import com.blamejared.crafttweaker.api.annotation.BracketResolver;
 import com.blamejared.crafttweaker.api.annotation.BracketValidator;
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker.api.bracket.BracketValidators;
+import com.blamejared.crafttweaker.api.logging.CommonLoggers;
 import com.blamejared.crafttweaker_annotations.annotations.Document;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.core.ModRegistries;
@@ -27,7 +28,7 @@ public class SkillBracket {
     @BracketValidator("skill")
     public static boolean validateSkill(String tokens) {
         if (ResourceLocation.tryParse(tokens) == null) {
-            CraftTweakerAPI.LOGGER.error("Invalid Bracket Syntax: <skill:" + tokens + ">! Syntax is <skill:modid:skill_id>");
+            CommonLoggers.zenCode().error("Invalid Bracket Syntax: <skill:" + tokens + ">! Syntax is <skill:modid:skill_id>");
             return false;
         }
 
@@ -53,7 +54,7 @@ public class SkillBracket {
         }
         final ResourceLocation resourceLocation = new ResourceLocation(tokens);
 
-        ISkill<?> skill = ModRegistries.SKILLS.getValue(resourceLocation);
+        ISkill<?> skill = ModRegistries.SKILLS.get().getValue(resourceLocation);
         if (skill == null) {
             throw new IllegalArgumentException("Could not get skill <skill:" + tokens + ">");
         }
@@ -61,12 +62,12 @@ public class SkillBracket {
     }
 
     public static String getCommandString(ISkill<?> skill) {
-        return "<skill:" + skill.getRegistryName() + ">";
+        return "<skill:" + ModRegistries.SKILLS.get().getKey(skill) + ">";
     }
 
     @ZenCodeType.Method
     @BracketDumper("skill")
     public static Collection<String> getSkillDump(){
-        return ModRegistries.SKILLS.getValues().stream().map(SkillBracket::getCommandString).collect(Collectors.toList());
+        return ModRegistries.SKILLS.get().getValues().stream().map(SkillBracket::getCommandString).collect(Collectors.toList());
     }
 }

@@ -3,6 +3,7 @@ package de.teamlapen.vampirism_integrations.util;
 import com.google.common.collect.ImmutableList;
 import de.teamlapen.lib.lib.util.IInitListener;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;

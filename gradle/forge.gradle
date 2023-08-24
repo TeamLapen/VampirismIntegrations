@@ -65,9 +65,11 @@ minecraft {
             }
         }
         client {
+            property 'vampirism_target', 'dev_client'
             workingDirectory project.file('run/client').canonicalPath
         }
         server {
+            property 'vampirism_target', 'dev_server'
             workingDirectory project.file('run/server').canonicalPath
         }
     }
@@ -83,104 +85,131 @@ dependencies {
     implementation fg.deobf("de.teamlapen.vampirism:Vampirism:" + project.vampirism_mcversion + "-" + project.vampirism_version)
 
     // Biomes O' Plenty - https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty
-    compileOnly fg.deobf('com.github.glitchfiend:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version) // + ":api", but bugged right now
-    runtimeOnly fg.deobf('com.github.glitchfiend:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version)
+    if (include_biomes_o_plenty.toBoolean()) {
+        compileOnly fg.deobf('com.github.glitchfiend:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version) // + ":api", but bugged right now
+        runtimeOnly fg.deobf('com.github.glitchfiend:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version)
+    }
 
     // Terrablender - https://www.curseforge.com/minecraft/mc-mods/terrablender
-    runtimeOnly fg.deobf('com.github.glitchfiend:TerraBlender-forge:' + project.minecraft_version + '-' + project.terrablender_version)
+    if (include_terrablender.toBoolean()) {
+        runtimeOnly fg.deobf('com.github.glitchfiend:TerraBlender-forge:' + project.minecraft_version + '-' + project.terrablender_version)
+    }
 
     // Hwyla / WTHIT - https://www.curseforge.com/minecraft/mc-mods/wthit-forge
-    // compile against the API
-    compileOnly fg.deobf("mcp.mobius.waila:wthit-api:forge-${project.wthit_version}")
-    // run against the full jar
-    runtimeOnly fg.deobf("mcp.mobius.waila:wthit:forge-${project.wthit_version}")
     // Bad Packets - https://www.curseforge.com/minecraft/mc-mods/badpackets
-    runtimeOnly fg.deobf("lol.bai:badpackets:forge-${project.bad_packets_version}")
-
+    if (include_waila.toBoolean()) {
+        compileOnly fg.deobf("mcp.mobius.waila:wthit-api:forge-${project.wthit_version}")
+        runtimeOnly fg.deobf("mcp.mobius.waila:wthit:forge-${project.wthit_version}")
+        runtimeOnly fg.deobf("lol.bai:badpackets:forge-${project.bad_packets_version}")
+    }
 
     // Tough as Nails - https://www.curseforge.com/minecraft/mc-mods/tough-as-nails
-    compileOnly fg.deobf("com.github.glitchfiend:ToughAsNails:" + project.tan_version + ":api")
-    runtimeOnly fg.deobf("com.github.glitchfiend:ToughAsNails:" + project.tan_version)
+    if (include_tough_as_nails.toBoolean()) {
+        compileOnly fg.deobf("com.github.glitchfiend:ToughAsNails:" + project.tan_version + ":api")
+        runtimeOnly fg.deobf("com.github.glitchfiend:ToughAsNails:" + project.tan_version)
+    }
 
     // Blood Magic - https://www.curseforge.com/minecraft/mc-mods/blood-magic
-//    implementation fg.deobf("curse.maven:blood-magic-224791:" + project.bloodmagic_fileid) //We only want API but curse maven and forge gradle don't like me
+    if (include_bloodmagic.toBoolean()) {
+        implementation fg.deobf("curse.maven:blood-magic-224791:" + project.bloodmagic_fileid) //We only want API but curse maven and forge gradle don't like me
+    }
 
     // Evilcraft - https://www.curseforge.com/minecraft/mc-mods/evilcraft
-//    implementation fg.deobf("curse.maven:evilcraft-74610:" + project.evilcraft_fileid)
     // Cyclops Core - https://www.curseforge.com/minecraft/mc-mods/cyclops-core
-    runtimeOnly fg.deobf("curse.maven:cyclops-core-232758:" + project.cyclopscore_fileid)
+    if (include_evilcraft.toBoolean()) {
+        implementation fg.deobf("curse.maven:evilcraft-74610:" + project.evilcraft_fileid)
+        runtimeOnly fg.deobf("curse.maven:cyclops-core-232758:" + project.cyclopscore_fileid)
+    }
 
     // Immersive Engineering - https://www.curseforge.com/minecraft/mc-mods/immersive-engineering
-//    implementation fg.deobf("curse.maven:immersive-engineering-231951:"+project.immersiveengineering_fileid)
+    if (include_immersive_engineering.toBoolean()) {
+        implementation fg.deobf("curse.maven:immersive-engineering-231951:"+project.immersiveengineering_fileid)
+    }
 
-//    compileOnly "mekanism:Mekanism:${project.mekanism_version}:api"
-//    runtimeOnly fg.deobf("mekanism:Mekanism:${project.mekanism_version}")// core
+    // Mekanism - https://www.curseforge.com/minecraft/mc-mods/mekanism
+    if (include_mekanism.toBoolean()) {
+        compileOnly fg.deobf("mekanism:Mekanism:${project.mekanism_version}:api")
+        runtimeOnly fg.deobf("mekanism:Mekanism:${project.mekanism_version}")
+    }
+
 
     // Consecration - https://www.curseforge.com/minecraft/mc-mods/consecration
-    implementation fg.deobf("curse.maven:consecration-284001:" + project.consecration_fileid)
+    if (include_consecration.toBoolean()) {
+        implementation fg.deobf("curse.maven:consecration-284001:" + project.consecration_fileid)
+    }
 
     // MCA Reborn - https://www.curseforge.com/minecraft/mc-mods/minecraft-comes-alive-reborn
-    implementation fg.deobf("curse.maven:minecraft-comes-alive-reborn-535291:" + project.mca_fileid)
+    if (include_minecraft_comes_alive.toBoolean()) {
+        implementation fg.deobf("curse.maven:minecraft-comes-alive-reborn-535291:" + project.mca_fileid)
+    }
 
-    //The Graveyard Biome https://www.curseforge.com/minecraft/mc-mods/the-graveyard-biomes-forge
-    implementation fg.deobf("curse.maven:the-graveyard-biomes-forge-584868:" + project.graveyard_fileid)
+    // Nyctophobia / Graveyard biome - https://www.curseforge.com/minecraft/mc-mods/nyctophobia-forge
+    if (include_nyctophobia.toBoolean()) {
+        implementation fg.deobf("curse.maven:the-graveyard-biomes-forge-584868:" + project.nyctophobia_fileid)
+    }
 
     // Minecolonies - https://www.curseforge.com/minecraft/mc-mods/minecolonies
-    implementation fg.deobf("curse.maven:minecolonies-245506:4708238")
-    runtimeOnly fg.deobf("curse.maven:structurize-298744:4704639")
-    runtimeOnly fg.deobf("curse.maven:domum-ornamentum-527361:4702884")
-    runtimeOnly fg.deobf("curse.maven:blockui-522992:4713627")
-    // Missing com.ldtteam:datagenerators:0.1.44-ALPHA
-//    compileOnly fg.deobf(project.dependencies.create("com.minecolonies:minecolonies:"+project.minecolonies_version+":api") {
-//        transitive = false
-//    })
-//    runtimeOnly fg.deobf(project.dependencies.create("com.minecolonies:minecolonies:"+project.minecolonies_version) {
-//        transitive = false
-//    })
-//    runtimeOnly fg.deobf(project.dependencies.create("com.ldtteam:structurize:"+project.structurize_version){
-//        transitive = false
-//    })
+    // Structurize - https://www.curseforge.com/minecraft/mc-mods/structurize
+    // Domum Ornamentum - https://www.curseforge.com/minecraft/mc-mods/domum-ornamentum
+    // Block UI - https://www.curseforge.com/minecraft/mc-mods/blockui
+    if (include_minecolonies.toBoolean()) {
+        implementation fg.deobf("curse.maven:minecolonies-245506:4708238")
+        runtimeOnly fg.deobf("curse.maven:structurize-298744:4704639")
+        runtimeOnly fg.deobf("curse.maven:domum-ornamentum-527361:4702884")
+        runtimeOnly fg.deobf("curse.maven:blockui-522992:4713627")
+    }
 
     // Tinkers Construction - https://www.curseforge.com/minecraft/mc-mods/tinkers-construct
-    //implementation fg.deobf("slimeknights.tconstruct:TConstruct:"+project.tconstruct_version)
     // Mantle - https://www.curseforge.com/minecraft/mc-mods/mantle
-    //runtimeOnly fg.deobf("slimeknights.mantle:Mantle:"+project.mantle_version)
+    if (include_tinkers_construction.toBoolean()) {
+        implementation fg.deobf("slimeknights.tconstruct:TConstruct:"+project.tconstruct_version)
+        runtimeOnly fg.deobf("slimeknights.mantle:Mantle:"+project.mantle_version)
+    }
 
     // Survive - https://www.curseforge.com/minecraft/mc-mods/survive
-    compileOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
-    runtimeOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
-
     // UnionLib - https://www.curseforge.com/minecraft/mc-mods/unionlib
-    runtimeOnly fg.deobf("com.stereowalker.unionlib:UnionLib:${project.unionlib_version}")
+    if (include_survive.toBoolean()) {
+        compileOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
+        runtimeOnly fg.deobf("com.stereowalker.survive:Survive:${project.survive_version}")
+        runtimeOnly fg.deobf("com.stereowalker.unionlib:UnionLib:${project.unionlib_version}")
+    }
 
     // Diet - https://www.curseforge.com/minecraft/mc-mods/diet
-    implementation fg.deobf("curse.maven:diet-443570:" + project.diet_fileid)
+    if (include_diet.toBoolean()) {
+        implementation fg.deobf("curse.maven:diet-443570:" + project.diet_fileid)
+    }
 
-    //implementation fg.deobf("curse.maven:betteranimalsplus-303557:"+project.betteranimalsplus_fileid)
     // Architectury - https://www.curseforge.com/minecraft/mc-mods/architectury-api
-    runtimeOnly fg.deobf("dev.architectury:architectury-forge:" + project.architectury_version)
+    if (include_architectury.toBoolean()) {
+        runtimeOnly fg.deobf("dev.architectury:architectury-forge:" + project.architectury_version)
+    }
 
-    //implementation fg.deobf("curse.maven:betteranimals-287443:"+project.betteranimals_fileid)
+    if (include_betteranimalsplus.toBoolean()) {
+        implementation fg.deobf("curse.maven:betteranimalsplus-303557:"+project.betteranimalsplus_fileid)
+    }
 
-    //https://www.curseforge.com/minecraft/mc-mods/player-companions
-    implementation fg.deobf("curse.maven:player-companions-552456:" + project.playercompanion_fileid)
+    if (include_betteranimals.toBoolean()) {
+        implementation fg.deobf("curse.maven:betteranimals-287443:"+project.betteranimals_fileid)
+    }
+
+    // Player Companions - https://www.curseforge.com/minecraft/mc-mods/player-companions
+    if (include_player_companion.toBoolean()) {
+        implementation fg.deobf("curse.maven:player-companions-552456:" + project.playercompanion_fileid)
+    }
+
     // CraftTweaker
-    //compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}")
-    //runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}") // For testing
+    if (include_crafttweaker.toBoolean()) {
+        compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}")
+        runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${project.crafttweaker_version}") // For testing
+    }
 
-    //Optional
-    runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:${project.jei_version}") //Full for runtime
+    // Guide API - https://www.curseforge.com/minecraft/mc-mods/guide-api-village-and-pillage
+    if (include_guide_api.toBoolean()) {
+        runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
+    }
 
-    //Old
-    //deobfCompile 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version // +':api'
-    //optionalRuntime 'com.shinoow.abyssalcraft:AbyssalCraft:'+project.minecraft_version+'-'+project.abyssalcraft_version
-    //deobfCompile "toroquest:toroquest:1.12.2:"+project.toroquest_version
-    //deobfCompile "com.wayoftime.bloodmagic:BloodMagic:"+project.bloodmagic_version
-    //deobfCompile  "org.cyclops.evilcraft:EvilCraft:"+project.evilcraft_version
-    //optionalRuntime "slimeknights.mantle:Mantle:"+project.mantle_version
-    //deobfCompile "slimeknights:TConstruct:"+project.tconstruct_version
-    //optionalRuntime "codechicken:CodeChickenLib:"+project.codechickenlib_version+":universal"
-    //deobfCompile "ancient-warfare-2:ancientwarfare:1.12.2:"+project.ancient_warfare2_version
-
+    // JEI - https://www.curseforge.com/minecraft/mc-mods/jei
+    if (include_jei.toBoolean()) {
+        runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:${project.jei_version}")
+    }
 }

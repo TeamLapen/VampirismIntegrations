@@ -24,7 +24,6 @@ If you are already installing many mods or a modpack it should not make that muc
 Integrations can be disabled per mod.  
 Some integrations also allow more detailed customization.
 
-
 ## Setting up the development environment
 If you would like to compile your own versions or even contribute to Vampirism Integrations's development you need to set up a dev environment.
 The following example instructions will setup IntelliJ (Free community edition or Non-Free Ultimate edition). If you already have a setup or want to use another IDE, jump [here](#setting-up-vampirism-integrations-in-another-environment).
