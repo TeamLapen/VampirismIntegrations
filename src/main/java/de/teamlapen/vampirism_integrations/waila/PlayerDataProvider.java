@@ -17,7 +17,7 @@ class PlayerDataProvider implements IEntityComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(WailaPlugin.getShowPlayerInfoConf())) {
+        if (config.getBoolean(WailaPlugin.SHOW_PLAYER_INFO)) {
             if (accessor.getEntity() instanceof Player) {
                 VampirismAPI.getFactionPlayerHandler(accessor.getEntity()).ifPresent(fph -> {
                     if (fph.getCurrentLevel() > 0) {
