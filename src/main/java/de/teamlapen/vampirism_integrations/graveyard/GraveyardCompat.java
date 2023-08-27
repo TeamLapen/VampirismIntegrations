@@ -22,7 +22,7 @@ public class GraveyardCompat implements IModCompat {
 
     @Override
     public String getModID() {
-        return "graveyard_biomes";
+        return "nyctophobia";
     }
 
     public void onInitStep(IInitListener.Step step, ParallelDispatchEvent event) {

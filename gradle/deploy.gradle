@@ -38,7 +38,7 @@ curseforge {
             optionalDependency 'tough-as-nails'
             optionalDependency 'minecraft-comes-alive-reborn'
             optionalDependency 'better-combat-by-daedelus'
-            optionalDependency 'the-graveyard-biomes-forge'
+            optionalDependency 'nyctophobia-forge'
             optionalDependency 'choicetheorems-overhauled-village'
             optionalDependency 'player-companions'
         }
