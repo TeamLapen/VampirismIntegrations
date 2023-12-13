@@ -8,10 +8,13 @@ import com.stereowalker.survive.world.entity.ai.attributes.SAttributes;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.event.PlayerFactionEvent;
 import de.teamlapen.vampirism.util.Helper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +27,8 @@ public class SurviveHandler {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final static UUID VAMPIRE_MOD_UUID = UUID.fromString("3625f8a1-3ac3-4289-8c26-b50ddccf066c");
+    private static final ResourceLocation THIRST_OVERLAY = new ResourceLocation("survive", "thirst_level");
+    private static final ResourceLocation STAMINA_OVERLAY = new ResourceLocation("survive", "stamina_level");
     private boolean warnThirst = true;
     private boolean warnTemperature = true;
     private boolean warnStamina = true;
@@ -102,5 +107,16 @@ public class SurviveHandler {
             }
         }
 
+    }
+
+    @SubscribeEvent
+    public void onRenderOverlay(RenderGuiOverlayEvent event) {
+        if (Minecraft.getInstance().player == null) return;
+        if (event.getOverlay().id().equals(THIRST_OVERLAY) && SurviveCompat.disableThirstForVampires.get() && Helper.isVampire(Minecraft.getInstance().player)) {
+            event.setCanceled(true);
+        }
+        if (event.getOverlay().id().equals(STAMINA_OVERLAY) && SurviveCompat.enableStaminaBoostVampires.get() && Helper.isVampire(Minecraft.getInstance().player)) {
+            event.setCanceled(true);
+        }
     }
 }
