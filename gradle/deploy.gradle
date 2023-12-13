@@ -25,22 +25,74 @@ curseforge {
 
         relations {
             requiredDependency 'vampirism-become-a-vampire'
-            optionalDependency 'biomes-o-plenty'
-            optionalDependency 'wthit'
-//            optionalDependency 'blood-magic'
-//            optionalDependency 'diet'
-            optionalDependency 'survive'
-//            optionalDependency 'tinkers-construct'
-//            optionalDependency 'better-animal-models'
-//            optionalDependency 'betteranimalsplus'
-//            optionalDependency 'crafttweaker'
-            optionalDependency 'evilcraft'
-            optionalDependency 'tough-as-nails'
-            optionalDependency 'minecraft-comes-alive-reborn'
+            if (project.include_biomes_o_plenty.toBoolean()) {
+                optionalDependency 'biomes-o-plenty'
+            }
+            if (project.include_waila.toBoolean()) {
+                optionalDependency 'waila'
+            }
+            if (project.include_immersive_engineering.toBoolean()) {
+                optionalDependency 'immersive-engineering'
+            }
+            if (project.include_evilcraft.toBoolean()) {
+                optionalDependency 'evilcraft'
+            }
+            if (project.include_tough_as_nails.toBoolean()) {
+                optionalDependency 'tough-as-nails'
+            }
+            if (project.include_nyctophobia.toBoolean()) {
+                optionalDependency 'nyctophobia-forge'
+            }
+            if (project.include_survive.toBoolean()) {
+                optionalDependency 'survive'
+            }
+            if (project.include_diet.toBoolean()) {
+                optionalDependency 'diet'
+            }
+            if (project.include_tinkers_construction.toBoolean()) {
+                optionalDependency 'tinkers-construct'
+            }
+            if (project.include_crafttweaker.toBoolean()) {
+                optionalDependency 'crafttweaker'
+            }
+            if (project.include_betteranimalsplus.toBoolean()) {
+                optionalDependency 'betteranimalsplus'
+            }
+            if (project.include_consecration.toBoolean()) {
+                optionalDependency 'consecration'
+            }
+            if (project.include_minecraft_comes_alive.toBoolean()) {
+                optionalDependency 'minecraft-comes-alive-reborn'
+            }
+            if (project.include_minecolonies.toBoolean()) {
+                optionalDependency 'minecolonies'
+            }
+            if (project.include_player_companion.toBoolean()) {
+                optionalDependency 'player-companions'
+            }
+            if (project.include_betteranimals.toBoolean()) {
+                optionalDependency 'better-animal-models'
+            }
+            if (project.include_bloodmagic.toBoolean()) {
+                optionalDependency 'blood-magic'
+            }
+            if (project.include_mekanism.toBoolean()) {
+                optionalDependency 'mekanism'
+            }
+            if (project.include_guide_api.toBoolean()) {
+                optionalDependency 'guide-api-village-and-pillage'
+            }
+            if (project.include_jei.toBoolean()) {
+                optionalDependency 'jei'
+            }
+            if (project.include_terrablender.toBoolean()) {
+                optionalDependency 'terrablender'
+            }
+            if (project.include_architectury.toBoolean()) {
+                optionalDependency 'architectury-api'
+            }
             optionalDependency 'better-combat-by-daedelus'
-            optionalDependency 'nyctophobia-forge'
             optionalDependency 'choicetheorems-overhauled-village'
-            optionalDependency 'player-companions'
         }
 
 
