@@ -1,15 +1,10 @@
 package de.teamlapen.vampirism_integrations.jade.provider;
 
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.mojang.serialization.JsonOps;
-import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
-import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
-import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism_integrations.jade.JadePlugin;
 import net.minecraft.nbt.CompoundTag;
@@ -25,7 +20,7 @@ import snownee.jade.api.IEntityComponentProvider;
 import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
-import snownee.jade.impl.config.PluginConfig;
+import snownee.jade.api.config.IWailaConfig;
 
 public enum PlayerFactionProvider implements IEntityComponentProvider, IServerDataProvider<EntityAccessor> {
     INSTANCE;
@@ -41,7 +36,7 @@ public enum PlayerFactionProvider implements IEntityComponentProvider, IServerDa
                 MutableComponent component = Component.translatable(faction.getName().getString()).append(": ");
                 if (tag.contains("lordTitle")) {
                     int lordLevel = tag.getInt("lordLevel");
-                    if (PluginConfig.INSTANCE.get(JadePlugin.PLAYER_FACTION_LORD_LEVEL_NUMBER)) {
+                    if (IWailaConfig.get().getPlugin().get(JadePlugin.PLAYER_FACTION_LORD_LEVEL_NUMBER)) {
                         component.append(Component.translatable("text.vampirism.lord").append(" ").append(Component.translatable("text.vampirism.level"))).append(" ").append(String.valueOf(lordLevel));
                     } else {
                         ExtraCodecs.COMPONENT.decode(NbtOps.INSTANCE, tag.get("lordTitle")).result().map(Pair::getFirst).ifPresent(component::append);

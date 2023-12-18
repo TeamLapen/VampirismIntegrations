@@ -7,7 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
@@ -16,8 +15,6 @@ import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.theme.IThemeHelper;
 import snownee.jade.api.ui.BoxStyle;
 import snownee.jade.api.ui.IElementHelper;
-import snownee.jade.api.ui.IProgressStyle;
-import snownee.jade.impl.ui.ProgressElement;
 
 public enum GarlicDiffuserProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
     INSTANCE;
@@ -33,7 +30,7 @@ public enum GarlicDiffuserProvider implements IBlockComponentProvider, IServerDa
                 iTooltip.add(helper.smallItem(new ItemStack(ModItems.PURIFIED_GARLIC.get())));
                 iTooltip.append(IThemeHelper.get().seconds(fuelTime));
             } else {
-                iTooltip.add(new ProgressElement(bootProgress, Component.translatable("text.vampirism.fog_diffuser.booting"), helper.progressStyle().color(0xD0D0FF).textColor(0xFFFFFF), new BoxStyle(), false));
+                iTooltip.add(helper.progress(bootProgress, Component.translatable("gui.vampirism.garlic_diffuser.startup"), helper.progressStyle().color(0xD0D0FF).textColor(0xFFFFFF), new BoxStyle(), false));
             }
         }
     }

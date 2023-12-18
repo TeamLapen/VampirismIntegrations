@@ -6,5 +6,18 @@
   "config.jade.plugin_vampirism.entity_blood.icon_per_line": "Icons per Line",
   "config.jade.plugin_vampirism.entity_blood.max_for_render": "Max Blood for Render",
   "config.jade.plugin_vampirism.player_faction.lord_level_number": "Show Lord Level Number",
-  "narration.vampirism.health": "Blood: %s"
+  "config.jade.plugin_vampirism.weapon_table": "Weapon Table",
+  "config.jade.plugin_vampirism.pedestal_charging": "Pedestal Charging",
+  "config.jade.plugin_vampirism.altar_of_infusion": "Altar of Infusion",
+  "config.jade.plugin_vampirism.totem": "Totem",
+  "config.jade.plugin_vampirism.potion_table": "Potion Table",
+  "config.jade.plugin_vampirism.altar_of_inspiration": "Altar of Inspiration",
+  "config.jade.plugin_vampirism.alchemy_table": "Alchemy Table",
+  "config.jade.plugin_vampirism.research_table": "Research Table",
+  "config.jade.plugin_vampirism.altar_pillar": "Altar Pillar",
+  "narration.vampirism.health": "Blood: %s",
+  "text.vampirism_integrations.defending": "Defending",
+  "text.vampirism_integrations.attacking": "Attacking",
+  "text.vampirism_integrations.controlling": "Controlling",
+  "text.vampirism_integrations.value": "Value: %s"
 }
