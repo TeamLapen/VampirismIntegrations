@@ -1,0 +1,10 @@
+{
+  "config.jade.plugin_vampirism.garlic_beacon": "Garlic Beacon",
+  "config.jade.plugin_vampirism.player_faction": "Player Faction",
+  "config.jade.plugin_vampirism.entity_blood": "Entity Blood",
+  "config.jade.plugin_vampirism.entity_blood.show_fraction": "Show Fractions",
+  "config.jade.plugin_vampirism.entity_blood.icon_per_line": "Icons per Line",
+  "config.jade.plugin_vampirism.entity_blood.max_for_render": "Max Blood for Render",
+  "config.jade.plugin_vampirism.player_faction.lord_level_number": "Show Lord Level Number",
+  "narration.vampirism.health": "Blood: %s"
+}

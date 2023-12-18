@@ -91,6 +91,9 @@ curseforge {
             if (project.include_architectury.toBoolean()) {
                 optionalDependency 'architectury-api'
             }
+            if (project.include_jade.toBoolean()) {
+                optionalDependency 'jade'
+            }
             optionalDependency 'better-combat-by-daedelus'
             optionalDependency 'choicetheorems-overhauled-village'
         }

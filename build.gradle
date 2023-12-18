@@ -92,6 +92,9 @@ def getDisabledFolder(project) {
     if (!include_mekanism.toBoolean()) {
         set += 'mekanism'
     }
+    if (!include_jade.toBoolean()) {
+        set += 'jade'
+    }
 
     return set;
 }
