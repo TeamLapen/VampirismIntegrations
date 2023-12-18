@@ -4,6 +4,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.lib.lib.util.VersionChecker;
 import de.teamlapen.vampirism_integrations.bop.BOPCompat;
+import de.teamlapen.vampirism_integrations.coldsweat.ColdSweatCompat;
 import de.teamlapen.vampirism_integrations.consecration.ConsecrationCompat;
 import de.teamlapen.vampirism_integrations.crafttweaker.CrafttweakerCompat;
 import de.teamlapen.vampirism_integrations.ctov.ChoiceTheoremOverhauledVillage;
@@ -81,6 +82,7 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new PlayerCompanionCompat());
         compatLoader.addModCompat(new ConsecrationCompat());
         compatLoader.addModCompat(new JadeModCompat());
+        compatLoader.addModCompat(new ColdSweatCompat());
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegister);
         MinecraftForge.EVENT_BUS.register(new EventHandler());

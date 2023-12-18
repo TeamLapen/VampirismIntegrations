@@ -94,6 +94,9 @@ curseforge {
             if (project.include_jade.toBoolean()) {
                 optionalDependency 'jade'
             }
+            if (project.include_cold_sweat.toBoolean()) {
+                optionalDependency 'cold-sweat'
+            }
             optionalDependency 'better-combat-by-daedelus'
             optionalDependency 'choicetheorems-overhauled-village'
         }

@@ -95,6 +95,9 @@ def getDisabledFolder(project) {
     if (!include_jade.toBoolean()) {
         set += 'jade'
     }
+    if (!include_cold_sweat.toBoolean()) {
+        set += 'coldsweat'
+    }
 
     return set;
 }

@@ -217,4 +217,9 @@ dependencies {
     if (include_jei.toBoolean()) {
         runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:${project.jei_version}")
     }
+
+    if (include_cold_sweat.toBoolean()) {
+        compileOnly fg.deobf("curse.maven:cold-sweat-506194:" + project.coldsweat_fileid)
+        runtimeOnly fg.deobf("curse.maven:cold-sweat-506194:" + project.coldsweat_fileid)
+    }
 }
