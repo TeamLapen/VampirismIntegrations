@@ -17,10 +17,7 @@ public enum ResearchTableProvider implements IBlockComponentProvider {
 
     @Override
     public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-        BlockState blockState = blockAccessor.getBlockState();
-        HunterTableBlock.TABLE_VARIANT value = blockState.getValue(HunterTableBlock.VARIANT);
-        IElementHelper helper = IElementHelper.get();
-        iTooltip.append(helper.text(Component.translatable("text.vampirism.for_to_levels",5, 14)));
+        iTooltip.add(IElementHelper.get().text(Component.translatable("text.vampirism.for_to_levels",5, 14)));
     }
 
     @Override
