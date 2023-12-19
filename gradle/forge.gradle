@@ -222,4 +222,8 @@ dependencies {
         compileOnly fg.deobf("curse.maven:cold-sweat-506194:" + project.coldsweat_fileid)
         runtimeOnly fg.deobf("curse.maven:cold-sweat-506194:" + project.coldsweat_fileid)
     }
+
+    if (include_guard_villagers.toBoolean()) {
+        implementation fg.deobf("curse.maven:guardvillagers-360203:" + project.guardvillagers_fileid)
+    }
 }

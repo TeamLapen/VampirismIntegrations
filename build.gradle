@@ -98,6 +98,9 @@ def getDisabledFolder(project) {
     if (!include_cold_sweat.toBoolean()) {
         set += 'coldsweat'
     }
+    if (!include_guard_villagers.toBoolean()) {
+        set += 'guardvillagers'
+    }
 
     return set;
 }

@@ -11,6 +11,7 @@ import de.teamlapen.vampirism_integrations.ctov.ChoiceTheoremOverhauledVillage;
 import de.teamlapen.vampirism_integrations.diet.DietCompat;
 import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
 import de.teamlapen.vampirism_integrations.graveyard.GraveyardCompat;
+import de.teamlapen.vampirism_integrations.guardvillagers.GuardVillagerCompat;
 import de.teamlapen.vampirism_integrations.jade.JadeModCompat;
 import de.teamlapen.vampirism_integrations.mca.MCACompat;
 import de.teamlapen.vampirism_integrations.player_companion.PlayerCompanionCompat;
@@ -83,6 +84,7 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new ConsecrationCompat());
         compatLoader.addModCompat(new JadeModCompat());
         compatLoader.addModCompat(new ColdSweatCompat());
+        compatLoader.addModCompat(new GuardVillagerCompat());
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegister);
         MinecraftForge.EVENT_BUS.register(new EventHandler());

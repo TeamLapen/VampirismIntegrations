@@ -97,6 +97,9 @@ curseforge {
             if (project.include_cold_sweat.toBoolean()) {
                 optionalDependency 'cold-sweat'
             }
+            if (project.include_guard_villagers.toBoolean()) {
+                optionalDependency 'guard-villagers'
+            }
             optionalDependency 'better-combat-by-daedelus'
             optionalDependency 'choicetheorems-overhauled-village'
         }
