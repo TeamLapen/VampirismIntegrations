@@ -1,6 +1,7 @@
 package de.teamlapen.vampirism_integrations.waila;
 
 
+import de.teamlapen.vampirism.api.util.VResourceLocation;
 import de.teamlapen.vampirism.blockentity.AltarInspirationBlockEntity;
 import de.teamlapen.vampirism.blockentity.BloodContainerBlockEntity;
 import de.teamlapen.vampirism.blockentity.GarlicDiffuserBlockEntity;
@@ -15,10 +16,10 @@ import net.minecraft.resources.ResourceLocation;
 
 public class WailaPlugin implements IWailaPlugin {
 
-    public static final ResourceLocation SHOW_CREATURE_INFO = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "show_creature_info");
-    public static final ResourceLocation SHOW_PLAYER_INFO = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "show_player_info");
-    public static final ResourceLocation MAX_BLOOD_ICONS_PER_LINE = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "blood.icon_per_line");
-    public static final ResourceLocation MAX_LONG_BLOOD_MAX = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "blood.long_max");
+    public static final ResourceLocation SHOW_CREATURE_INFO = VResourceLocation.mod("show_creature_info");
+    public static final ResourceLocation SHOW_PLAYER_INFO = VResourceLocation.mod( "show_player_info");
+    public static final ResourceLocation MAX_BLOOD_ICONS_PER_LINE = VResourceLocation.mod( "blood.icon_per_line");
+    public static final ResourceLocation MAX_LONG_BLOOD_MAX = VResourceLocation.mod( "blood.long_max");
 
     @Override
     public void register(IRegistrar registrar) {

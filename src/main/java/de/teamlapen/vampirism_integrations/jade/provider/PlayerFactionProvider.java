@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
@@ -32,14 +33,14 @@ public enum PlayerFactionProvider implements IEntityComponentProvider, IServerDa
             if (tag.contains("faction")) {
                 String factionId = tag.getString("faction");
                 int level = tag.getInt("level");
-                IPlayableFaction<?> faction = ((IPlayableFaction<?>) VampirismAPI.factionRegistry().getFactionByID(new ResourceLocation(factionId)));
+                IPlayableFaction<?> faction = ((IPlayableFaction<?>) VampirismAPI.factionRegistry().getFactionByID(ResourceLocation.parse(factionId)));
                 MutableComponent component = Component.translatable(faction.getName().getString()).append(": ");
                 if (tag.contains("lordTitle")) {
                     int lordLevel = tag.getInt("lordLevel");
                     if (IWailaConfig.get().getPlugin().get(JadePlugin.PLAYER_FACTION_LORD_LEVEL_NUMBER)) {
                         component.append(Component.translatable("text.vampirism.lord").append(" ").append(Component.translatable("text.vampirism.level"))).append(" ").append(String.valueOf(lordLevel));
                     } else {
-                        ExtraCodecs.COMPONENT.decode(NbtOps.INSTANCE, tag.get("lordTitle")).result().map(Pair::getFirst).ifPresent(component::append);
+                        ComponentSerialization.CODEC.decode(NbtOps.INSTANCE, tag.get("lordTitle")).result().map(Pair::getFirst).ifPresent(component::append);
                     }
                 } else {
                     component.append(Component.translatable("text.vampirism.level")).append(" ").append(String.valueOf(level));
@@ -66,7 +67,7 @@ public enum PlayerFactionProvider implements IEntityComponentProvider, IServerDa
                         tag.putInt("level", handler.getCurrentLevel());
                         if (handler.getLordLevel() > 0) {
                             tag.putInt("lordLevel", handler.getLordLevel());
-                            DataResult<Tag> tagDataResult = ExtraCodecs.COMPONENT.encodeStart(NbtOps.INSTANCE, handler.getLordTitle());
+                            DataResult<Tag> tagDataResult = ComponentSerialization.CODEC.encodeStart(NbtOps.INSTANCE, handler.getLordTitle());
                             tagDataResult.result().ifPresent(t -> {
                                 tag.putInt("lordLevel", handler.getLordLevel());
                                 tag.put("lordTitle", t);

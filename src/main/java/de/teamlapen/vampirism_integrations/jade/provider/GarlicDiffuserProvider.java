@@ -28,9 +28,9 @@ public enum GarlicDiffuserProvider implements IBlockComponentProvider, IServerDa
             IElementHelper helper = IElementHelper.get();
             if (bootProgress == 1f) {
                 iTooltip.add(helper.smallItem(new ItemStack(ModItems.PURIFIED_GARLIC.get())));
-                iTooltip.append(IThemeHelper.get().seconds(fuelTime));
+                iTooltip.append(IThemeHelper.get().seconds(fuelTime, 20));
             } else {
-                iTooltip.add(helper.progress(bootProgress, Component.translatable("gui.vampirism.garlic_diffuser.startup"), helper.progressStyle().color(0xD0D0FF).textColor(0xFFFFFF), new BoxStyle(), false));
+                iTooltip.add(helper.progress(bootProgress, Component.translatable("gui.vampirism.garlic_diffuser.startup"), helper.progressStyle().color(0xD0D0FF).textColor(0xFFFFFF), BoxStyle.GradientBorder.DEFAULT_NESTED_BOX, false));
             }
         }
     }

@@ -1,0 +1,41 @@
+{
+  "replace": false,
+  "values": {
+    "biomesoplenty:blood": {
+      "conversionRate": 0.4,
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "biomesoplenty"
+        }
+      ]
+    },
+    "evilcraft:blood": {
+      "conversionRate": 0.8,
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "evilcraft"
+        }
+      ]
+    },
+    "bloodmagic:life_essence_fluid": {
+      "conversionRate": 0.8,
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "bloodmagic"
+        }
+      ]
+    },
+    "tconstruct:blood": {
+      "conversionRate": 0.8,
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "tconstruct"
+        }
+      ]
+    }
+  }
+}

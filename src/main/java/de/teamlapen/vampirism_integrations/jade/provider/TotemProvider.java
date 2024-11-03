@@ -23,8 +23,8 @@ public enum TotemProvider implements IBlockComponentProvider, IServerDataProvide
         if (blockAccessor.getServerData().contains("totem", CompoundTag.TAG_COMPOUND)) {
             CompoundTag tag = blockAccessor.getServerData().getCompound("totem");
             if (tag.contains("controllingFaction")) {
-                IFaction<?> controlling = tag.contains("controllingFaction") ? VampirismAPI.factionRegistry().getFactionByID(new ResourceLocation(tag.getString("controllingFaction"))) : null;
-                IFaction<?> capturing = tag.contains("capturingFaction") ? VampirismAPI.factionRegistry().getFactionByID(new ResourceLocation(tag.getString("capturingFaction"))) : null;
+                IFaction<?> controlling = tag.contains("controllingFaction") ? VampirismAPI.factionRegistry().getFactionByID(ResourceLocation.parse(tag.getString("controllingFaction"))) : null;
+                IFaction<?> capturing = tag.contains("capturingFaction") ? VampirismAPI.factionRegistry().getFactionByID(ResourceLocation.parse(tag.getString("capturingFaction"))) : null;
                 if (capturing != null) {
                     if (controlling != null) {
                         iTooltip.add(Component.translatable("text.vampirism_integrations.defending").append(": ").append(controlling.getNamePlural().plainCopy().withStyle(s -> s.withColor(controlling.getChatColor()))));

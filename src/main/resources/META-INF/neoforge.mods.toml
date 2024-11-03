@@ -12,14 +12,14 @@ license = "${mod_license}"
     displayURL="${mod_url}"
     updateJSONURL="https://api.modrinth.com/updates/vampirism-integrations/forge_updates.json"
     [[dependencies.${mod_id}]]
-        modId="forge"
-        mandatory=true
+        modId="neoforge"
+        type="required"
         versionRange="${forge_version_range}"
         ordering="NONE"
         side="BOTH"
     [[dependencies.${mod_id}]]
         modId="vampirism"
-        mandatory=true
+        type="required"
         versionRange="[${vampirism_version},)"
         ordering="AFTER"
         side="BOTH"

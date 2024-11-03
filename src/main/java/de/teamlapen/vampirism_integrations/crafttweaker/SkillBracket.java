@@ -8,6 +8,7 @@ import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker.api.bracket.BracketValidators;
 import com.blamejared.crafttweaker.api.logging.CommonLoggers;
 import com.blamejared.crafttweaker_annotations.annotations.Document;
+import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.core.ModRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -52,9 +53,9 @@ public class SkillBracket {
         if (length != 2) {
             throw new IllegalArgumentException("Could not get skill <skill:" + tokens + ">");
         }
-        final ResourceLocation resourceLocation = new ResourceLocation(tokens);
+        final ResourceLocation resourceLocation = ResourceLocation.parse(tokens);
 
-        ISkill<?> skill = ModRegistries.SKILLS.get().getValue(resourceLocation);
+        ISkill<?> skill = VampirismRegistries.SKILL.get().get(resourceLocation);
         if (skill == null) {
             throw new IllegalArgumentException("Could not get skill <skill:" + tokens + ">");
         }
@@ -62,12 +63,12 @@ public class SkillBracket {
     }
 
     public static String getCommandString(ISkill<?> skill) {
-        return "<skill:" + ModRegistries.SKILLS.get().getKey(skill) + ">";
+        return "<skill:" + VampirismRegistries.SKILL.get().getKey(skill) + ">";
     }
 
     @ZenCodeType.Method
     @BracketDumper("skill")
     public static Collection<String> getSkillDump(){
-        return ModRegistries.SKILLS.get().getValues().stream().map(SkillBracket::getCommandString).collect(Collectors.toList());
+        return VampirismRegistries.SKILL.get().stream().map(SkillBracket::getCommandString).collect(Collectors.toList());
     }
 }

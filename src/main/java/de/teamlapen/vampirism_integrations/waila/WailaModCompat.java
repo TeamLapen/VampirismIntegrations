@@ -3,14 +3,11 @@ package de.teamlapen.vampirism_integrations.waila;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism_integrations.util.IModCompat;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
-import net.minecraftforge.registries.ObjectHolder;
+import net.neoforged.fml.event.lifecycle.ParallelDispatchEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class WailaModCompat implements IModCompat {
-
-    @ObjectHolder(registryName="blocks", value= "vampirism:garlic_beacon")
-    static Block garlicBeacon;
 
     @Override
     public String getModID() {
@@ -18,7 +15,7 @@ public class WailaModCompat implements IModCompat {
     }
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ModConfigSpec.Builder builder) {
 
     }
 

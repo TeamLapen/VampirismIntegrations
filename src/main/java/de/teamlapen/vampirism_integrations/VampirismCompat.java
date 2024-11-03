@@ -2,7 +2,7 @@ package de.teamlapen.vampirism_integrations;
 
 import de.teamlapen.vampirism_integrations.util.IModCompat;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import javax.annotation.Nullable;
 
@@ -11,7 +11,6 @@ import javax.annotation.Nullable;
  */
 public class VampirismCompat implements IModCompat {
 
-    public static ForgeConfigSpec.BooleanValue disableVersionCheck;
 
     @Override
     public String getModID() {
@@ -19,8 +18,7 @@ public class VampirismCompat implements IModCompat {
     }
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
-        disableVersionCheck = builder.define("disable_integrations_version_check", false);
+    public void buildConfig(ModConfigSpec.Builder builder) {
     }
 
     @Nullable

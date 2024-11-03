@@ -1,8 +1,6 @@
 package de.teamlapen.vampirism_integrations.jade.provider;
 
 import de.teamlapen.vampirism.blocks.HunterTableBlock;
-import de.teamlapen.vampirism.entity.player.hunter.HunterLevelingConf;
-import de.teamlapen.vampirism.entity.player.vampire.VampireLevelingConf;
 import de.teamlapen.vampirism_integrations.jade.JadePlugin;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

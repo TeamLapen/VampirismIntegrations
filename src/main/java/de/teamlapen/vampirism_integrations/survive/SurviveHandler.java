@@ -1,22 +1,31 @@
 package de.teamlapen.vampirism_integrations.survive;
 
 
+import com.stereowalker.survive.api.needs.PlayerNeeds;
+import com.stereowalker.survive.api.needs.Stamina;
 import com.stereowalker.survive.core.SurviveEntityStats;
+import com.stereowalker.survive.needs.IRealisticEntity;
+import com.stereowalker.survive.needs.SleepData;
 import com.stereowalker.survive.needs.StaminaData;
 import com.stereowalker.survive.needs.WaterData;
 import com.stereowalker.survive.world.entity.ai.attributes.SAttributes;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.event.PlayerFactionEvent;
+import de.teamlapen.vampirism.api.util.VResourceLocation;
 import de.teamlapen.vampirism.util.Helper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,9 +35,12 @@ import java.util.UUID;
 public class SurviveHandler {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private final static UUID VAMPIRE_MOD_UUID = UUID.fromString("3625f8a1-3ac3-4289-8c26-b50ddccf066c");
-    private static final ResourceLocation THIRST_OVERLAY = new ResourceLocation("survive", "thirst_level");
-    private static final ResourceLocation STAMINA_OVERLAY = new ResourceLocation("survive", "stamina_level");
+    private static final String ID = "survive";
+    private final static ResourceLocation VAMPIRE_MOD_UUID = VResourceLocation.mod("vampire_modifier");
+    private static final ResourceLocation THIRST_OVERLAY = ResourceLocation.fromNamespaceAndPath(ID, "thirst_level");
+    private static final ResourceLocation STAMINA_OVERLAY = ResourceLocation.fromNamespaceAndPath(ID, "stamina_level");
+    private static final DeferredHolder<Attribute, Attribute> COLD_RESISTANCE = DeferredHolder.create(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation.fromNamespaceAndPath(ID, "generic.cold_resistance")));
+    private static final DeferredHolder<Attribute, Attribute> HEAT_RESISTANCE = DeferredHolder.create(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation.fromNamespaceAndPath(ID, "generic.heat_resistance")));
     private boolean warnThirst = true;
     private boolean warnTemperature = true;
     private boolean warnStamina = true;
@@ -38,21 +50,21 @@ public class SurviveHandler {
         if (SurviveCompat.enableTemperatureVampires.get()) {
             try {
                     boolean vamp = event.getCurrentFaction() == VReference.VAMPIRE_FACTION;
-                    AttributeInstance coldRes = event.getPlayer().getPlayer().getAttribute(SAttributes.COLD_RESISTANCE);
+                    AttributeInstance coldRes = event.getPlayer().getPlayer().getAttribute(COLD_RESISTANCE);
                     if (coldRes != null) {
                         if (vamp) {
                             if (coldRes.getModifier(VAMPIRE_MOD_UUID) == null) {
-                                coldRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", 20, AttributeModifier.Operation.ADDITION));
+                                coldRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, 20, AttributeModifier.Operation.ADD_VALUE));
                             }
                         } else {
                             coldRes.removeModifier(VAMPIRE_MOD_UUID);
                         }
                     }
-                    AttributeInstance heatRes = event.getPlayer().getPlayer().getAttribute(SAttributes.HEAT_RESISTANCE);
+                    AttributeInstance heatRes = event.getPlayer().getPlayer().getAttribute(HEAT_RESISTANCE);
                     if (heatRes != null) {
                         if (vamp) {
                             if (heatRes.getModifier(VAMPIRE_MOD_UUID) == null) {
-                                heatRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", -0.3, AttributeModifier.Operation.MULTIPLY_TOTAL));
+                                heatRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID,  -0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
                             }
                         } else {
                             heatRes.removeModifier(VAMPIRE_MOD_UUID);
@@ -70,14 +82,13 @@ public class SurviveHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerUpdate(LivingEvent.LivingTickEvent event) {
-        if (SurviveCompat.disableThirstForVampires.get() && event.getEntity() instanceof ServerPlayer) {
+    public void onPlayerUpdate(EntityTickEvent event) {
+        if (SurviveCompat.disableThirstForVampires.get() && event.getEntity() instanceof ServerPlayer player && player instanceof IRealisticEntity realisticEntity) {
             try {
-                if (Helper.isVampire((Player) event.getEntity())) {
-                    WaterData stats = SurviveEntityStats.getWaterStats(event.getEntity());
+                if (Helper.isVampire(player)) {
+                    WaterData stats = realisticEntity.getWaterData();
                     if (stats.needWater() && stats.getWaterLevel() < 20) {
                         stats.setWaterLevel(stats.getWaterLevel() + 1);
-                        SurviveEntityStats.setWaterStats(event.getEntity(), stats);
                     }
                 }
             } catch (Throwable e) {
@@ -87,14 +98,13 @@ public class SurviveHandler {
                 }
             }
         }
-        if (SurviveCompat.enableStaminaBoostVampires.get() && event.getEntity() instanceof ServerPlayer) {
+        if (SurviveCompat.enableStaminaBoostVampires.get() && event.getEntity() instanceof ServerPlayer player && player instanceof IRealisticEntity realisticEntity) {
             try {
-                if (Helper.isVampire((Player) event.getEntity())) {
+                if (Helper.isVampire(player)) {
                     if (event.getEntity().tickCount % 64 == 0) {
-                        StaminaData stats = SurviveEntityStats.getEnergyStats(event.getEntity());
+                        StaminaData stats = realisticEntity.staminaData();
                         if (stats.isTired()) {
-                            stats.setEnergyLevel(stats.getEnergyLevel() + 1); //Since we are tired, we should be below maxStamina
-                            SurviveEntityStats.setStaminaStats(event.getEntity(), stats);
+                            stats.setEnergyLevel(stats.getLTS() + 1); //Since we are tired, we should be below maxStamina
                         }
                     }
 
@@ -110,12 +120,12 @@ public class SurviveHandler {
     }
 
     @SubscribeEvent
-    public void onRenderOverlay(RenderGuiOverlayEvent event) {
+    public void onRenderOverlay(RenderGuiLayerEvent.Pre event) {
         if (Minecraft.getInstance().player == null) return;
-        if (event.getOverlay().id().equals(THIRST_OVERLAY) && SurviveCompat.disableThirstForVampires.get() && Helper.isVampire(Minecraft.getInstance().player)) {
+        if (event.getName().equals(THIRST_OVERLAY) && SurviveCompat.disableThirstForVampires.get() && Helper.isVampire(Minecraft.getInstance().player)) {
             event.setCanceled(true);
         }
-        if (event.getOverlay().id().equals(STAMINA_OVERLAY) && SurviveCompat.enableStaminaBoostVampires.get() && Helper.isVampire(Minecraft.getInstance().player)) {
+        if (event.getName().equals(STAMINA_OVERLAY) && SurviveCompat.enableStaminaBoostVampires.get() && Helper.isVampire(Minecraft.getInstance().player)) {
             event.setCanceled(true);
         }
     }

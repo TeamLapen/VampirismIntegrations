@@ -1,5 +1,6 @@
 package de.teamlapen.vampirism_integrations.jade.elements;
 
+import de.teamlapen.vampirism.api.util.VResourceLocation;
 import de.teamlapen.vampirism_integrations.jade.JadePlugin;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import net.minecraft.client.Minecraft;
@@ -19,7 +20,7 @@ import snownee.jade.api.ui.IDisplayHelper;
 import java.text.DecimalFormat;
 
 public class BloodElement extends Element {
-    private static final ResourceLocation ICONS = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "textures/gui/icons.png");
+    private static final ResourceLocation ICONS = VResourceLocation.mod("textures/gui/icons.png");
     public static final DecimalFormat DF_FORMATTER = new DecimalFormat("0.##");
 
     private final int maxBlood;

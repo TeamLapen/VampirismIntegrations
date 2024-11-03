@@ -1,16 +1,16 @@
 package de.teamlapen.vampirism_integrations.tan;
 
 import de.teamlapen.vampirism_integrations.util.IModCompat;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
+import net.neoforged.fml.event.lifecycle.ParallelDispatchEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.NeoForge;
 
 public class TANCompat implements IModCompat {
 
-    static ForgeConfigSpec.BooleanValue disableThirst;
+    static ModConfigSpec.BooleanValue disableThirst;
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ModConfigSpec.Builder builder) {
         disableThirst = builder.comment("Limit thirst for vampires").define("disableThirst", true);
     }
 
@@ -22,7 +22,7 @@ public class TANCompat implements IModCompat {
     @Override
     public void onInitStep(Step step, ParallelDispatchEvent event) {
         if (step == Step.LOAD_COMPLETE) {
-            MinecraftForge.EVENT_BUS.register(new ThirstHandler());
+            NeoForge.EVENT_BUS.register(new ThirstHandler());
             TemperatureModifier.register();
         }
     }

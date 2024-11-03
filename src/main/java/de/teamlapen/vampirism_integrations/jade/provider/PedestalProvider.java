@@ -4,7 +4,7 @@ import de.teamlapen.vampirism.api.items.IBloodChargeable;
 import de.teamlapen.vampirism.api.items.IItemWithTier;
 import de.teamlapen.vampirism.blockentity.PedestalBlockEntity;
 import de.teamlapen.vampirism.config.VampirismConfig;
-import de.teamlapen.vampirism.items.VampirismVampireSwordItem;
+import de.teamlapen.vampirism.core.ModDataComponents;
 import de.teamlapen.vampirism_integrations.jade.JadePlugin;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -25,7 +25,7 @@ public enum PedestalProvider implements IBlockComponentProvider, IServerDataProv
         if (blockAccessor.getServerData().contains("charge", CompoundTag.TAG_FLOAT)) {
             float charge = blockAccessor.getServerData().getFloat("charge");
             IElementHelper style = IElementHelper.get();
-            iTooltip.add(style.progress(charge, null, style.progressStyle().color(0xEEFF1111).textColor(0xFF00FF00), new BoxStyle(), false));
+            iTooltip.add(style.progress(charge, null, style.progressStyle().color(0x650618).textColor(0xFF00FF00), BoxStyle.GradientBorder.DEFAULT_NESTED_BOX, false));
         }
     }
 
@@ -33,13 +33,9 @@ public enum PedestalProvider implements IBlockComponentProvider, IServerDataProv
     public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
         if (blockAccessor.getBlockEntity() instanceof PedestalBlockEntity pedestal) {
             ItemStack stackForRender = pedestal.getStackForRender();
-            if (stackForRender.getItem() instanceof IBloodChargeable) {
-                CompoundTag swordTag = stackForRender.getTag();
-                float charge = 0;
-                if (swordTag != null) {
-                    charge = swordTag.getFloat("charged");
-                }
-                compoundTag.putFloat("charge", charge);
+            if (stackForRender.getItem() instanceof IBloodChargeable chargeable) {
+                var changed = stackForRender.get(ModDataComponents.BLOOD_CHARGED);
+                compoundTag.putFloat("charge", changed != null ? changed.charged() : 0);
             }
         }
     }

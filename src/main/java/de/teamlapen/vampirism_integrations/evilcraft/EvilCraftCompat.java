@@ -1,7 +1,7 @@
 package de.teamlapen.vampirism_integrations.evilcraft;
 
 import de.teamlapen.vampirism_integrations.util.IModCompat;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class EvilCraftCompat implements IModCompat {
 
@@ -11,7 +11,7 @@ public class EvilCraftCompat implements IModCompat {
     }
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ModConfigSpec.Builder builder) {
 
     }
 }

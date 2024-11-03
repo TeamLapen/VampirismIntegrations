@@ -1,12 +1,12 @@
 package de.teamlapen.vampirism_integrations.jade;
 
 import de.teamlapen.vampirism_integrations.util.IModCompat;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.Nullable;
 
 public class JadeModCompat implements IModCompat {
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ModConfigSpec.Builder builder) {
 
     }
 

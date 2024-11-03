@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": {
+    "mca:female_villager": {
+      "blood": 15,
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "mca"
+        }
+      ]
+    },
+    "mca:male_villager": {
+      "blood": 15,
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "mca"
+        }
+      ]
+    }
+  }
+}

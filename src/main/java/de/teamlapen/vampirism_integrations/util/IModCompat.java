@@ -2,7 +2,7 @@ package de.teamlapen.vampirism_integrations.util;
 
 
 import de.teamlapen.lib.lib.util.IInitListener;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import javax.annotation.Nullable;
 
@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
  * Should not load any classes outside of init
  */
 public interface IModCompat extends IInitListener {
-    void buildConfig(ForgeConfigSpec.Builder builder);
+    void buildConfig(ModConfigSpec.Builder builder);
 
     /**
      * Can be null if all versions are accepted

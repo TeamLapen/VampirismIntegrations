@@ -24,7 +24,7 @@ class PlayerDataProvider implements IEntityComponentProvider {
                         fph.getCurrentFactionPlayer().ifPresent(fp -> {
                             IFaction<?> f = fp.getDisguisedAs();
                             if (f != null) {
-                                tooltip.addLine(Component.literal(String.format("%s %s: %s", f.getName().getString(), UtilLib.translate("text.vampirism.level"), fph.getCurrentLevel())).withStyle(style -> style.withColor(f.getChatColor())));
+                                tooltip.addLine(Component.literal(String.format("%s %s: %s", f.getName().getString(), Component.translatable("text.vampirism.level").getString(), fph.getCurrentLevel())).withStyle(style -> style.withColor(f.getChatColor())));
                             }
                         });
                     }

@@ -30,7 +30,7 @@ public enum PotionTableProvider implements IBlockComponentProvider, IServerDataP
             if (time > 0) {
                 iTooltip.append(helper.spacer(5, 0));
                 iTooltip.append(helper.smallItem(new ItemStack(Items.CLOCK)));
-                iTooltip.append(IThemeHelper.get().seconds(time));
+                iTooltip.append(IThemeHelper.get().seconds(time, 20));
             }
 
         }
@@ -39,7 +39,7 @@ public enum PotionTableProvider implements IBlockComponentProvider, IServerDataP
     @Override
     public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
         if (blockAccessor.getBlockEntity() instanceof PotionTableBlockEntity potionTable && !potionTable.isEmpty()) {
-            CompoundTag compoundTag1 = potionTable.saveWithoutMetadata();
+            CompoundTag compoundTag1 = potionTable.saveWithoutMetadata(blockAccessor.getLevel().registryAccess());
             CompoundTag compound = new CompoundTag();
             compound.putInt("time", compoundTag1.getInt("BrewTime"));
             compound.putInt("fuel", compoundTag1.getInt("Fuel"));

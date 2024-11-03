@@ -3,8 +3,8 @@ package de.teamlapen.vampirism_integrations.ctov;
 import de.teamlapen.vampirism.util.MixinHooks;
 import de.teamlapen.vampirism_integrations.util.IModCompat;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
+import net.neoforged.fml.event.lifecycle.ParallelDispatchEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.Arrays;
 
@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 public class ChoiceTheoremOverhauledVillage implements IModCompat {
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ModConfigSpec.Builder builder) {
 
     }
 
@@ -34,6 +34,6 @@ public class ChoiceTheoremOverhauledVillage implements IModCompat {
     }
     private void registerHunterHouses(String... paths) {
         String template = "village/%s/jobsite/hunter_trainer";
-        MixinHooks.addSingleInstanceStructure(Arrays.stream(paths).map(path -> new ResourceLocation("ctov", template.formatted(path))).toList());
+        MixinHooks.addSingleInstanceStructure(Arrays.stream(paths).map(path -> ResourceLocation.fromNamespaceAndPath("ctov", template.formatted(path))).toList());
     }
 }

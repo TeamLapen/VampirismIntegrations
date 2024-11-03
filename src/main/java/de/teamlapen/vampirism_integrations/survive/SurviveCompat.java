@@ -1,21 +1,21 @@
 package de.teamlapen.vampirism_integrations.survive;
 
 import de.teamlapen.vampirism_integrations.util.IModCompat;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
+import net.neoforged.fml.event.lifecycle.ParallelDispatchEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.NeoForge;
 import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
 
 public class SurviveCompat implements IModCompat {
 
-    static ForgeConfigSpec.BooleanValue disableThirstForVampires;
-    static ForgeConfigSpec.BooleanValue enableTemperatureVampires;
-    static ForgeConfigSpec.BooleanValue enableStaminaBoostVampires;
+    static ModConfigSpec.BooleanValue disableThirstForVampires;
+    static ModConfigSpec.BooleanValue enableTemperatureVampires;
+    static ModConfigSpec.BooleanValue enableStaminaBoostVampires;
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ModConfigSpec.Builder builder) {
         disableThirstForVampires = builder.comment("Whether vampires should not need to drink").define("disableThirstVampires", true);
         enableTemperatureVampires = builder.comment("Grant vampires cold resistance, but decrease heat resistance").define("enableTemperatureVampires", true);
         enableStaminaBoostVampires = builder.comment("Increase natural regeneration for vampires").define("enableStaminaBoostVampires", true);
@@ -36,7 +36,7 @@ public class SurviveCompat implements IModCompat {
     public void onInitStep(Step step, ParallelDispatchEvent event) {
         if (step == Step.COMMON_SETUP) {
             try {
-                MinecraftForge.EVENT_BUS.register(new SurviveHandler());
+                NeoForge.EVENT_BUS.register(new SurviveHandler());
             } catch (Exception e) {
                 LogManager.getLogger().error("Failed to register survive thirst handler", e);
             }

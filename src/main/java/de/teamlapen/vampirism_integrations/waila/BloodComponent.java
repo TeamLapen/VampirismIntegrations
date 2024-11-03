@@ -1,13 +1,15 @@
 package de.teamlapen.vampirism_integrations.waila;
 
+import de.teamlapen.vampirism.api.util.VResourceLocation;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import mcp.mobius.waila.api.ITooltipComponent;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class BloodComponent implements ITooltipComponent {
-    static final ResourceLocation ICONS = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "textures/gui/icons.png");
+    static final ResourceLocation ICONS = VResourceLocation.mod("textures/gui/icons.png");
 
     private final int blood;
     private final int iconCount;
@@ -30,7 +32,7 @@ public class BloodComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         int filled = blood / 2 - 1;
         int half = filled + blood % 2;
 

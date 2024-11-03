@@ -29,7 +29,7 @@ public enum AlchemyTableProvider implements IBlockComponentProvider, IServerData
             if (time > 0) {
                 iTooltip.append(helper.spacer(5, 0));
                 iTooltip.append(helper.smallItem(new ItemStack(Items.CLOCK)));
-                iTooltip.append(IThemeHelper.get().seconds(time));
+                iTooltip.append(IThemeHelper.get().seconds(time, 20));
             }
 
         }
@@ -38,7 +38,7 @@ public enum AlchemyTableProvider implements IBlockComponentProvider, IServerData
     @Override
     public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
         if (blockAccessor.getBlockEntity() instanceof AlchemyTableBlockEntity alchemyTable && !alchemyTable.isEmpty()) {
-            CompoundTag compoundTag1 = alchemyTable.saveWithoutMetadata();
+            CompoundTag compoundTag1 = alchemyTable.saveWithoutMetadata(blockAccessor.getLevel().registryAccess());
             CompoundTag compound = new CompoundTag();
             compound.putInt("time", compoundTag1.getInt("BrewTime"));
             compound.putInt("fuel", compoundTag1.getInt("Fuel"));

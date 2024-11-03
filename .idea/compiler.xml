@@ -7,6 +7,6 @@
       <directory url="file://$PROJECT_DIR$/src/main/java/de/teamlapen/vampirism_integrations/bloodmagic" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/src/main/java/de/teamlapen/vampirism_integrations/betteranimals" includeSubdirectories="true" />
     </excludeFromCompile>
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="21" />
   </component>
 </project>

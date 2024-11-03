@@ -1,5 +1,6 @@
 package de.teamlapen.vampirism_integrations.jade;
 
+import de.teamlapen.vampirism.api.util.VResourceLocation;
 import de.teamlapen.vampirism.blockentity.*;
 import de.teamlapen.vampirism.blocks.*;
 import de.teamlapen.vampirism_integrations.jade.provider.*;
@@ -15,23 +16,23 @@ import snownee.jade.api.WailaPlugin;
 @WailaPlugin
 public class JadePlugin implements IWailaPlugin {
 
-    public static final ResourceLocation ENTITY_BLOOD = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "entity_blood");
-    public static final ResourceLocation GARLIC_BEACON = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "garlic_beacon");
-    public static final ResourceLocation PLAYER_FACTION = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "player_faction");
-    public static final ResourceLocation TOTEM = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "totem");
-    public static final ResourceLocation PEDESTAL_CHARGING = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "pedestal_charging");
-    public static final ResourceLocation POTION_TABLE = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "potion_table");
-    public static final ResourceLocation ALCHEMY_TABLE = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "alchemy_table");
-    public static final ResourceLocation WEAPON_TABLE = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "weapon_table");
-    public static final ResourceLocation RESEARCH_TABLE = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "research_table");
-    public static final ResourceLocation ALTAR_OF_INSPIRATION = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "altar_of_inspiration");
-    public static final ResourceLocation ALTAR_OF_INFUSION = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "altar_of_infusion");
-    public static final ResourceLocation ALTAR_PILLAR = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "altar_pillar");
+    public static final ResourceLocation ENTITY_BLOOD = VResourceLocation.mod("entity_blood");
+    public static final ResourceLocation GARLIC_BEACON = VResourceLocation.mod( "garlic_beacon");
+    public static final ResourceLocation PLAYER_FACTION = VResourceLocation.mod( "player_faction");
+    public static final ResourceLocation TOTEM = VResourceLocation.mod( "totem");
+    public static final ResourceLocation PEDESTAL_CHARGING = VResourceLocation.mod( "pedestal_charging");
+    public static final ResourceLocation POTION_TABLE = VResourceLocation.mod( "potion_table");
+    public static final ResourceLocation ALCHEMY_TABLE = VResourceLocation.mod( "alchemy_table");
+    public static final ResourceLocation WEAPON_TABLE = VResourceLocation.mod( "weapon_table");
+    public static final ResourceLocation RESEARCH_TABLE = VResourceLocation.mod( "research_table");
+    public static final ResourceLocation ALTAR_OF_INSPIRATION = VResourceLocation.mod( "altar_of_inspiration");
+    public static final ResourceLocation ALTAR_OF_INFUSION = VResourceLocation.mod( "altar_of_infusion");
+    public static final ResourceLocation ALTAR_PILLAR = VResourceLocation.mod( "altar_pillar");
 
-    public static final ResourceLocation ENTITY_BLOOD_MAX_FOR_RENDER = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "entity_blood.max_for_render");
-    public static final ResourceLocation ENTITY_BLOOD_ICONS_PER_LINE = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "entity_blood.icon_per_line");
-    public static final ResourceLocation ENTITY_BLOOD_SHOW_FRACTION = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "entity_blood.show_fraction");
-    public static final ResourceLocation PLAYER_FACTION_LORD_LEVEL_NUMBER = new ResourceLocation(REFERENCE.VAMPIRISM_ID, "player_faction.lord_level_number");
+    public static final ResourceLocation ENTITY_BLOOD_MAX_FOR_RENDER = VResourceLocation.mod( "entity_blood.max_for_render");
+    public static final ResourceLocation ENTITY_BLOOD_ICONS_PER_LINE = VResourceLocation.mod( "entity_blood.icon_per_line");
+    public static final ResourceLocation ENTITY_BLOOD_SHOW_FRACTION = VResourceLocation.mod( "entity_blood.show_fraction");
+    public static final ResourceLocation PLAYER_FACTION_LORD_LEVEL_NUMBER = VResourceLocation.mod( "player_faction.lord_level_number");
 
     @Override
     public void register(IWailaCommonRegistration registration) {

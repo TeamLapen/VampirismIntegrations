@@ -1,15 +1,14 @@
 plugins {
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
-    id 'org.spongepowered.mixin' version '0.7.+'
-    id 'com.matthewprenger.cursegradle' version '1.4.0'
-    id "com.modrinth.minotaur" version "2.4.5"
-    id 'de.undercouch.download' version '3.3.0'
-    id 'idea'
+    id 'java-library'
     id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.neoforged.gradle.userdev' version '7.0.165'
+    id 'net.neoforged.gradle.mixin' version '7.0.165'
+    id "me.modmuss50.mod-publish-plugin" version "0.4.2"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 configurations {
     optionalRuntime
@@ -125,14 +124,23 @@ tasks.named('processResources', ProcessResources).configure {
             mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
             mod_authors: mod_authors, mod_description: mod_description,
             jei_version: jei_version,
-            vampirism_version: vampirism_version,
             guideapi_version: guideapi_version,
             mod_url: mod_url,
             mod_issue_tracker: mod_issue_tracker,
+            pack_format_number: pack_format_number,
+            vampirism_version: vampirism_version
     ]
     inputs.properties replaceProperties
 
-    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+    filesMatching(['META-INF/neoforge.mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+configurations.configureEach {
+    print(it.name + "\n")
 }

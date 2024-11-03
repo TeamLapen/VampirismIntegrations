@@ -1,17 +1,16 @@
 package de.teamlapen.vampirism_integrations;
 
 import de.teamlapen.lib.lib.util.UtilLib;
-import de.teamlapen.lib.lib.util.VersionChecker;
 import de.teamlapen.vampirism_integrations.util.IModCompat;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,27 +23,8 @@ public class EventHandler {
 
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        VersionChecker.VersionInfo versionInfo = VampirismIntegrationsMod.instance.getVersionInfo();
-        if (!versionInfo.isChecked())
-            LOGGER.warn("Version check is not finished yet");
-
         boolean isAdminLikePlayer = !ServerLifecycleHooks.getCurrentServer().isDedicatedServer() || UtilLib.isPlayerOp(event.getEntity());
 
-        if (!VampirismCompat.disableVersionCheck.get() && versionInfo.isNewVersionAvailable()) {
-
-            if (isAdminLikePlayer || event.getEntity().getRandom().nextInt(5) == 0) {
-                if (event.getEntity().getRandom().nextInt(4) == 0) {
-                    VersionChecker.Version newVersion = versionInfo.getNewVersion();
-                    event.getEntity().displayClientMessage(Component.translatable("text.vampirism.outdated", versionInfo.getCurrentVersion().name, newVersion.name), false);
-                    MutableComponent download = Component.translatable("text.vampirism.update_message.download").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, newVersion.getUrl() == null ? versionInfo.getHomePage() : newVersion.getUrl())).applyFormat(ChatFormatting.UNDERLINE).withColor(ChatFormatting.BLUE));
-                    Component changelog = Component.translatable("text.vampirism.update_message.changelog").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/vampirism changelog")).applyFormat(ChatFormatting.UNDERLINE));
-                    Component modpage = Component.translatable("text.vampirism.update_message.modpage").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, versionInfo.getHomePage())).applyFormat(ChatFormatting.UNDERLINE).withColor(ChatFormatting.BLUE));
-                    event.getEntity().displayClientMessage(download.append(" ").append(changelog).append(" ").append(modpage), false);
-                }
-            }
-
-
-        }
         if (isAdminLikePlayer && event.getEntity().getRandom().nextInt(4) == 0) {
             List<IModCompat> list = VampirismIntegrationsMod.instance.compatLoader.getIncompatibleCompats();
             for (IModCompat m : list) {

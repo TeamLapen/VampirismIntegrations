@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -21,7 +22,7 @@ public class GarlicBeaconProvider implements IBlockComponentProvider {
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         ItemStack stack = accessor.getStack();
         List<Component> l = new ArrayList<>();
-        stack.getItem().appendHoverText(stack, accessor.getWorld(), l, TooltipFlag.Default.NORMAL);
+        stack.getItem().appendHoverText(stack, Item.TooltipContext.EMPTY, l, TooltipFlag.Default.NORMAL);
         l.forEach(tooltip::addLine);
         BlockEntity t = accessor.getBlockEntity();
         if (t instanceof GarlicDiffuserBlockEntity) {

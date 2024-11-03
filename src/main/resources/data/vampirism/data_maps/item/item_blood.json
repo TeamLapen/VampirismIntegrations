@@ -1,0 +1,13 @@
+{
+  "values": {
+    "evilcraft:blood_orb_filled": {
+      "blood": 800,
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "evilcraft"
+        }
+      ]
+    }
+  }
+}

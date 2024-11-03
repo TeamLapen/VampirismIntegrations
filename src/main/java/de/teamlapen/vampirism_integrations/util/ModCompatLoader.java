@@ -2,11 +2,10 @@ package de.teamlapen.vampirism_integrations.util;
 
 import com.google.common.collect.ImmutableList;
 import de.teamlapen.lib.lib.util.IInitListener;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.event.lifecycle.ParallelDispatchEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
@@ -21,7 +20,7 @@ import java.util.*;
 public class ModCompatLoader implements IInitListener {
 
     private final static Logger LOGGER = LogManager.getLogger();
-    private final Map<IModCompat, ForgeConfigSpec.BooleanValue> compatEnableMap = new HashMap<>();
+    private final Map<IModCompat, ModConfigSpec.BooleanValue> compatEnableMap = new HashMap<>();
     private final List<IModCompat> incompatibleCompats = new LinkedList<>();
     private
     @Nullable
@@ -40,7 +39,7 @@ public class ModCompatLoader implements IInitListener {
         availableModCompats.add(compat);
     }
 
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ModConfigSpec.Builder builder) {
         builder.push("Compatibility");
         assert availableModCompats != null;
         for (IModCompat c : availableModCompats) {
@@ -118,7 +117,7 @@ public class ModCompatLoader implements IInitListener {
         List<IModCompat> loaded = new LinkedList<>();
         for (IModCompat modCompat : availableModCompats) {
             if (isModLoaded(modCompat)) {
-                ForgeConfigSpec.BooleanValue enabled = compatEnableMap.get(modCompat);
+                ModConfigSpec.BooleanValue enabled = compatEnableMap.get(modCompat);
                 if (enabled != null && enabled.get()) {
                     if (isVersionOk(modCompat)) {
                         loaded.add(modCompat);

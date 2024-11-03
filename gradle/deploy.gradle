@@ -1,115 +1,4 @@
 
-curseforge {
-    if (project.hasProperty("CURSEFORGE_API")) {
-        apiKey = project.CURSEFORGE_API
-    } else {
-        apiKey = "DUMMY"
-    }
-    project {
-        id = "282433"
-
-        if (project.type == "beta") {
-            releaseType = 'beta'
-            //changelog = new File("resources/changelog/${project.version}.txt").text
-        } else if (project.type == "release") {
-            releaseType = 'release'
-        } else {
-            releaseType = 'alpha'
-            changelog = "This version should not be used in your 'productive' world. It contains the latest features, but also the latest bugs.\n Probably not all features are finished.\n To see what might have changed visit our Github page and browse the latest commits."
-        }
-        addGameVersion project.minecraft_version
-
-        mainArtifact(jar) {
-            displayName = "VampirismIntegrations-${project.minecraft_version}-${project.mod_version}"
-        }
-
-        relations {
-            requiredDependency 'vampirism-become-a-vampire'
-            if (project.include_biomes_o_plenty.toBoolean()) {
-                optionalDependency 'biomes-o-plenty'
-            }
-            if (project.include_waila.toBoolean()) {
-                optionalDependency 'waila'
-            }
-            if (project.include_immersive_engineering.toBoolean()) {
-                optionalDependency 'immersive-engineering'
-            }
-            if (project.include_evilcraft.toBoolean()) {
-                optionalDependency 'evilcraft'
-            }
-            if (project.include_tough_as_nails.toBoolean()) {
-                optionalDependency 'tough-as-nails'
-            }
-            if (project.include_nyctophobia.toBoolean()) {
-                optionalDependency 'nyctophobia-forge'
-            }
-            if (project.include_survive.toBoolean()) {
-                optionalDependency 'survive'
-            }
-            if (project.include_diet.toBoolean()) {
-                optionalDependency 'diet'
-            }
-            if (project.include_tinkers_construction.toBoolean()) {
-                optionalDependency 'tinkers-construct'
-            }
-            if (project.include_crafttweaker.toBoolean()) {
-                optionalDependency 'crafttweaker'
-            }
-            if (project.include_betteranimalsplus.toBoolean()) {
-                optionalDependency 'betteranimalsplus'
-            }
-            if (project.include_consecration.toBoolean()) {
-                optionalDependency 'consecration'
-            }
-            if (project.include_minecraft_comes_alive.toBoolean()) {
-                optionalDependency 'minecraft-comes-alive-reborn'
-            }
-            if (project.include_minecolonies.toBoolean()) {
-                optionalDependency 'minecolonies'
-            }
-            if (project.include_player_companion.toBoolean()) {
-                optionalDependency 'player-companions'
-            }
-            if (project.include_betteranimals.toBoolean()) {
-                optionalDependency 'better-animal-models'
-            }
-            if (project.include_bloodmagic.toBoolean()) {
-                optionalDependency 'blood-magic'
-            }
-            if (project.include_mekanism.toBoolean()) {
-                optionalDependency 'mekanism'
-            }
-            if (project.include_guide_api.toBoolean()) {
-                optionalDependency 'guide-api-village-and-pillage'
-            }
-            if (project.include_jei.toBoolean()) {
-                optionalDependency 'jei'
-            }
-            if (project.include_terrablender.toBoolean()) {
-                optionalDependency 'terrablender'
-            }
-            if (project.include_architectury.toBoolean()) {
-                optionalDependency 'architectury-api'
-            }
-            if (project.include_jade.toBoolean()) {
-                optionalDependency 'jade'
-            }
-            if (project.include_cold_sweat.toBoolean()) {
-                optionalDependency 'cold-sweat'
-            }
-            if (project.include_guard_villagers.toBoolean()) {
-                optionalDependency 'guard-villagers'
-            }
-            optionalDependency 'better-combat-by-daedelus'
-            optionalDependency 'choicetheorems-overhauled-village'
-        }
-
-
-    }
-
-
-}
-
 apply plugin: 'maven-publish'
 tasks.withType(GenerateModuleMetadata) {
     enabled = false
@@ -129,8 +18,7 @@ publishing {
                 asNode().dependencies.dependency.each { dep ->
 
                     // Check if the dependency has been mapped with MCP
-                    if (dep.version.last().value().last().contains('_mapped_snapshot_') || dep.version.last().value().last().contains('_mapped_stable_') || dep.version.last().value().last().contains('_mapped_official_')) {
-
+                    if (dep.version.last().value().last().contains('_mapped_snapshot_') || dep.version.last().value().last().contains('_mapped_stable_') || dep.version.last().value().last().contains('_mapped_official_') || dep.version.last().value().last().contains('_mapped_parchment_')) {
                         // Remove the MCP mapped artifact from the dependency list.
                         println 'Surpressing MCP mapped artifact ' + dep.artifactId.last().value().last() + ' from maven dependencies.'
                         assert dep.parent().remove(dep)
@@ -151,7 +39,6 @@ publishing {
                     system = 'github'
                     url = 'https://github.com/TeamLapen/VampirismIntegrations/issues'
                 }
-
                 developers {
                     developer {
                         id = 'maxanier'
@@ -159,22 +46,11 @@ publishing {
                         roles = ["developer"]
                     }
                 }
+
             }
 
-
-            // Adds the sources as an artifact.
-//            artifact sourcesJar {
-//                classifier 'sources'
-//            }
-
-            // Adds the deobfuscated jar as an artifact.
-//            artifact deobfJar {
-//                classifier 'deobf'
-//            }
-//
-//            artifact javadocJar {
-//                classifier 'javadoc'
-//            }
+            artifact sourcesJar
+            artifact javadocJar
 
         }
     }
@@ -193,22 +69,120 @@ publishing {
     }
 }
 
-// Make sure it runs after build!
-modrinth{
-    if (project.type == "beta") {
-        versionType = 'beta'
-        //changelog = new File("resources/changelog/${project.version}.txt").text
-    } else if (project.type == "release") {
-        versionType = 'release'
-    } else {
-        versionType = 'alpha'
-        changelog = "This version should not be used in your 'productive' world. It contains the latest features, but also the latest bugs.\n Probably not all features are finished.\n To see what might have changed visit our Github page and browse the latest commits."
+tasks.register('checkIfPublicVersion') {
+    doFirst {
+        if (project.classification != "public") {
+            throw new PublishException("Trying to publish a version that is not intended for public release")
+        }
     }
-    token = findProperty("MODRINTH_API") ?: "DUMMY"
-    projectId = 'ygTFuViO'
-    versionName = "VampirismIntegrations-${project.minecraft_version}-${project.mod_version}"
-    versionNumber = "${project.minecraft_version}-${project.mod_version}"
-    uploadFile = jar
-    gameVersions = [project.minecraft_version]
-    loaders = ["forge"]
+}
+
+tasks.register('publishAll') {
+    dependsOn('build')
+    dependsOn('checkIfPublicVersion')
+    dependsOn('publish')
+    dependsOn('publishMods')
+}
+
+tasks.publishMods.dependsOn(checkIfPublicVersion)
+
+publishMods {
+    type = project.type == "beta" ? BETA: project.type == "release" ? STABLE : ALPHA
+    changelog = !(findProperty("CHANGELOG") ?: "").toString().isEmpty() ? getProperty("CHANGELOG") : type != ALPHA ? "" : "This version should not be used in your 'productive' world. It contains the latest features, but also the latest bugs.\n Probably not all features are finished.\n To see what might have changed browse the latest commits."
+    file = jar.archiveFile
+    modLoaders.add("neoforge")
+    version = "${project.minecraft_version}-${project.mod_version}"
+    displayName = "VampirismIntegrations-${project.minecraft_version}-${project.mod_version}"
+    dryRun = !(project.hasProperty("MODRINTH_API") && project.hasProperty("CURSEFORGE_API"))
+
+    modrinth {
+        accessToken = findProperty("MODRINTH_API") ?: "DUMMY"
+        projectId = project.modrinth_id
+        minecraftVersions.add(project.minecraft_version)
+    }
+
+    curseforge {
+        accessToken = findProperty("CURSEFORGE_API") ?: "DUMMY"
+        projectId = project.curseforge_id
+        minecraftVersions.add(project.minecraft_version)
+        projectSlug = project.curseforge_slug
+//        required "vampirism-become-a-vampire"
+//        optional("better-combat-by-daedelus")
+//        optional("choicetheorems-overhauled-village")
+//        if (project.include_biomes_o_plenty.toBoolean()) {
+//            optional( 'biomes-o-plenty')
+//        }
+//        if (project.include_waila.toBoolean()) {
+//            optional( 'waila')
+//        }
+//        if (project.include_immersive_engineering.toBoolean()) {
+//            optional( 'immersive-engineering')
+//        }
+//        if (project.include_evilcraft.toBoolean()) {
+//            optional( 'evilcraft')
+//        }
+//        if (project.include_tough_as_nails.toBoolean()) {
+//            optional( 'tough-as-nails')
+//        }
+//        if (project.include_nyctophobia.toBoolean()) {
+//            optional( 'nyctophobia-forge')
+//        }
+//        if (project.include_survive.toBoolean()) {
+//            optional( 'survive')
+//        }
+//        if (project.include_diet.toBoolean()) {
+//            optional( 'diet')
+//        }
+//        if (project.include_tinkers_construction.toBoolean()) {
+//            optional( 'tinkers-construct')
+//        }
+//        if (project.include_crafttweaker.toBoolean()) {
+//            optional( 'crafttweaker')
+//        }
+//        if (project.include_betteranimalsplus.toBoolean()) {
+//            optional( 'betteranimalsplus')
+//        }
+//        if (project.include_consecration.toBoolean()) {
+//            optional( 'consecration')
+//        }
+//        if (project.include_minecraft_comes_alive.toBoolean()) {
+//            optional( 'minecraft-comes-alive-reborn')
+//        }
+//        if (project.include_minecolonies.toBoolean()) {
+//            optional( 'minecolonies')
+//        }
+//        if (project.include_player_companion.toBoolean()) {
+//            optional( 'player-companions')
+//        }
+//        if (project.include_betteranimals.toBoolean()) {
+//            optional( 'better-animal-models')
+//        }
+//        if (project.include_bloodmagic.toBoolean()) {
+//            optional( 'blood-magic')
+//        }
+//        if (project.include_mekanism.toBoolean()) {
+//            optional( 'mekanism')
+//        }
+//        if (project.include_guide_api.toBoolean()) {
+//            optional( 'guide-api-village-and-pillage')
+//        }
+//        if (project.include_jei.toBoolean()) {
+//            optional( 'jei')
+//        }
+//        if (project.include_terrablender.toBoolean()) {
+//            optional( 'terrablender')
+//        }
+//        if (project.include_architectury.toBoolean()) {
+//            optional( 'architectury-api')
+//        }
+//        if (project.include_jade.toBoolean()) {
+//            optional( 'jade')
+//        }
+//        if (project.include_cold_sweat.toBoolean()) {
+//            optional( 'cold-sweat')
+//        }
+//        if (project.include_guard_villagers.toBoolean()) {
+//            optional( 'guard-villagers')
+//        }
+    }
 }
