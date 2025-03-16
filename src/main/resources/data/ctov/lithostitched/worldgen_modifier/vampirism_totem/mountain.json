@@ -1,14 +1,11 @@
 {
 	"type": "lithostitched:add_template_pool_elements",
-	"predicate": {
-		"type": "lithostitched:all_of",
-			"predicates": [
-			{
-				"type": "lithostitched:mod_loaded",
-				"mod_id": "vampirism"
-			}
-		]
-	},
+	"neoforge:conditions": [
+		{
+			"type": "neoforge:mod_loaded",
+			"modid": "vampirism"
+		}
+	],
 	"template_pools": "ctov:village/mountain/deco",
 	"elements": [
 		{
