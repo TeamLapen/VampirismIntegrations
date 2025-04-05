@@ -1,0 +1,25 @@
+{
+	"type": "lithostitched:add_template_pool_elements",
+	"neoforge:conditions": [
+		{
+			"type": "neoforge:mod_loaded",
+			"modid": "vampirism"
+		}
+	],
+	"template_pools": "ctov:village/plains/deco",
+	"elements": [
+		{
+			"weight": 5,
+			"element": {
+				"element_type": "lithostitched:limited",
+				"delegate": {
+    				"element_type": "minecraft:single_pool_element",
+					"projection": "rigid",
+					"processors": "vampirism:totem_faction",
+					"location":"vampirism:village/totem"
+					},
+  				"limit": 1
+			}
+		}
+	]
+}
