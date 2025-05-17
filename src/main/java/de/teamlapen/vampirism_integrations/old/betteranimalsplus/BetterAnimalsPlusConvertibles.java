@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.betteranimalsplus;
+package de.teamlapen.vampirism_integrations.old.betteranimalsplus;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.IVampirismEntityRegistry;

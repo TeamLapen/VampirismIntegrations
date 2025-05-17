@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.bloodmagic;
+package de.teamlapen.vampirism_integrations.old.bloodmagic;
 
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism_integrations.util.IModCompat;

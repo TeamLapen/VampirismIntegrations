@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.graveyard;
+package de.teamlapen.vampirism_integrations.old.graveyard;
 
 
 import de.teamlapen.lib.lib.util.IInitListener;

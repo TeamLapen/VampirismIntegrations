@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.diet;
+package de.teamlapen.vampirism_integrations.old.diet;
 
 import com.illusivesoulworks.diet.common.capability.DietCapability;
 import de.teamlapen.vampirism.api.VReference;

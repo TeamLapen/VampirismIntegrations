@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.player_companion;
+package de.teamlapen.vampirism_integrations.old.player_companion;
 
 import de.markusbordihn.playercompanions.entity.PlayerCompanionEntity;
 import de.teamlapen.vampirism.entity.ExtendedCreature;

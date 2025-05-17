@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism_integrations.player_companion;
+package de.teamlapen.vampirism_integrations.old.player_companion;
 
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism_integrations.util.IModCompat;
