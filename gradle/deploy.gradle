@@ -99,6 +99,19 @@ publishMods {
         accessToken = findProperty("MODRINTH_API") ?: "DUMMY"
         projectId = project.modrinth_id
         minecraftVersions.add(project.minecraft_version)
+
+        requires("vampirism")
+        optional("better-combat")
+        optional("biomes-o-plenty")
+        optional("ct-overhaul-village")
+        optional("tough-as-nails")
+        optional("evilcraft")
+        optional("wthit")
+        optional("survive")
+        optional("crafttweaker")
+        optional("jade")
+        optional("cold-sweat")
+        optional("guard-villagers")
     }
 
     curseforge {
@@ -106,83 +119,85 @@ publishMods {
         projectId = project.curseforge_id
         minecraftVersions.add(project.minecraft_version)
         projectSlug = project.curseforge_slug
-//        required "vampirism-become-a-vampire"
-//        optional("better-combat-by-daedelus")
-//        optional("choicetheorems-overhauled-village")
-//        if (project.include_biomes_o_plenty.toBoolean()) {
-//            optional( 'biomes-o-plenty')
-//        }
-//        if (project.include_waila.toBoolean()) {
-//            optional( 'waila')
-//        }
-//        if (project.include_immersive_engineering.toBoolean()) {
-//            optional( 'immersive-engineering')
-//        }
-//        if (project.include_evilcraft.toBoolean()) {
-//            optional( 'evilcraft')
-//        }
-//        if (project.include_tough_as_nails.toBoolean()) {
-//            optional( 'tough-as-nails')
-//        }
-//        if (project.include_nyctophobia.toBoolean()) {
-//            optional( 'nyctophobia-forge')
-//        }
-//        if (project.include_survive.toBoolean()) {
-//            optional( 'survive')
-//        }
-//        if (project.include_diet.toBoolean()) {
-//            optional( 'diet')
-//        }
-//        if (project.include_tinkers_construction.toBoolean()) {
-//            optional( 'tinkers-construct')
-//        }
-//        if (project.include_crafttweaker.toBoolean()) {
-//            optional( 'crafttweaker')
-//        }
-//        if (project.include_betteranimalsplus.toBoolean()) {
-//            optional( 'betteranimalsplus')
-//        }
-//        if (project.include_consecration.toBoolean()) {
-//            optional( 'consecration')
-//        }
-//        if (project.include_minecraft_comes_alive.toBoolean()) {
-//            optional( 'minecraft-comes-alive-reborn')
-//        }
-//        if (project.include_minecolonies.toBoolean()) {
-//            optional( 'minecolonies')
-//        }
-//        if (project.include_player_companion.toBoolean()) {
-//            optional( 'player-companions')
-//        }
-//        if (project.include_betteranimals.toBoolean()) {
-//            optional( 'better-animal-models')
-//        }
-//        if (project.include_bloodmagic.toBoolean()) {
-//            optional( 'blood-magic')
-//        }
-//        if (project.include_mekanism.toBoolean()) {
-//            optional( 'mekanism')
-//        }
-//        if (project.include_guide_api.toBoolean()) {
-//            optional( 'guide-api-village-and-pillage')
-//        }
-//        if (project.include_jei.toBoolean()) {
-//            optional( 'jei')
-//        }
-//        if (project.include_terrablender.toBoolean()) {
-//            optional( 'terrablender')
-//        }
-//        if (project.include_architectury.toBoolean()) {
-//            optional( 'architectury-api')
-//        }
-//        if (project.include_jade.toBoolean()) {
-//            optional( 'jade')
-//        }
-//        if (project.include_cold_sweat.toBoolean()) {
-//            optional( 'cold-sweat')
-//        }
-//        if (project.include_guard_villagers.toBoolean()) {
-//            optional( 'guard-villagers')
-//        }
+        requires("vampirism-become-a-vampire")
+        optional("better-combat-by-daedelus")
+
+
+        optional("choicetheorems-overhauled-village")
+        if (project.include_biomes_o_plenty.toBoolean()) {
+            optional( 'biomes-o-plenty')
+        }
+        if (project.include_waila.toBoolean()) {
+            optional( 'waila')
+        }
+        if (project.include_immersive_engineering.toBoolean()) {
+            optional( 'immersive-engineering')
+        }
+        if (project.include_evilcraft.toBoolean()) {
+            optional( 'evilcraft')
+        }
+        if (project.include_tough_as_nails.toBoolean()) {
+            optional( 'tough-as-nails')
+        }
+        if (project.include_nyctophobia.toBoolean()) {
+            optional( 'nyctophobia-forge')
+        }
+        if (project.include_survive.toBoolean()) {
+            optional( 'survive')
+        }
+        if (project.include_diet.toBoolean()) {
+            optional( 'diet')
+        }
+        if (project.include_tinkers_construction.toBoolean()) {
+            optional( 'tinkers-construct')
+        }
+        if (project.include_crafttweaker.toBoolean()) {
+            optional( 'crafttweaker')
+        }
+        if (project.include_betteranimalsplus.toBoolean()) {
+            optional( 'betteranimalsplus')
+        }
+        if (project.include_consecration.toBoolean()) {
+            optional( 'consecration')
+        }
+        if (project.include_minecraft_comes_alive.toBoolean()) {
+            optional( 'minecraft-comes-alive-reborn')
+        }
+        if (project.include_minecolonies.toBoolean()) {
+            optional( 'minecolonies')
+        }
+        if (project.include_player_companion.toBoolean()) {
+            optional( 'player-companions')
+        }
+        if (project.include_betteranimals.toBoolean()) {
+            optional( 'better-animal-models')
+        }
+        if (project.include_bloodmagic.toBoolean()) {
+            optional( 'blood-magic')
+        }
+        if (project.include_mekanism.toBoolean()) {
+            optional( 'mekanism')
+        }
+        if (project.include_guide_api.toBoolean()) {
+            optional( 'guide-api-village-and-pillage')
+        }
+        if (project.include_jei.toBoolean()) {
+            optional( 'jei')
+        }
+        if (project.include_terrablender.toBoolean()) {
+            optional( 'terrablender')
+        }
+        if (project.include_architectury.toBoolean()) {
+            optional( 'architectury-api')
+        }
+        if (project.include_jade.toBoolean()) {
+            optional( 'jade')
+        }
+        if (project.include_cold_sweat.toBoolean()) {
+            optional( 'cold-sweat')
+        }
+        if (project.include_guard_villagers.toBoolean()) {
+            optional( 'guard-villagers')
+        }
     }
 }
