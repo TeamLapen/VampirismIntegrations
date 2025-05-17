@@ -20,7 +20,9 @@ import snownee.jade.api.ui.IDisplayHelper;
 import java.text.DecimalFormat;
 
 public class BloodElement extends Element {
-    private static final ResourceLocation ICONS = VResourceLocation.mod("textures/gui/icons.png");
+    public static final ResourceLocation BACKGROUND = VResourceLocation.mod("blood_bar/background");
+    public static final ResourceLocation QUARTER = VResourceLocation.mod("blood_bar/quarter");
+    public static final ResourceLocation HALF = VResourceLocation.mod("blood_bar/half");
     public static final DecimalFormat DF_FORMATTER = new DecimalFormat("0.##");
 
     private final int maxBlood;
@@ -62,14 +64,14 @@ public class BloodElement extends Element {
         int xOffset = 0;
 
         for(int i = 1; i <= dropCount; ++i) {
-            guiGraphics.blit(ICONS, (int)x + xOffset, (int)y, 0,0, 9, 9);
+            guiGraphics.blitSprite(BACKGROUND, (int)x + xOffset, (int)y, 9, 9);
             if (i <= Mth.floor(blood)) {
-                guiGraphics.blit(ICONS, (int)x + xOffset, (int)y, 9,0, 9, 9);
+                guiGraphics.blitSprite(HALF, (int)x + xOffset, (int)y, 9, 9);
                 xOffset += 8;
             }
 
             if ((float)i > blood && (float)i < blood + 1.0F) {
-                guiGraphics.blit(ICONS, (int)x + xOffset, (int)y, 18,0, 9, 9);
+                guiGraphics.blitSprite(QUARTER, (int)x + xOffset, (int)y, 9, 9);
                 xOffset += 8;
             }
 

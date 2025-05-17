@@ -9,7 +9,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class BloodComponent implements ITooltipComponent {
-    static final ResourceLocation ICONS = VResourceLocation.mod("textures/gui/icons.png");
+    public static final ResourceLocation BACKGROUND = VResourceLocation.mod("blood_bar/background");
+    public static final ResourceLocation HALF = VResourceLocation.mod("blood_bar/half");
+    public static final ResourceLocation QUARTER = VResourceLocation.mod("blood_bar/quarter");
+    public static final ResourceLocation HALF_TEXTURE_PATH = VResourceLocation.mod("textures/gui/sprites/blood_bar/half.png");
+
 
     private final int blood;
     private final int iconCount;
@@ -40,11 +44,11 @@ public class BloodComponent implements ITooltipComponent {
             int ix = x + ((i % lineWidth) * 8);
             int iy = y + ((i / lineWidth) * 3);
 
-            ctx.blit(ICONS, ix, iy, 0, 0, 9, 9);
+            ctx.blitSprite(BACKGROUND, ix, iy, 9, 9);
             if (i <= filled) {
-                ctx.blit(ICONS, ix, iy, 9, 0, 9, 9);
+                ctx.blitSprite(HALF, ix, iy, 9, 9);
             } else if (i == half) {
-                ctx.blit(ICONS, ix, iy, 18, 0, 9, 9);
+                ctx.blitSprite(QUARTER, ix, iy, 9, 9);
             }
         }
     }

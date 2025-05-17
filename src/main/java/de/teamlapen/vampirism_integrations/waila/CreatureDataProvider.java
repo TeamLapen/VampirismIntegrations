@@ -29,7 +29,7 @@ class CreatureDataProvider implements IEntityComponentProvider {
                         tooltip.addLine(Component.translatable("text.vampirism.blood.poisonous").withStyle(ChatFormatting.DARK_GREEN));
                     } else if (blood > 0) {
                         if (blood > config.getInt(WailaPlugin.MAX_BLOOD_ICONS_PER_LINE)) {
-                            line.with(new TextureComponent(BloodComponent.ICONS, 8,8,9,0,9,9,256,256))
+                            line.with(new TextureComponent(BloodComponent.HALF_TEXTURE_PATH, 8,8,0,0,9,9,9,9))
                                     .with(Component.literal(String.format("%d/%d", blood, c.getMaxBlood())).withStyle(ChatFormatting.RED));
                         } else {
                             int maxPerLine = config.getInt(WailaPlugin.MAX_LONG_BLOOD_MAX);

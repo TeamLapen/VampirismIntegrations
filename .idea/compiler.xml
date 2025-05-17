@@ -11,7 +11,6 @@
       <directory url="file://$PROJECT_DIR$/src/main/java/de/teamlapen/vampirism_integrations/old/graveyard" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/src/main/java/de/teamlapen/vampirism_integrations/mca" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/src/main/java/de/teamlapen/vampirism_integrations/old/player_companion" includeSubdirectories="true" />
-      <directory url="file://$PROJECT_DIR$/src/main/java/de/teamlapen/vampirism_integrations/waila" includeSubdirectories="true" />
     </excludeFromCompile>
     <bytecodeTargetLevel target="21" />
   </component>

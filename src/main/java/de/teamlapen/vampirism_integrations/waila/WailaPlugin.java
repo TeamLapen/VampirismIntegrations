@@ -26,6 +26,7 @@ public class WailaPlugin implements IWailaPlugin {
         registrar.addConfig(SHOW_CREATURE_INFO, true);
         registrar.addConfig(SHOW_PLAYER_INFO, true);
         registrar.addConfig(MAX_LONG_BLOOD_MAX, 100);
+        registrar.addConfig(MAX_BLOOD_ICONS_PER_LINE, 20);
 
         registrar.addComponent(new CreatureDataProvider(), TooltipPosition.BODY, PathfinderMob.class, 975);
         registrar.addComponent(new PlayerDataProvider(), TooltipPosition.BODY, Player.class);
