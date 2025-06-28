@@ -28,7 +28,7 @@ public class ColdSweatCompat implements IModCompat {
     @Nullable
     @Override
     public String getAcceptedVersionRange() {
-        return "[2.2.3,)";
+        return "[2.3.13,)";
     }
 
     @Override
