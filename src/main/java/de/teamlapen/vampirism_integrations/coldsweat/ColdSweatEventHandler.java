@@ -35,7 +35,7 @@ public class ColdSweatEventHandler {
                 if (coldRes != null) {
                     if (vamp) {
                         if (coldRes.getModifier(VAMPIRE_MOD_UUID) == null) {
-                            coldRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", Temperature.convertUnits(ColdSweatCompat.vampireColdResistance.get(), Temperature.Units.C, Temperature.Units.MC, true), AttributeModifier.Operation.ADDITION));
+                            coldRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", Temperature.convert(-ColdSweatCompat.vampireColdResistance.get(), Temperature.Units.C, Temperature.Units.MC, true), AttributeModifier.Operation.ADDITION));
                         }
                     } else {
                         coldRes.removeModifier(VAMPIRE_MOD_UUID);
