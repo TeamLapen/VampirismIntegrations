@@ -16,8 +16,8 @@ public class ColdSweatCompat implements IModCompat {
     @Override
     public void buildConfig(ModConfigSpec.Builder builder) {
         enableTemperatureVampires = builder.comment("Grant vampires cold resistance, but decrease heat resistance").define("enableTemperatureVampires", true);
-        vampireColdResistance = builder.comment("Increase cold resistance for vampires by this degree celsius").defineInRange("vampireColdResistance", 20d, 0, 100);
-        vampireBurningPointModifier = builder.comment("Decrease the burning point of vampires by this factor").defineInRange("vampireBurningPointModifier", 0.7, 0, 1);
+        vampireColdResistance = builder.comment("Decrease freezing point for vampires by this degree celsius -> Cold resistance").defineInRange("vampireColdResistance", 30d, 0, 100);
+        vampireBurningPointModifier = builder.comment("Decrease the burning point of vampires by this factor -> Heat vulnerability").defineInRange("vampireBurningPointModifier", 0.7, 0, 1);
     }
 
     @Override
