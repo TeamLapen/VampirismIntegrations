@@ -35,6 +35,7 @@ public class ColdSweatEventHandler {
                 if (coldRes != null) {
                     if (vamp) {
                         if (coldRes.getModifier(VAMPIRE_MOD_UUID) == null) {
+                            //Reduce the freezing point for vampires by the configured value in Celsius
                             coldRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", Temperature.convert(-ColdSweatCompat.vampireColdResistance.get(), Temperature.Units.C, Temperature.Units.MC, true), AttributeModifier.Operation.ADDITION));
                         }
                     } else {
@@ -45,6 +46,7 @@ public class ColdSweatEventHandler {
                 if (heatRes != null) {
                     if (vamp) {
                         if (heatRes.getModifier(VAMPIRE_MOD_UUID) == null) {
+                            //Scale the burning point by a configured factor. Must subtract one due to attribute modifier logic
                             heatRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, "vampire", - 1 + ColdSweatCompat.vampireBurningPointModifier.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
                         }
                     } else {
