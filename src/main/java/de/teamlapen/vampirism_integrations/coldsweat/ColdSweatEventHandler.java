@@ -4,18 +4,19 @@ import com.momosoftworks.coldsweat.api.util.Temperature;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.event.PlayerFactionEvent;
 import de.teamlapen.vampirism.api.util.VResourceLocation;
+import de.teamlapen.vampirism.util.Helper;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.UUID;
 
 
 public class ColdSweatEventHandler {
@@ -33,28 +34,7 @@ public class ColdSweatEventHandler {
         if (ColdSweatCompat.enableTemperatureVampires.get()) {
             try {
                 boolean vamp = event.getCurrentFaction() == VReference.VAMPIRE_FACTION;
-                AttributeInstance coldRes = event.getPlayer().getPlayer().getAttribute(FREEZING_POINT);
-                if (coldRes != null) {
-                    if (vamp) {
-                        if (coldRes.getModifier(VAMPIRE_MOD_UUID) == null) {
-                            //Reduce the freezing point for vampires by the configured value in Celsius ->  Cold resistance
-                            coldRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, Temperature.convert( -ColdSweatCompat.vampireColdResistance.get(), Temperature.Units.C, Temperature.Units.MC, true), AttributeModifier.Operation.ADD_VALUE));
-                        }
-                    } else {
-                        coldRes.removeModifier(VAMPIRE_MOD_UUID);
-                    }
-                }
-                AttributeInstance heatRes = event.getPlayer().getPlayer().getAttribute(BURNING_POINT);
-                if (heatRes != null) {
-                    if (vamp) {
-                        if (heatRes.getModifier(VAMPIRE_MOD_UUID) == null) {
-                            //Scale the burning point by a configured factor. Must subtract one due to attribute modifier logic -> Heat vulnerability
-                            heatRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, - 1 + ColdSweatCompat.vampireBurningPointModifier.get(), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
-                        }
-                    } else {
-                        heatRes.removeModifier(VAMPIRE_MOD_UUID);
-                    }
-                }
+                ModifyTemperatureValues(event.getPlayer().asEntity(), vamp);
 
 
             } catch (Throwable e) {
@@ -62,6 +42,56 @@ public class ColdSweatEventHandler {
                     LOGGER.error("Failed to modify temperature resistance for vampires", e);
                     warnTemperature = false;
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        VanillaEventHandler(event);
+    }
+
+    @SubscribeEvent
+    public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        VanillaEventHandler(event);
+    }
+
+    private void VanillaEventHandler(PlayerEvent event) {
+        if (ColdSweatCompat.enableTemperatureVampires.get()) {
+            try {
+                boolean vamp = Helper.isVampire(event.getEntity());
+                ModifyTemperatureValues(event.getEntity(), vamp);
+
+            } catch (Throwable e) {
+                if (warnTemperature) {
+                    LOGGER.error("Failed to modify temperature resistance for vampires (vanilla event)", e);
+                    warnTemperature = false;
+                }
+            }
+        }
+    }
+
+    private void ModifyTemperatureValues(Player player, boolean vamp) {
+        AttributeInstance coldRes = player.getAttribute(FREEZING_POINT);
+        if (coldRes != null) {
+            if (vamp) {
+                if (coldRes.getModifier(VAMPIRE_MOD_UUID) == null) {
+                    //Reduce the freezing point for vampires by the configured value in Celsius
+                    coldRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, Temperature.convert(-ColdSweatCompat.vampireColdResistance.get(), Temperature.Units.C, Temperature.Units.MC, true), AttributeModifier.Operation.ADD_VALUE));
+                }
+            } else {
+                coldRes.removeModifier(VAMPIRE_MOD_UUID);
+            }
+        }
+        AttributeInstance heatRes = player.getAttribute(BURNING_POINT);
+        if (heatRes != null) {
+            if (vamp) {
+                if (heatRes.getModifier(VAMPIRE_MOD_UUID) == null) {
+                    //Scale the burning point by a configured factor. Must subtract one due to attribute modifier logic
+                    heatRes.addTransientModifier(new AttributeModifier(VAMPIRE_MOD_UUID, -1 + ColdSweatCompat.vampireBurningPointModifier.get(), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+                }
+            } else {
+                heatRes.removeModifier(VAMPIRE_MOD_UUID);
             }
         }
     }
