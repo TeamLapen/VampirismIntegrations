@@ -27,16 +27,17 @@ Integrations can be disabled per mod.
 Some integrations also allow more detailed customization.
 
 ## Setting up the development environment
+*The following might be partially outdated*  
 If you would like to compile your own versions or even contribute to Vampirism Integrations's development you need to set up a dev environment.
 The following example instructions will setup IntelliJ (Free community edition or Non-Free Ultimate edition). If you already have a setup or want to use another IDE, jump [here](#setting-up-vampirism-integrations-in-another-environment).
 
 #### IntelliJ
-1. Make sure you have the Java **JDK** (Java 8) as well as the IntelliJ IDE installed.
+1. Make sure you have the Java **JDK** (Java 21) as well as the IntelliJ IDE installed.
 2. If you want to contribute to the development (via pull requests), fork Vampirism Integrations on Github.
 3. (Optionally) Install Git, so you can clone the repository and push changes.
 4. Clone (`git clone https://github.com/TeamLapen/VampirismIntegrations`) or [download](https://github.com/TeamLapen/VampirismIntegrations/archive/master.zip) VampirismIntegrations to a new "VampirismIntegrations" folder.
 5. In IntelliJ use `New...` -> `New from Version Control` -> Fill out repo, directory and name
-6. After cloning is done IntelliJ offers you to import a unlinked Gradle Project. Click this.
+6. After cloning is done IntelliJ offers you to import an unlinked Gradle Project. Click this.
 7. Select `Create directories for empty content roots` and __deselect__ `Create seperate module per source set` [Image](https://picload.org/image/ripradpa/importprojectfromgradle_001.png). If you do not get that dialog, you might have to edit your .idea/gradle.xml to include ` <option name="resolveModulePerSourceSet" value="false" />` (see [here](https://gist.github.com/maxanier/142b27c7800f9512cc4ef3d4e10b9bfd)) and refresh the gradle project again.  
 8. Refresh the gradle project  
 9. Run `genIntellijRuns` and edit the run config to use the correct module

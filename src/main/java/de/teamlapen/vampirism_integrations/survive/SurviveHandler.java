@@ -1,14 +1,9 @@
 package de.teamlapen.vampirism_integrations.survive;
 
 
-import com.stereowalker.survive.api.needs.PlayerNeeds;
-import com.stereowalker.survive.api.needs.Stamina;
-import com.stereowalker.survive.core.SurviveEntityStats;
 import com.stereowalker.survive.needs.IRealisticEntity;
-import com.stereowalker.survive.needs.SleepData;
 import com.stereowalker.survive.needs.StaminaData;
 import com.stereowalker.survive.needs.WaterData;
-import com.stereowalker.survive.world.entity.ai.attributes.SAttributes;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.event.PlayerFactionEvent;
 import de.teamlapen.vampirism.api.util.VResourceLocation;
@@ -21,7 +16,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -74,7 +68,7 @@ public class SurviveHandler {
 
             } catch (Throwable e) {
                 if (warnTemperature) {
-                    LOGGER.error("Failed to modifiy temperature resistance for vampires", e);
+                    LOGGER.error("Failed to modify temperature resistance for vampires", e);
                     warnTemperature = false;
                 }
             }
@@ -86,7 +80,7 @@ public class SurviveHandler {
         if (SurviveCompat.disableThirstForVampires.get() && event.getEntity() instanceof ServerPlayer player && player instanceof IRealisticEntity realisticEntity) {
             try {
                 if (Helper.isVampire(player)) {
-                    WaterData stats = realisticEntity.getWaterData();
+                    WaterData stats = realisticEntity.waterData();
                     if (stats.needWater() && stats.getWaterLevel() < 20) {
                         stats.setWaterLevel(stats.getWaterLevel() + 1);
                     }
