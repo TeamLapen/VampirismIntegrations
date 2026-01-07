@@ -7,18 +7,26 @@ import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism.api.entity.convertible.ICurableConvertedCreature;
+import de.teamlapen.vampirism.api.entity.player.vampire.IDrinkBloodContext;
+import de.teamlapen.vampirism.api.event.BloodDrinkEvent;
 import de.teamlapen.vampirism.core.ModAdvancements;
+import de.teamlapen.vampirism.core.ModAi;
 import de.teamlapen.vampirism.core.ModVillage;
 import de.teamlapen.vampirism.entity.ExtendedCreature;
 import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
+import de.teamlapen.vampirism.entity.vampire.DrinkBloodContext;
 import de.teamlapen.vampirism.entity.villager.Trades;
+import de.teamlapen.vampirism.mixin.accessor.VillagerAccessor;
 import de.teamlapen.vampirism.util.DamageHandler;
 import de.teamlapen.vampirism.util.Helper;
+import de.teamlapen.vampirism.util.RegUtil;
+import de.teamlapen.vampirism.util.VampirismEventFactory;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
-import forge.net.mca.entity.VillagerEntityMCA;
-import forge.net.mca.entity.ai.brain.VillagerTasksMCA;
-import forge.net.mca.entity.ai.relationship.AgeState;
-import forge.net.mca.entity.ai.relationship.Gender;
+import net.conczin.mca.entity.VillagerEntityMCA;
+import net.conczin.mca.entity.ai.brain.VillagerTasksMCA;
+import net.conczin.mca.entity.ai.relationship.AgeState;
+import net.conczin.mca.entity.ai.relationship.Gender;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -31,30 +39,28 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.ai.village.ReputationEventType;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.forgespi.language.IModInfo;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforgespi.language.IModInfo;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -66,9 +72,9 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
     static {
         CONVERTING = SynchedEntityData.defineId(ConvertedVillagerEntityMCA.class, EntityDataSerializers.BOOLEAN);
-        SENSOR_TYPES = Lists.newArrayList(Villager.SENSOR_TYPES);
+        SENSOR_TYPES = Lists.newArrayList(VillagerAccessor.getSensorTypes());
         SENSOR_TYPES.remove(SensorType.VILLAGER_HOSTILES);
-        SENSOR_TYPES.add(ModVillage.VAMPIRE_VILLAGER_HOSTILES.get());
+        SENSOR_TYPES.add(ModAi.VAMPIRE_VILLAGER_HOSTILES.get());
     }
 
     private EnumStrength garlicCache;
@@ -81,6 +87,11 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
         super((EntityType) type, w, gender);
         this.garlicCache = EnumStrength.NONE;
         this.bloodTimer = 0;
+    }
+
+    @Override
+    public @NotNull Mob asEntity() {
+        return this;
     }
 
     //    @Override
@@ -96,10 +107,10 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     public void aiStep() {
         if (!this.level().isClientSide && this.isAlive() && this.isConverting(this)) {
             --this.conversionTime;
-            if (this.conversionTime <= 0 && ForgeEventFactory.canLivingConvert(this, EntityType.VILLAGER, (timer) -> {
+            if (this.conversionTime <= 0 && EventHooks.canLivingConvert(this, EntityType.VILLAGER, (timer) -> {
                 this.conversionTime = timer;
             })) {
-                this.cureEntity((ServerLevel) this.level(), this, (EntityType) ForgeRegistries.ENTITY_TYPES.getValue(this.getGenetics().getGender() == Gender.FEMALE ? MCACompat.FEMALE_VILLAGER : MCACompat.MALE_VILLAGER));
+                this.cureEntity((ServerLevel) this.level(), this, (EntityType) BuiltInRegistries.ENTITY_TYPE.get(this.getGenetics().getGender() == Gender.FEMALE ? MCACompat.FEMALE_VILLAGER : MCACompat.MALE_VILLAGER));
             }
         }
 
@@ -150,7 +161,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
         if (this.conversationStarter != null) {
             Player playerentity = world.getPlayerByUUID(this.conversationStarter);
             if (playerentity instanceof ServerPlayer) {
-                ModAdvancements.TRIGGER_CURED_VAMPIRE_VILLAGER.trigger((ServerPlayer) playerentity, this, villager);
+                ModAdvancements.TRIGGER_CURED_VAMPIRE_VILLAGER.get().trigger((ServerPlayer) playerentity, this, villager);
                 world.onReputationEvent(ReputationEventType.ZOMBIE_VILLAGER_CURED, playerentity, villager);
             }
         }
@@ -162,7 +173,7 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     public boolean doHurtTarget(@Nonnull Entity entity) {
         if (!this.level().isClientSide && this.wantsBlood() && entity instanceof Player && !Helper.isHunter(entity) && !UtilLib.canReallySee((LivingEntity) entity, this, true)) {
             int amt = VampirePlayer.getOpt((Player) entity).map((vampire) -> vampire.onBite(this)).orElse(0);
-            this.drinkBlood(amt, 0.7F);
+            this.drinkBlood(amt, 0.7F, new DrinkBloodContext((LivingEntity) entity));
             return true;
         } else {
             return super.doHurtTarget(entity);
@@ -175,7 +186,8 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     }
 
     @Override
-    public void drinkBlood(int amt, float saturationMod, boolean useRemaining) {
+    public void drinkBlood(int amt, float saturationMod, boolean useRemaining, IDrinkBloodContext drinkContext) {
+        BloodDrinkEvent.@NotNull EntityDrinkBloodEvent event = VampirismEventFactory.fireVampireDrinkBlood(this, amt, saturationMod, useRemaining, drinkContext);
         this.addEffect(new MobEffectInstance(MobEffects.REGENERATION, amt * 20));
         this.bloodTimer = -1200 - this.random.nextInt(1200);
     }
@@ -186,10 +198,9 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     }
 
     @Override
-    protected Component getTypeName() {
-        ResourceLocation profName = ForgeRegistries.VILLAGER_PROFESSIONS.getKey(this.getVillagerData().getProfession());
-        String var10002 = EntityType.VILLAGER.getDescriptionId();
-        return Component.translatable(var10002 + "." + (!"minecraft".equals(profName.getNamespace()) ? profName.getNamespace() + "." : "") + profName.getPath());
+    protected @NotNull Component getTypeName() {
+        ResourceLocation profName = RegUtil.id(this.getVillagerData().getProfession());
+        return Component.translatable(EntityType.VILLAGER.getDescriptionId() + '.' + (!"minecraft".equals(profName.getNamespace()) ? profName.getNamespace() + '.' : "") + profName.getPath());
     }
 
     @Override
@@ -236,14 +247,14 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     }
 
     @Override
-    public ItemStack eat(Level world, ItemStack stack) {
+    public ItemStack eat(Level world, ItemStack stack, FoodProperties foodProperties) {
         //Also allow curing when gifting a golden apple
         if (stack.getItem() == Items.GOLDEN_APPLE) {
             if (!isConverting(this) && this.hasEffect(MobEffects.WEAKNESS)) {
                 this.startConverting(this.getInteractions().getInteractingPlayer().map(Entity::getUUID).orElse(null), this.getRandom().nextInt(2400) + 2400, this);
             }
         }
-        return super.eat(world, stack);
+        return super.eat(world, stack, foodProperties);
     }
 
     @Override
@@ -286,9 +297,9 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.registerConvertingData(this);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        this.registerConvertingData(builder);
     }
 
     @Override
@@ -324,13 +335,12 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
         @Override
         public IConvertedCreature<VillagerEntityMCA> createFrom(VillagerEntityMCA entity) {
             Villager converted = (entity.getGenetics().getGender() == Gender.FEMALE ? MCARegistration.FEMALE_CONVERTED_VILLAGER : MCARegistration.MALE_CONVERTED_VILLAGER).get().create(entity.level());
-            CompoundTag nbtExtended = new CompoundTag();
-            ExtendedCreature.getSafe(converted).ifPresent(ec -> ec.saveData(nbtExtended));
+            Optional<CompoundTag> data = ExtendedCreature.getSafe(converted).map(ec -> ec.serializeNBT(converted.registryAccess()));
             converted.restoreFrom(entity);
-            ExtendedCreature.getSafe(converted).ifPresent(ec -> ec.loadData(nbtExtended));
-            if (ModList.get().getModContainerById(REFERENCE.VAMPIRISM_ID).map(ModContainer::getModInfo).map(IModInfo::getVersion).map(version -> version.getMinorVersion() <= 9 && version.getIncrementalVersion() <= 3).orElse(true)) {
-                entity.discard(); //Force discard the entity ourselves. Older Vampirism versions add the new entity first and thereby cause an UUID conflict
-            }
+            data.ifPresent(tag -> ExtendedCreature.getSafe(converted).ifPresent(ec -> ec.deserializeNBT(converted.registryAccess(), tag)));
+//            if (ModList.get().getModContainerById(REFERENCE.VAMPIRISM_ID).map(ModContainer::getModInfo).map(IModInfo::getVersion).map(version -> version.getMinorVersion() <= 9 && version.getIncrementalVersion() <= 3).orElse(true)) {
+//                entity.discard(); //Force discard the entity ourselves. Older Vampirism versions add the new entity first and thereby cause an UUID conflict
+//            }
             converted.yBodyRot = entity.yBodyRot;
             converted.yHeadRot = entity.yHeadRot;
             return (IConvertedCreature<VillagerEntityMCA>) converted;

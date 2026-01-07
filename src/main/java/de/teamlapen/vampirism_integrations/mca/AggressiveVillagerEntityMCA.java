@@ -7,9 +7,11 @@ import de.teamlapen.vampirism.api.world.ICaptureAttributes;
 import de.teamlapen.vampirism.core.ModItems;
 import de.teamlapen.vampirism.entity.ai.goals.DefendVillageGoal;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
-import forge.net.mca.entity.VillagerEntityMCA;
-import forge.net.mca.entity.ai.relationship.Gender;
-import net.minecraft.nbt.CompoundTag;
+
+import net.conczin.mca.entity.VillagerEntityMCA;
+import net.conczin.mca.entity.ai.relationship.Gender;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -24,10 +26,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.forgespi.language.IModInfo;
-import net.minecraftforge.registries.ForgeRegistries;
+
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforgespi.language.IModInfo;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -36,7 +39,7 @@ import javax.annotation.Nonnull;
 public class AggressiveVillagerEntityMCA extends VillagerEntityMCA implements IAggressiveVillager {
     @Nullable
     public static Villager makeAngry(VillagerEntityMCA villager) {
-        if (villager.getProfession() == ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation("mca:guard")) || villager.getProfession() == ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation("mca:outlaw")) || villager.isInfected()) {
+        if (villager.getProfession().name().equals("mca.guard") || villager.getProfession().name().equals("mca.outlaw") || villager.isInfected()) { //TODO test
             return null;
         }
         EntityType<? extends Villager> t = villager.getGenetics().getGender() == Gender.FEMALE ? MCARegistration.FEMALE_AGGRESSIVE_VILLAGER.get() : MCARegistration.MALE_AGGRESSIVE_VILLAGER.get();
@@ -57,6 +60,11 @@ public class AggressiveVillagerEntityMCA extends VillagerEntityMCA implements IA
     }
 
     @Override
+    public @NotNull Mob asEntity() {
+        return this;
+    }
+
+    @Override
     public void attackVillage(ICaptureAttributes villageAttributes) {
         this.villageAttributes = villageAttributes;
     }
@@ -67,8 +75,8 @@ public class AggressiveVillagerEntityMCA extends VillagerEntityMCA implements IA
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor worldIn, @Nonnull DifficultyInstance difficultyIn, @Nonnull MobSpawnType reason, @javax.annotation.Nullable SpawnGroupData spawnDataIn, @javax.annotation.Nullable CompoundTag dataTag) {
-        SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor worldIn, @Nonnull DifficultyInstance difficultyIn, @Nonnull MobSpawnType reason, @javax.annotation.Nullable SpawnGroupData spawnDataIn) {
+        SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn);
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.PITCHFORK.get()));
         return data;
     }
@@ -102,7 +110,7 @@ public class AggressiveVillagerEntityMCA extends VillagerEntityMCA implements IA
 
     @Override
     public void stopVillageAttackDefense() {
-        LivingEntity villager = (LivingEntity) (this.getGenetics().getGender() == Gender.FEMALE ? ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.FEMALE_VILLAGER) : ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.MALE_VILLAGER)).create(this.level());
+        LivingEntity villager = (LivingEntity) (this.getGenetics().getGender() == Gender.FEMALE ? BuiltInRegistries.ENTITY_TYPE.get(MCACompat.FEMALE_VILLAGER) : BuiltInRegistries.ENTITY_TYPE.get(MCACompat.MALE_VILLAGER)).create(this.level());
         assert villager != null;
         this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
         villager.restoreFrom(this);

@@ -2,10 +2,10 @@ package de.teamlapen.vampirism_integrations.mca;
 
 import de.teamlapen.vampirism_integrations.util.IModCompat;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.ParallelDispatchEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.Nullable;
 
 public class MCACompat implements IModCompat {
@@ -16,15 +16,15 @@ public class MCACompat implements IModCompat {
     public static final String ANGRY_FEMALE_VILLAGER_ID = "female_villager_mca_angry";
 
     public static final String ID = "mca";
-    protected static final ResourceLocation MALE_VILLAGER = new ResourceLocation(ID, "male_villager");
-    protected static final ResourceLocation FEMALE_VILLAGER = new ResourceLocation(ID, "female_villager");
+    protected static final ResourceLocation MALE_VILLAGER = ResourceLocation.fromNamespaceAndPath(ID, "male_villager");
+    protected static final ResourceLocation FEMALE_VILLAGER = ResourceLocation.fromNamespaceAndPath(ID, "female_villager");
 
-    public MCACompat() {
-        MCARegistration.registerEntities(FMLJavaModLoadingContext.get().getModEventBus());
+    public MCACompat(IEventBus bus) {
+        MCARegistration.registerEntities(bus);
     }
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ModConfigSpec.Builder builder) {
 
     }
 
@@ -42,7 +42,7 @@ public class MCACompat implements IModCompat {
     @Override
     public void onInitStep(Step step, ParallelDispatchEvent event) {
         if (step == Step.COMMON_SETUP) {
-            MinecraftForge.EVENT_BUS.register(new MCAEventHandler());
+            NeoForge.EVENT_BUS.register(new MCAEventHandler());
             MCARegistration.registerConvertibles();
         }
     }

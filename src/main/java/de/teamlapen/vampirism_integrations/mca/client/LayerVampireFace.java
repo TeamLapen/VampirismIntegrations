@@ -1,10 +1,10 @@
 package de.teamlapen.vampirism_integrations.mca.client;
 
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
-import forge.net.mca.client.model.VillagerEntityModelMCA;
-import forge.net.mca.client.render.layer.VillagerLayer;
-import forge.net.mca.entity.VillagerLike;
-import forge.net.mca.entity.ai.Genetics;
+import net.conczin.mca.client.model.VillagerEntityModelMCA;
+import net.conczin.mca.client.render.layer.VillagerLayer;
+import net.conczin.mca.entity.VillagerLike;
+import net.conczin.mca.entity.ai.Genetics;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
@@ -18,11 +18,11 @@ public class LayerVampireFace<T extends Mob & VillagerLike<T>> extends VillagerL
         super(renderer, model);
         this.eyeOverlays = new ResourceLocation[de.teamlapen.vampirism.REFERENCE.EYE_TYPE_COUNT];
         for (int i = 0; i < this.eyeOverlays.length; i++) {
-            this.eyeOverlays[i] = new ResourceLocation(REFERENCE.VAMPIRISM_ID + ":textures/entity/vanilla/eyes" + (i) + ".png");
+            this.eyeOverlays[i] = ResourceLocation.fromNamespaceAndPath(REFERENCE.VAMPIRISM_ID, "textures/entity/vanilla/eyes" + (i) + ".png");
         }
         this.fangOverlays = new ResourceLocation[de.teamlapen.vampirism.REFERENCE.FANG_TYPE_COUNT];
         for (int i = 0; i < this.fangOverlays.length; i++) {
-            this.fangOverlays[i] = new ResourceLocation(REFERENCE.VAMPIRISM_ID + ":textures/entity/vanilla/fangs" + i + ".png");
+            this.fangOverlays[i] = ResourceLocation.fromNamespaceAndPath(REFERENCE.VAMPIRISM_ID, "textures/entity/vanilla/fangs" + i + ".png");
         }
     }
 

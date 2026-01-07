@@ -3,6 +3,7 @@ package de.teamlapen.vampirism_integrations.waila;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
+import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -19,20 +20,16 @@ class PlayerDataProvider implements IEntityComponentProvider {
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(WailaPlugin.SHOW_PLAYER_INFO)) {
             if (accessor.getEntity() instanceof Player) {
-                VampirismAPI.getFactionPlayerHandler(accessor.getEntity()).ifPresent(fph -> {
-                    if (fph.getCurrentLevel() > 0) {
-                        fph.getCurrentFactionPlayer().ifPresent(fp -> {
-                            IFaction<?> f = fp.getDisguisedAs();
-                            if (f != null) {
-                                tooltip.addLine(Component.literal(String.format("%s %s: %s", f.getName().getString(), Component.translatable("text.vampirism.level").getString(), fph.getCurrentLevel())).withStyle(style -> style.withColor(f.getChatColor())));
-                            }
-                        });
-                    }
-                });
-
+                IFactionPlayerHandler fph = VampirismAPI.factionPlayerHandler(accessor.getEntity());
+                if (fph.getCurrentLevel() > 0) {
+                    fph.getCurrentFactionPlayer().ifPresent(fp -> {
+                        IFaction<?> f = fp.getDisguisedAs();
+                        if (f != null) {
+                            tooltip.addLine(Component.literal(String.format("%s %s: %s", f.getName().getString(), Component.translatable("text.vampirism.level").getString(), fph.getCurrentLevel())).withStyle(style -> style.withColor(f.getChatColor())));
+                        }
+                    });
+                }
             }
         }
     }
-
-
 }
