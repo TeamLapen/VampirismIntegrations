@@ -1,11 +1,14 @@
 package de.teamlapen.vampirism_integrations.mca;
 
+import com.mojang.serialization.MapCodec;
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.api.VampirismRegistries;
+import de.teamlapen.vampirism.api.entity.convertible.Converter;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism_integrations.mca.client.ClientRegistrationProxy;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import net.conczin.mca.entity.VillagerEntityMCA;
-import net.minecraft.core.HolderGetter;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -32,9 +35,12 @@ public class MCARegistration {
     public static final DeferredHolder<EntityType<?>,EntityType<AggressiveVillagerEntityMCA>> MALE_AGGRESSIVE_VILLAGER = MCARegistration.prepareEntityType(MCACompat.ANGRY_MALE_VILLAGER_ID, getBuilder(MCAEntityClassRedirect::createAngry, true), true);
     public static final DeferredHolder<EntityType<?>,EntityType<AggressiveVillagerEntityMCA>> FEMALE_AGGRESSIVE_VILLAGER = MCARegistration.prepareEntityType(MCACompat.ANGRY_FEMALE_VILLAGER_ID, getBuilder(MCAEntityClassRedirect::createAngry, false), true);
 
+    public static final DeferredRegister<MapCodec<? extends Converter>> CONVERTING_HELPERS = DeferredRegister.create(VampirismRegistries.Keys.ENTITY_CONVERTER, REFERENCE.MODID);
+    public static final DeferredHolder<MapCodec<? extends Converter>, MapCodec<? extends Converter>> MCA_CONVERTER = CONVERTING_HELPERS.register("mca", () -> MCAConvertingHandler.MCAConverter.CODEC);
 
     static void registerEntities(IEventBus bus) {
         ENTITY_TYPES.register(bus);
+        CONVERTING_HELPERS.register(bus);
         bus.addListener(MCARegistration::onRegisterEntityTypeAttributes);
         if(FMLEnvironment.dist == Dist.CLIENT) {
             bus.addListener(ClientRegistrationProxy::onRegisterRenderer);
@@ -59,13 +65,6 @@ public class MCARegistration {
                     type.noSummon();
                 return type.build(de.teamlapen.vampirism_integrations.util.REFERENCE.MODID + ":" + id);
             });
-    }
-
-    static void registerConvertibles() {
-        ResourceLocation overlay = ResourceLocation.fromNamespaceAndPath(REFERENCE.MODID, "mca/overlay.png");
-        IConvertingHandler<?> c = new ConvertedVillagerEntityMCA.ConvertingHandler();
-        VampirismAPI.entityRegistry().addConvertible((EntityType<? extends PathfinderMob>) ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.MALE_VILLAGER), overlay, c);
-        VampirismAPI.entityRegistry().addConvertible((EntityType<? extends PathfinderMob>) ForgeRegistries.ENTITY_TYPES.getValue(MCACompat.FEMALE_VILLAGER), overlay, c);
     }
 
     static void onRegisterEntityTypeAttributes(EntityAttributeCreationEvent event) {

@@ -43,7 +43,6 @@ public class MCACompat implements IModCompat {
     public void onInitStep(Step step, ParallelDispatchEvent event) {
         if (step == Step.COMMON_SETUP) {
             NeoForge.EVENT_BUS.register(new MCAEventHandler());
-            MCARegistration.registerConvertibles();
         }
     }
 }
