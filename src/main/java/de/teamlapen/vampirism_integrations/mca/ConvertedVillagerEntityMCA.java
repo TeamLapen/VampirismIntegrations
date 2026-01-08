@@ -327,23 +327,4 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
     }
 
-
-    public static class ConvertingHandler implements IConvertingHandler<VillagerEntityMCA> {
-        public ConvertingHandler() {
-        }
-
-        @Override
-        public IConvertedCreature<VillagerEntityMCA> createFrom(VillagerEntityMCA entity) {
-            Villager converted = (entity.getGenetics().getGender() == Gender.FEMALE ? MCARegistration.FEMALE_CONVERTED_VILLAGER : MCARegistration.MALE_CONVERTED_VILLAGER).get().create(entity.level());
-            Optional<CompoundTag> data = ExtendedCreature.getSafe(converted).map(ec -> ec.serializeNBT(converted.registryAccess()));
-            converted.restoreFrom(entity);
-            data.ifPresent(tag -> ExtendedCreature.getSafe(converted).ifPresent(ec -> ec.deserializeNBT(converted.registryAccess(), tag)));
-//            if (ModList.get().getModContainerById(REFERENCE.VAMPIRISM_ID).map(ModContainer::getModInfo).map(IModInfo::getVersion).map(version -> version.getMinorVersion() <= 9 && version.getIncrementalVersion() <= 3).orElse(true)) {
-//                entity.discard(); //Force discard the entity ourselves. Older Vampirism versions add the new entity first and thereby cause an UUID conflict
-//            }
-            converted.yBodyRot = entity.yBodyRot;
-            converted.yHeadRot = entity.yHeadRot;
-            return (IConvertedCreature<VillagerEntityMCA>) converted;
-        }
-    }
 }

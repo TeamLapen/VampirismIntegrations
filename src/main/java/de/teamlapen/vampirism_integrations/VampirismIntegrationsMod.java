@@ -9,7 +9,7 @@ import de.teamlapen.vampirism_integrations.ctov.ChoiceTheoremOverhauledVillage;
 import de.teamlapen.vampirism_integrations.evilcraft.EvilCraftCompat;
 import de.teamlapen.vampirism_integrations.guardvillagers.GuardVillagerCompat;
 import de.teamlapen.vampirism_integrations.mca.MCACompat;
-import de.teamlapen.vampirism_integrations.survive.SurviveCompat;
+//import de.teamlapen.vampirism_integrations.survive.SurviveCompat;
 import de.teamlapen.vampirism_integrations.tan.TANCompat;
 import de.teamlapen.vampirism_integrations.util.IModCompat;
 import de.teamlapen.vampirism_integrations.util.ModCompatLoader;
@@ -67,7 +67,7 @@ public class VampirismIntegrationsMod {
         compatLoader.addModCompat(new EvilCraftCompat());
 //        compatLoader.addModCompat(new DietCompat());
 //        compatLoader.addModCompat(new TConstructCompat());
-        compatLoader.addModCompat(new SurviveCompat());
+//        compatLoader.addModCompat(new SurviveCompat());
 //        compatLoader.addModCompat(new BetterAnimalsPlusCompat());
 //        compatLoader.addModCompat(new BetterAnimalsCompat());
         compatLoader.addModCompat(new CrafttweakerCompat());
