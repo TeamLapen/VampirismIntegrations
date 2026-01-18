@@ -1,6 +1,7 @@
 package de.teamlapen.vampirism_integrations.jade.provider;
 
 import de.teamlapen.vampirism.blocks.HunterTableBlock;
+import de.teamlapen.vampirism_integrations.Helper;
 import de.teamlapen.vampirism_integrations.jade.JadePlugin;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +17,9 @@ public enum AltarOfInspirationProvider implements IBlockComponentProvider {
 
     @Override
     public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-        iTooltip.add(IElementHelper.get().text(Component.translatable("text.vampirism.for_to_levels", 2, 4)));
+        if(Helper.isVampire(blockAccessor.getPlayer())) {
+            iTooltip.add(IElementHelper.get().text(Component.translatable("text.vampirism.for_to_levels", 2, 4)));
+        }
     }
 
     @Override
