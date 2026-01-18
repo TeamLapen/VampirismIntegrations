@@ -104,13 +104,21 @@ dependencies {
     // Hwyla / WTHIT - https://www.curseforge.com/minecraft/mc-mods/wthit-forge
     // Bad Packets - https://www.curseforge.com/minecraft/mc-mods/badpackets
     if (include_waila.toBoolean()) {
-        compileOnly "mcp.mobius.waila:wthit-api:forge-${project.wthit_version}"
-        runtimeOnly "mcp.mobius.waila:wthit:neo-${project.wthit_version}"
-        runtimeOnly "lol.bai:badpackets:neo-${project.bad_packets_version}"
+        compileOnly "mcp.mobius.waila:wthit-api:neo-${project.wthit_version}"
+        if(include_waila_at_runtime.toBoolean()){
+            runtimeOnly "mcp.mobius.waila:wthit:neo-${project.wthit_version}"
+            runtimeOnly "lol.bai:badpackets:neo-${project.bad_packets_version}"
+        }
+
     }
 
     if (include_jade.toBoolean()) {
-        implementation "curse.maven:jade-324717:${project.jade_version}"
+        if(include_jade_at_runtime.toBoolean()){
+            implementation "curse.maven:jade-324717:${project.jade_version}"
+        }
+        else{
+            runtimeOnly "curse.maven:jade-324717:${project.jade_version}"
+        }
     }
 
     // Tough as Nails - https://www.curseforge.com/minecraft/mc-mods/tough-as-nails
@@ -149,7 +157,12 @@ dependencies {
 
     // MCA Reborn - https://www.curseforge.com/minecraft/mc-mods/minecraft-comes-alive-reborn
     if (include_minecraft_comes_alive.toBoolean()) {
-        implementation "curse.maven:minecraft-comes-alive-reborn-535291:${project.mca_fileid}"
+        if (include_minecraft_comes_alive_at_runtime.toBoolean()){
+            implementation "curse.maven:minecraft-comes-alive-reborn-535291:${project.mca_fileid}"
+        }
+        else{
+            compileOnly "curse.maven:minecraft-comes-alive-reborn-535291:${project.mca_fileid}"
+        }
     }
 
     // Nyctophobia / Graveyard biome - https://www.curseforge.com/minecraft/mc-mods/nyctophobia-forge
@@ -180,9 +193,14 @@ dependencies {
     // Survive - https://www.curseforge.com/minecraft/mc-mods/survive
     // UnionLib - https://www.curseforge.com/minecraft/mc-mods/unionlib
     if (include_survive.toBoolean()) {
-        implementation "com.stereowalker.survive:Survive:${project.survive_version}"
-        runtimeOnly "com.stereowalker.unionlib:UnionLib:${project.unionlib_version}"
-        runtimeOnly "curse.maven:SereneSeasons-291874:${project.serene_seasons_version}"
+        if(include_survive_at_runtime.toBoolean()){
+            implementation "com.stereowalker.survive:Survive:${project.survive_version}"
+            runtimeOnly "com.stereowalker.unionlib:UnionLib:${project.unionlib_version}"
+            runtimeOnly "curse.maven:SereneSeasons-291874:${project.serene_seasons_version}"
+        }
+        else{
+            compileOnly "com.stereowalker.survive:Survive:${project.survive_version}"
+        }
     }
 
     // Diet - https://www.curseforge.com/minecraft/mc-mods/diet
@@ -230,13 +248,21 @@ dependencies {
     }
 
     if (include_guard_villagers.toBoolean()) {
-        implementation "curse.maven:guardvillagers-360203:${project.guardvillagers_fileid}"
+        if(include_guard_villagers_at_runtime.toBoolean()){
+            implementation "curse.maven:guardvillagers-360203:${project.guardvillagers_fileid}"
+        }
+        else{
+            compileOnly "curse.maven:guardvillagers-360203:${project.guardvillagers_fileid}"
+        }
     }
 
     if (include_ctov.toBoolean()) {
         runtimeOnly "curse.maven:ctov-623908:${project.ctov_fileid}"
         runtimeOnly "curse.maven:lithostitched-936015:${project.lithostitched_fileid}"
     }
+
+    //Test gravestone mod https://www.curseforge.com/minecraft/mc-mods/gravestone-mod
+    //implementation "curse.maven:Gravestonemod-238551:7099728"
 }
 
 subsystems {
