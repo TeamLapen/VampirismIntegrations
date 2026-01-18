@@ -1,6 +1,6 @@
 package de.teamlapen.vampirism_integrations.tan;
 
-import de.teamlapen.vampirism.util.Helper;
+import de.teamlapen.vampirism_integrations.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;

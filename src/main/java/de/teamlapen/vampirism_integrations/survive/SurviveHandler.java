@@ -7,7 +7,7 @@ import com.stereowalker.survive.needs.WaterData;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.event.PlayerFactionEvent;
 import de.teamlapen.vampirism.api.util.VResourceLocation;
-import de.teamlapen.vampirism.util.Helper;
+import de.teamlapen.vampirism_integrations.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -44,7 +44,7 @@ public class SurviveHandler {
         if (SurviveCompat.enableTemperatureVampires.get()) {
             try {
                     boolean vamp = event.getCurrentFaction() == VReference.VAMPIRE_FACTION;
-                    AttributeInstance coldRes = event.getPlayer().getPlayer().getAttribute(COLD_RESISTANCE);
+                    AttributeInstance coldRes = event.getPlayer().asEntity().getAttribute(COLD_RESISTANCE);
                     if (coldRes != null) {
                         if (vamp) {
                             if (coldRes.getModifier(VAMPIRE_MOD_UUID) == null) {
@@ -54,7 +54,7 @@ public class SurviveHandler {
                             coldRes.removeModifier(VAMPIRE_MOD_UUID);
                         }
                     }
-                    AttributeInstance heatRes = event.getPlayer().getPlayer().getAttribute(HEAT_RESISTANCE);
+                    AttributeInstance heatRes = event.getPlayer().asEntity().getAttribute(HEAT_RESISTANCE);
                     if (heatRes != null) {
                         if (vamp) {
                             if (heatRes.getModifier(VAMPIRE_MOD_UUID) == null) {

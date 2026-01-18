@@ -3,7 +3,7 @@ package de.teamlapen.vampirism_integrations.coldsweat;
 import com.momosoftworks.coldsweat.api.util.Temperature;
 import de.teamlapen.vampirism.api.event.PlayerFactionEvent;
 import de.teamlapen.vampirism.api.util.VResourceLocation;
-import de.teamlapen.vampirism.util.Helper;
+import de.teamlapen.vampirism_integrations.Helper;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

@@ -1,6 +1,6 @@
 package de.teamlapen.vampirism_integrations.tan;
 
-import de.teamlapen.vampirism.util.Helper;
+import de.teamlapen.vampirism_integrations.Helper;
 import net.minecraft.world.entity.player.Player;
 import toughasnails.api.temperature.IPlayerTemperatureModifier;
 import toughasnails.api.temperature.TemperatureHelper;
