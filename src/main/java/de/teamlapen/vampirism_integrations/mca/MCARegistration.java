@@ -5,6 +5,8 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.convertible.Converter;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
+import de.teamlapen.vampirism.config.BalanceMobProps;
+import de.teamlapen.vampirism.core.ModAttributes;
 import de.teamlapen.vampirism_integrations.mca.client.ClientRegistrationProxy;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
 import net.conczin.mca.entity.VillagerEntityMCA;
@@ -16,11 +18,14 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.npc.Villager;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
@@ -58,19 +63,23 @@ public class MCARegistration {
     }
 
     private static <T extends Villager> DeferredHolder<EntityType<?>,EntityType<T>> prepareEntityType(String id, @Nullable Supplier<EntityType.Builder<T>> builder, boolean spawnable) {
-//        if (ModList.get().isLoaded(MCACompat.ID) && builder != null) { TODO test when running without MCA
+        if (builder != null) {
             return ENTITY_TYPES.register(id, () -> {
                 EntityType.Builder<T> type = builder.get().setTrackingRange(80).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true);
                 if (!spawnable)
                     type.noSummon();
-                return type.build(de.teamlapen.vampirism_integrations.util.REFERENCE.MODID + ":" + id);
+                return type.build(REFERENCE.MODID + ":" + id);
             });
+        }
+        else{
+            return DeferredHolder.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(REFERENCE.MODID, id)); //Maybe return null instead
+        }
     }
 
     static void onRegisterEntityTypeAttributes(EntityAttributeCreationEvent event) {
-        event.put(MALE_AGGRESSIVE_VILLAGER.get(), VillagerEntityMCA.createAttributes().build());
-        event.put(FEMALE_AGGRESSIVE_VILLAGER.get(), VillagerEntityMCA.createAttributes().build());
-        event.put(MALE_CONVERTED_VILLAGER.get(), VillagerEntityMCA.createAttributes().build());
-        event.put(FEMALE_CONVERTED_VILLAGER.get(), VillagerEntityMCA.createAttributes().build());
+        event.put(MALE_AGGRESSIVE_VILLAGER.get(), AggressiveVillagerEntityMCA.createAttributes().build());
+        event.put(FEMALE_AGGRESSIVE_VILLAGER.get(), AggressiveVillagerEntityMCA.createAttributes().build());
+        event.put(MALE_CONVERTED_VILLAGER.get(), ConvertedVillagerEntityMCA.createAttributes().build());
+        event.put(FEMALE_CONVERTED_VILLAGER.get(), ConvertedVillagerEntityMCA.createAttributes().build());
     }
 }

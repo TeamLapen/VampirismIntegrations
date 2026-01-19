@@ -3,10 +3,15 @@ package de.teamlapen.vampirism_integrations.mca;
 import de.teamlapen.vampirism_integrations.util.IModCompat;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.event.lifecycle.ParallelDispatchEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.NeoForge;
+import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.stream.Collectors;
 
 public class MCACompat implements IModCompat {
 
@@ -20,7 +25,9 @@ public class MCACompat implements IModCompat {
     protected static final ResourceLocation FEMALE_VILLAGER = ResourceLocation.fromNamespaceAndPath(ID, "female_villager");
 
     public MCACompat(IEventBus bus) {
-        MCARegistration.registerEntities(bus);
+        if (ModList.get().isLoaded(MCACompat.ID)) {
+            MCARegistration.registerEntities(bus);
+        }
     }
 
     @Override

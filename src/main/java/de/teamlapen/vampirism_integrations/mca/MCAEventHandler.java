@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
+import de.teamlapen.vampirism.core.ModAttributes;
 import de.teamlapen.vampirism.core.ModEffects;
 import de.teamlapen.vampirism.entity.converted.ConvertedVillagerEntity;
 import net.conczin.mca.entity.VillagerEntityMCA;
@@ -15,6 +16,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +28,17 @@ public class MCAEventHandler {
 
     @SubscribeEvent
     public void onCreateAggressiveVillager(VampirismVillageEvent.MakeAggressive event) {
-        if (event.getOldVillager() instanceof VillagerEntityMCA villagerEntityMCA) {
-            if (villagerEntityMCA instanceof IFactionEntity) return;
-            if (villagerEntityMCA.getAge() < 0) return;
-            Villager v = AggressiveVillagerEntityMCA.makeAngry(villagerEntityMCA);
-            if (v != null) {
-                UtilLib.replaceEntity(event.getOldVillager(), v);
-                event.setCanceled(true);
+        if(VReference.VAMPIRE_FACTION.equals(event.getCapturingFaction())){
+            if (event.getOldVillager() instanceof VillagerEntityMCA villagerEntityMCA) {
+                event.setCanceled(true); //We want to handle all MCA villagers ourselves
+                if (villagerEntityMCA instanceof IFactionEntity) return;
+                if (villagerEntityMCA.getAge() < 0) return;
+                if (villagerEntityMCA.getRandom().nextInt(4) == 0) {
+                    Villager v = AggressiveVillagerEntityMCA.makeAngry(villagerEntityMCA);
+                    if (v != null) {
+                        UtilLib.replaceEntity(event.getOldVillager(), v);
+                    }
+                }
             }
         }
     }

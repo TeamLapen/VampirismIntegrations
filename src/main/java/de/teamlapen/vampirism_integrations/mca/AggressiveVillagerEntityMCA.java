@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.MoveThroughVillageGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -39,7 +40,7 @@ import javax.annotation.Nonnull;
 public class AggressiveVillagerEntityMCA extends VillagerEntityMCA implements IAggressiveVillager {
     @Nullable
     public static Villager makeAngry(VillagerEntityMCA villager) {
-        if (villager.getProfession().name().equals("mca.guard") || villager.getProfession().name().equals("mca.outlaw") || villager.isInfected()) { //TODO test
+        if (villager.isInfected()) {
             return null;
         }
         EntityType<? extends Villager> t = villager.getGenetics().getGender() == Gender.FEMALE ? MCARegistration.FEMALE_AGGRESSIVE_VILLAGER.get() : MCARegistration.MALE_AGGRESSIVE_VILLAGER.get();
@@ -52,7 +53,11 @@ public class AggressiveVillagerEntityMCA extends VillagerEntityMCA implements IA
         return angry;
     }
 
-    @Nullable
+    public static AttributeSupplier.Builder createAttributes() {
+        return  VillagerEntityMCA.createAttributes();
+    }
+
+        @Nullable
     private ICaptureAttributes villageAttributes;
 
     public AggressiveVillagerEntityMCA(EntityType<AggressiveVillagerEntityMCA> type, Level w, Gender gender) {
