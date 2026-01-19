@@ -8,9 +8,8 @@ import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.util.TotemHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import tallestegg.guardvillagers.common.entities.Guard;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,10 +19,10 @@ import java.util.function.Predicate;
 public class GuardTargetNonFactionGoal extends NearestAttackableTargetGoal<LivingEntity> {
 
     private static final Map<IFaction<?>, Predicate<LivingEntity>> predicates = new HashMap<>();
-    private final Guard guard;
+    private final PathfinderMob guard;
     private IFaction<?> faction;
 
-    public GuardTargetNonFactionGoal(Guard guard) {
+    public GuardTargetNonFactionGoal(PathfinderMob guard) {
         super(guard, LivingEntity.class, true);
         this.guard = guard;
     }
