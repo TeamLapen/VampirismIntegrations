@@ -1,7 +1,6 @@
 package de.teamlapen.vampirism_integrations.coldsweat;
 
 import com.momosoftworks.coldsweat.api.util.Temperature;
-import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.event.PlayerFactionEvent;
 import de.teamlapen.vampirism.api.util.VResourceLocation;
 import de.teamlapen.vampirism.util.Helper;
@@ -31,11 +30,24 @@ public class ColdSweatEventHandler {
 
     @SubscribeEvent
     public void onFactionLevelChanged(PlayerFactionEvent.FactionLevelChanged event) {
+        handlePlayerEvent(event.getPlayer().asEntity());
+    }
+
+    @SubscribeEvent
+    public void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        handlePlayerEvent(event.getEntity());
+    }
+
+    @SubscribeEvent
+    public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        handlePlayerEvent(event.getEntity());
+    }
+
+    private void handlePlayerEvent(Player player) {
         if (ColdSweatCompat.enableTemperatureVampires.get()) {
             try {
-                boolean vamp = event.getCurrentFaction() == VReference.VAMPIRE_FACTION;
-                ModifyTemperatureValues(event.getPlayer().asEntity(), vamp);
-
+                boolean vamp = Helper.isVampire(player);
+                updatePlayerModifiers(player, vamp);
 
             } catch (Throwable e) {
                 if (warnTemperature) {
@@ -46,32 +58,7 @@ public class ColdSweatEventHandler {
         }
     }
 
-    @SubscribeEvent
-    public void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        VanillaEventHandler(event);
-    }
-
-    @SubscribeEvent
-    public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        VanillaEventHandler(event);
-    }
-
-    private void VanillaEventHandler(PlayerEvent event) {
-        if (ColdSweatCompat.enableTemperatureVampires.get()) {
-            try {
-                boolean vamp = Helper.isVampire(event.getEntity());
-                ModifyTemperatureValues(event.getEntity(), vamp);
-
-            } catch (Throwable e) {
-                if (warnTemperature) {
-                    LOGGER.error("Failed to modify temperature resistance for vampires (vanilla event)", e);
-                    warnTemperature = false;
-                }
-            }
-        }
-    }
-
-    private void ModifyTemperatureValues(Player player, boolean vamp) {
+    private void updatePlayerModifiers(Player player, boolean vamp) {
         AttributeInstance coldRes = player.getAttribute(FREEZING_POINT);
         if (coldRes != null) {
             if (vamp) {
