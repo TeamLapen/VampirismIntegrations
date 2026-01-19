@@ -19,8 +19,9 @@ public class ThirstHandler {
 
     private static final String ID = "toughasnails";
     private static final ResourceLocation THIRST_OVERLAY = ResourceLocation.fromNamespaceAndPath(ID, "thirst_level");
+
     @SubscribeEvent
-    public void onPlayerUpdate(EntityTickEvent event) {
+    public void onPlayerUpdate(EntityTickEvent.Post event) {
         Entity e = event.getEntity();
         if (TANCompat.disableThirst.get() && e.tickCount % 32 == 0 && e instanceof Player && Helper.isVampire((Player) e)) {
             IThirst thirst = ThirstHelper.getThirst((Player) e);
