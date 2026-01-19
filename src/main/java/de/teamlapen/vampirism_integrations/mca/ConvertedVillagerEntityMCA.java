@@ -7,12 +7,16 @@ import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism.api.entity.convertible.ICurableConvertedCreature;
+import de.teamlapen.vampirism.api.entity.player.vampire.IBloodStats;
 import de.teamlapen.vampirism.api.entity.player.vampire.IDrinkBloodContext;
 import de.teamlapen.vampirism.api.event.BloodDrinkEvent;
 import de.teamlapen.vampirism.core.ModAdvancements;
 import de.teamlapen.vampirism.core.ModAi;
+import de.teamlapen.vampirism.core.ModAttributes;
 import de.teamlapen.vampirism.core.ModVillage;
+import de.teamlapen.vampirism.entity.ConvertedCreature;
 import de.teamlapen.vampirism.entity.ExtendedCreature;
+import de.teamlapen.vampirism.entity.converted.CurableConvertedCreature;
 import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.entity.vampire.DrinkBloodContext;
 import de.teamlapen.vampirism.entity.villager.Trades;
@@ -37,10 +41,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.ai.village.ReputationEventType;
@@ -64,7 +70,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICurableConvertedCreature<VillagerEntityMCA> {
+public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements CurableConvertedCreature<VillagerEntityMCA, ConvertedVillagerEntityMCA> {
 
     public static final List<SensorType<? extends Sensor<? super Villager>>> SENSOR_TYPES;
     private static final byte EVENT_ID_CURE = 40;
@@ -77,16 +83,21 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
         SENSOR_TYPES.add(ModAi.VAMPIRE_VILLAGER_HOSTILES.get());
     }
 
-    private EnumStrength garlicCache;
-    private boolean sundamageCache;
+    public static AttributeSupplier.Builder createAttributes() {
+        return VillagerEntityMCA.createAttributes().add(ModAttributes.SUNDAMAGE);  //No damage for now, because no avoid sun AI. BalanceMobProps.mobProps.VAMPIRE_MOB_SUN_DAMAGE
+    }
+
+    private final Data<VillagerEntityMCA> convertedData = new Data<>();
     private int bloodTimer;
-    private int conversionTime;
-    private UUID conversationStarter;
 
     public ConvertedVillagerEntityMCA(EntityType<ConvertedVillagerEntityMCA> type, Level w, Gender gender) {
         super((EntityType) type, w, gender);
-        this.garlicCache = EnumStrength.NONE;
         this.bloodTimer = 0;
+    }
+
+    @Override
+    public Data<VillagerEntityMCA> data() {
+        return this.convertedData;
     }
 
     @Override
@@ -94,47 +105,30 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
         return this;
     }
 
-    //    @Override
-//    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
-//        super.addAdditionalSaveData(compound);
-//        compound.putInt("ConversionTime", this.isConverting(this) ? this.conversionTime : -1);
-//        if (this.conversationStarter != null) {
-//            compound.putUUID("ConversionPlayer", this.conversationStarter);
-//        }
-//
-//    }
+
+    @Override
+    public CompoundTag saveWithoutId(CompoundTag compound) {
+        //Unfortunately, the MCA villager addAdditionalSaveData is final, so we have to use saveWithoutId
+        CompoundTag tag = super.saveWithoutId(compound);
+        this.addAdditionalSaveDataC(tag);
+        return tag;
+    }
+
+
+    @Override
+    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        readAdditionalSaveDataC(compound);
+    }
+
+
     @Override
     public void aiStep() {
-        if (!this.level().isClientSide && this.isAlive() && this.isConverting(this)) {
-            --this.conversionTime;
-            if (this.conversionTime <= 0 && EventHooks.canLivingConvert(this, EntityType.VILLAGER, (timer) -> {
-                this.conversionTime = timer;
-            })) {
-                this.cureEntity((ServerLevel) this.level(), this, (EntityType) BuiltInRegistries.ENTITY_TYPE.get(this.getGenetics().getGender() == Gender.FEMALE ? MCACompat.FEMALE_VILLAGER : MCACompat.MALE_VILLAGER));
-            }
-        }
-
-        if (this.tickCount % 40 == 1) {
-            this.isGettingGarlicDamage(this.level(), true);
-        }
-
-        if (this.tickCount % 8 == 2) {
-            this.isGettingSundamage(this.level(), true);
-        }
-
-        if (!this.level().isClientSide) {
-            if (this.isGettingSundamage(this.level()) && this.tickCount % 40 == 11) {
-                this.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 42));
-            }
-
-            if (this.isGettingGarlicDamage(this.level()) != EnumStrength.NONE) {
-                DamageHandler.affectVampireGarlicAmbient(this, this.isGettingGarlicDamage(this.level()), this.tickCount);
-            }
-        }
-
+        aiStepC( (EntityType) BuiltInRegistries.ENTITY_TYPE.get(this.getGenetics().getGender() == Gender.FEMALE ? MCACompat.FEMALE_VILLAGER : MCACompat.MALE_VILLAGER));
         ++this.bloodTimer;
         super.aiStep();
     }
+
 
     @Override
     public boolean doesResistGarlic(EnumStrength strength) {
@@ -153,27 +147,22 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
     @Override
     public VillagerEntityMCA cureEntity(ServerLevel world, PathfinderMob entity, EntityType<VillagerEntityMCA> newType) {
-        VillagerEntityMCA villager = ICurableConvertedCreature.super.cureEntity(world, entity, newType);
-//        villager.setVillagerData(this.getVillagerData());
-//        villager.setGossips(this.getGossips().store(NbtOps.INSTANCE).getValue());
-//        villager.setOffers(this.getOffers());
-//        villager.setVillagerXp(this.getVillagerXp());
-        if (this.conversationStarter != null) {
-            Player playerentity = world.getPlayerByUUID(this.conversationStarter);
+        VillagerEntityMCA villager = CurableConvertedCreature.super.cureEntity(world, entity, newType);
+        if (this.data().conversationStarter != null) {
+            Player playerentity = world.getPlayerByUUID(this.data().conversationStarter);
             if (playerentity instanceof ServerPlayer) {
                 ModAdvancements.TRIGGER_CURED_VAMPIRE_VILLAGER.get().trigger((ServerPlayer) playerentity, this, villager);
                 world.onReputationEvent(ReputationEventType.ZOMBIE_VILLAGER_CURED, playerentity, villager);
             }
         }
-
         return villager;
     }
 
     @Override
     public boolean doHurtTarget(@Nonnull Entity entity) {
-        if (!this.level().isClientSide && this.wantsBlood() && entity instanceof Player && !Helper.isHunter(entity) && !UtilLib.canReallySee((LivingEntity) entity, this, true)) {
-            int amt = VampirePlayer.getOpt((Player) entity).map((vampire) -> vampire.onBite(this)).orElse(0);
-            this.drinkBlood(amt, 0.7F, new DrinkBloodContext((LivingEntity) entity));
+        if (!this.level().isClientSide && this.wantsBlood() && entity instanceof Player player && !Helper.isHunter(entity) && !UtilLib.canReallySee((LivingEntity) entity, this, true)) {
+            int amt = VampirePlayer.get(player).onBite(this);
+            drinkBlood(amt, IBloodStats.MEDIUM_SATURATION, new DrinkBloodContext(player));
             return true;
         } else {
             return super.doHurtTarget(entity);
@@ -188,13 +177,35 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     @Override
     public void drinkBlood(int amt, float saturationMod, boolean useRemaining, IDrinkBloodContext drinkContext) {
         BloodDrinkEvent.@NotNull EntityDrinkBloodEvent event = VampirismEventFactory.fireVampireDrinkBlood(this, amt, saturationMod, useRemaining, drinkContext);
-        this.addEffect(new MobEffectInstance(MobEffects.REGENERATION, amt * 20));
-        this.bloodTimer = -1200 - this.random.nextInt(1200);
+        this.addEffect(new MobEffectInstance(MobEffects.REGENERATION, event.getAmount() * 20));
+        bloodTimer = -1200 - random.nextInt(1200);
     }
 
     @Override
     public LivingEntity getRepresentingEntity() {
         return this;
+    }
+
+    @Override
+    public void handleEntityEventSuper(byte id) {
+        super.handleEntityEvent(id);
+    }
+
+
+    @Override
+    public InteractionResult mobInteractSuper(@NotNull Player player, @NotNull InteractionHand hand) {
+        return super.mobInteract(player, hand);
+    }
+
+    @Override
+    public boolean hurtSuper(DamageSource damageSource, float amount) {
+        return super.hurt(damageSource, amount);
+    }
+
+    @NotNull
+    @Override
+    public InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
+        return this.mobInteractC(player, hand);
     }
 
     @Override
@@ -219,32 +230,13 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
     }
 
-    @Override
-    @Nonnull
-    public EnumStrength isGettingGarlicDamage(LevelAccessor iWorld, boolean forceRefresh) {
-        if (forceRefresh) {
-            this.garlicCache = Helper.getGarlicStrength(this, iWorld);
-        }
 
-        return this.garlicCache;
-    }
-
-    @Override
-    public boolean isGettingSundamage(LevelAccessor iWorld, boolean forceRefresh) {
-        return !forceRefresh ? this.sundamageCache : (this.sundamageCache = Helper.gettingSundamge(this, iWorld, this.level().getProfiler()));
-    }
 
     @Override
     public boolean isIgnoringSundamage() {
         return false;
     }
 
-    @Override
-    @Nonnull
-    public InteractionResult mobInteract(Player player, @Nonnull InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
-        return stack.getItem() != Items.GOLDEN_APPLE ? super.mobInteract(player, hand) : this.interactWithCureItem(player, stack, this);
-    }
 
     @Override
     public ItemStack eat(Level world, ItemStack stack, FoodProperties foodProperties) {
@@ -257,23 +249,6 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
         return super.eat(world, stack, foodProperties);
     }
 
-    @Override
-    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        if (compound.contains("ConversionTime", 99) && compound.getInt("ConversionTime") > -1) {
-            this.startConverting(compound.hasUUID("ConversionPlayer") ? compound.getUUID("ConversionPlayer") : null, compound.getInt("ConversionTime"), this);
-        }
-
-    }
-
-    @Override
-    public void startConverting(@Nullable UUID conversionStarterIn, int conversionTimeIn, @Nonnull PathfinderMob entity) {
-        ICurableConvertedCreature.super.startConverting(conversionStarterIn, conversionTimeIn, entity);
-        entity.level().broadcastEntityEvent(entity, EVENT_ID_CURE); //Use our own id to avoid clash with MCA reward hearts event
-
-        this.conversationStarter = conversionStarterIn;
-        this.conversionTime = conversionTimeIn;
-    }
 
     public void registerBrainGoals(@Nonnull Brain<VillagerEntityMCA> brain) {
         VillagerTasksMCA.initializeTasks(this, brain);
@@ -327,4 +302,20 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
 
     }
 
+    @Override
+    public void die(@NotNull DamageSource pCause) {
+        super.die(pCause);
+        this.dieC(pCause);
+    }
+
+    @Override
+    protected void tickDeath() {
+        super.tickDeath();
+        this.tickDeathC();
+    }
+//      Unfortunately, the method is final in MCA
+//    @Override
+//    public boolean hurt(@NotNull DamageSource src, float amount) {
+//        return this.hurtC(src, amount);
+//    }
 }
