@@ -5,8 +5,9 @@ Vampirism Integrations for MC 1.21 - Latest branch
 
 This mod handles integrations or respectively compatibility with other mods.
 
-Curseforge Page: [https://www.curseforge.com/minecraft/mc-mods/vampirism-integrations](https://www.curseforge.com/minecraft/mc-mods/vampirism-integrations)  
-Modrinth: [https://modrinth.com/mod/vampirism-integrations](https://modrinth.com/mod/vampirism-integrations)
+[![vampirism](https://github.com/TeamLapen/Vampirism/blob/751485ba7eff34788719b9f6ebd79ef9c052897e/project/resources/badge/requires_vampirism200x59.png?raw=true)](https://github.com/TeamLapen/Vampirism)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg)](https://www.curseforge.com/minecraft/mc-mods/vampirism-integrations)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/mod/vampirism-integrations)
 
 While the JEI and GuideAPI integration will stay inside the main mod, any additional compatibility will be implemented here.
 
