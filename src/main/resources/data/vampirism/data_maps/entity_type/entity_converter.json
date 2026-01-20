@@ -3,12 +3,24 @@
     "mca:male_villager": {
       "handler": {
         "type": "vampirism_integrations:mca"
-      }
+      },
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "mca"
+        }
+      ]
     },
     "mca:female_villager": {
       "handler": {
         "type": "vampirism_integrations:mca"
-      }
+      },
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "mca"
+        }
+      ]
     }
   }
 }
