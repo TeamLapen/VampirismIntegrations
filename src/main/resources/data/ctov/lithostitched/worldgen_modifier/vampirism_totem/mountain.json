@@ -4,6 +4,10 @@
 		{
 			"type": "neoforge:mod_loaded",
 			"modid": "vampirism"
+		},
+		{
+			"type": "neoforge:mod_loaded",
+			"modid": "ctov"
 		}
 	],
 	"template_pools": "ctov:village/mountain/deco",
