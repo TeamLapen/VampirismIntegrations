@@ -117,7 +117,7 @@ dependencies {
             implementation "curse.maven:jade-324717:${project.jade_version}"
         }
         else{
-            runtimeOnly "curse.maven:jade-324717:${project.jade_version}"
+            compileOnly "curse.maven:jade-324717:${project.jade_version}"
         }
     }
 

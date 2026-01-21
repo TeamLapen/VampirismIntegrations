@@ -28,6 +28,8 @@ public class JadePlugin implements IWailaPlugin {
     public static final ResourceLocation ALTAR_OF_INSPIRATION = VResourceLocation.mod( "altar_of_inspiration");
     public static final ResourceLocation ALTAR_OF_INFUSION = VResourceLocation.mod( "altar_of_infusion");
     public static final ResourceLocation ALTAR_PILLAR = VResourceLocation.mod( "altar_pillar");
+    public static final ResourceLocation ENTITY_FACTION = VResourceLocation.mod("entity_faction");
+
 
     public static final ResourceLocation ENTITY_BLOOD_MAX_FOR_RENDER = VResourceLocation.mod( "entity_blood.max_for_render");
     public static final ResourceLocation ENTITY_BLOOD_ICONS_PER_LINE = VResourceLocation.mod( "entity_blood.icon_per_line");
@@ -52,6 +54,7 @@ public class JadePlugin implements IWailaPlugin {
         registration.addConfig(PLAYER_FACTION_LORD_LEVEL_NUMBER, false);
         registration.registerEntityComponent(EntityBloodProvider.INSTANCE, PathfinderMob.class);
         registration.registerEntityComponent(PlayerFactionProvider.INSTANCE, Player.class);
+        registration.registerEntityComponent(EntityFactionProvider.INSTANCE, PathfinderMob.class);
         registration.registerBlockComponent(GarlicDiffuserProvider.INSTANCE, GarlicDiffuserBlock.class);
         registration.registerBlockComponent(TotemProvider.INSTANCE, TotemTopBlock.class);
         registration.registerBlockComponent(PedestalProvider.INSTANCE, PedestalBlock.class);
@@ -72,5 +75,6 @@ public class JadePlugin implements IWailaPlugin {
         registration.markAsClientFeature(ALTAR_OF_INFUSION);
         registration.markAsClientFeature(RESEARCH_TABLE);
         registration.markAsClientFeature(ALTAR_PILLAR);
+        registration.markAsClientFeature(ENTITY_FACTION);
     }
 }
