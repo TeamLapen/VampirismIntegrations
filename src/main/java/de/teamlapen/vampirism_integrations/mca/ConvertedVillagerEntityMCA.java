@@ -267,9 +267,9 @@ public class ConvertedVillagerEntityMCA extends VillagerEntityMCA implements ICu
     public void registerBrainGoals(@Nonnull Brain<VillagerEntityMCA> brain) {
         VillagerTasksMCA.initializeTasks(this, brain);
         AgeState age = AgeState.byCurrentAge(this.getAge());
-        if (age != AgeState.ADULT) {
+        if (age == AgeState.ADULT) {
             brain.setSchedule(ModVillage.CONVERTED_DEFAULT.get());
-            brain.updateActivityFromSchedule(this.level().getDayTime(), this.level().getGameTime() + 21 /*Trick update*/);
+            brain.updateActivityFromSchedule(this.level().getDayTime(), this.level().getGameTime());
         }
     }
 
