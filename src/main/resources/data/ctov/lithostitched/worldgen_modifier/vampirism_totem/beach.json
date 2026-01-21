@@ -6,6 +6,10 @@
 			{
 				"type": "lithostitched:mod_loaded",
 				"mod_id": "vampirism"
+			},
+			{
+				"type": "lithostitched:mod_loaded",
+				"mod_id": "ctov"
 			}
 		]
 	},
