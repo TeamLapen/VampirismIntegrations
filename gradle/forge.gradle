@@ -8,6 +8,7 @@ repositories {
     maven { url "https://maven.bai.lol" }
     maven { url = 'https://maven.blamejared.com' }
     maven { url = "https://maven.paube.de/releases" }
+    maven { url 'https://api.modrinth.com/maven' }
 
     maven {
         url "https://www.cursemaven.com"
@@ -33,6 +34,11 @@ repositories {
     maven {
         name = "Minecolonies Maven - Newer"
         url = "https://ldtteam.jfrog.io/ldtteam/mods-maven"
+    }
+
+    maven {
+        name "KosmX's maven"
+        url 'https://maven.kosmx.dev/'
     }
 
     maven {
@@ -226,5 +232,14 @@ dependencies {
 
     if (include_guard_villagers.toBoolean()) {
         implementation fg.deobf("curse.maven:guardvillagers-360203:" + project.guardvillagers_fileid)
+    }
+
+    //https://modrinth.com/mod/better-combat/versions
+    //https://modrinth.com/mod/playeranimator/versions
+    //https://modrinth.com/mod/cloth-config/versions
+    if (include_better_combat.toBoolean()){
+        runtimeOnly fg.deobf('maven.modrinth:better-combat:' + project.better_combat_version + '-forge') //https://github.com/ZsoltMolnarrr/BetterCombat#-integrate-your-mod
+        runtimeOnly fg.deobf("me.shedaniel.cloth:cloth-config-forge:"+ project.cloth_version) //https://shedaniel.gitbook.io/cloth-config/setup-cloth-config/setup-with-forge
+        runtimeOnly fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:" + project.player_animator_version) //https://github.com/KosmX/minecraftPlayerAnimator#include-in-your-dev-environment
     }
 }
