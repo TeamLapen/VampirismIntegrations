@@ -132,7 +132,7 @@ public class VampirismIntegrationsMod {
     }
 
     private void checkDevEnv() {
-        String launchTarget = System.getenv().get("target");
+        String launchTarget = System.getProperty("vampirism_target");
         if (launchTarget != null && launchTarget.contains("dev")) {
             inDev = true;
         }

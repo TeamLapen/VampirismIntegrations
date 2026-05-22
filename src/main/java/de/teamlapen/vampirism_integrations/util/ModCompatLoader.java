@@ -2,6 +2,7 @@ package de.teamlapen.vampirism_integrations.util;
 
 import com.google.common.collect.ImmutableList;
 import de.teamlapen.lib.lib.util.IInitListener;
+import de.teamlapen.vampirism_integrations.VampirismIntegrationsMod;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.event.lifecycle.ParallelDispatchEvent;
@@ -77,10 +78,13 @@ public class ModCompatLoader implements IInitListener {
             try {
                 next.onInitStep(step, event);
             } catch (Exception e) {
-                LOGGER.error("---------------------------------------------------------", e);
-                LOGGER.error("Mod Compat {} threw an exception during {}. Unloading.", next.getModID(), step);
+                LOGGER.error("---------------------------------------------------------\nMod Compat {} threw an exception during {}. Unloading.", next.getModID(), step);
+                LOGGER.error("Exception:", e);
                 LOGGER.error("---------------------------------------------------------");
                 it.remove();
+                if(VampirismIntegrationsMod.inDev){
+                    throw e;
+                }
             }
         }
     }
