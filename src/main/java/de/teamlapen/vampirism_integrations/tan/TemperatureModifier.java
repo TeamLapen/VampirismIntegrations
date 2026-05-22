@@ -8,6 +8,10 @@ import toughasnails.api.temperature.TemperatureLevel;
 
 public class TemperatureModifier implements IPlayerTemperatureModifier {
 
+    protected TemperatureModifier(){
+
+    }
+
     static void register() {
         TemperatureHelper.registerPlayerTemperatureModifier(new TemperatureModifier());
     }

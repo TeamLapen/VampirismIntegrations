@@ -16,7 +16,6 @@ import toughasnails.api.thirst.ThirstHelper;
  */
 public class ThirstHandler {
 
-    private static final ResourceLocation THIRST_OVERLAY = new ResourceLocation("toughasnails", "thirst_level");
     @SubscribeEvent
     public void onPlayerUpdate(LivingEvent.LivingTickEvent event) {
         Entity e = event.getEntity();
@@ -28,10 +27,5 @@ public class ThirstHandler {
         }
     }
 
-    @SubscribeEvent
-    public void renderThirstLevel(RenderGuiOverlayEvent event) {
-        if (event.getOverlay().id().equals(THIRST_OVERLAY) && TANCompat.disableThirst.get() &&  Minecraft.getInstance().player != null && Helper.isVampire(Minecraft.getInstance().player)) {
-            event.setCanceled(true);
-        }
-    }
+
 }

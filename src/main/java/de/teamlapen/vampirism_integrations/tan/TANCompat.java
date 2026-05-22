@@ -25,5 +25,8 @@ public class TANCompat implements IModCompat {
             MinecraftForge.EVENT_BUS.register(new ThirstHandler());
             TemperatureModifier.register();
         }
+        else if(step == Step.CLIENT_SETUP){
+            MinecraftForge.EVENT_BUS.register(new OverlayHandler());
+        }
     }
 }
