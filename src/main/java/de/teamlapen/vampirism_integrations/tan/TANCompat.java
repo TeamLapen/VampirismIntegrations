@@ -22,9 +22,10 @@ public class TANCompat implements IModCompat {
     @Override
     public void onInitStep(Step step, ParallelDispatchEvent event) {
         if (step == Step.CLIENT_SETUP) {
-            NeoForge.EVENT_BUS.register(new ThirstHandler());
+            NeoForge.EVENT_BUS.register(new OverlayHandler());
         } else if (step == Step.LOAD_COMPLETE) {
             TemperatureModifier.register();
+            NeoForge.EVENT_BUS.register(new ThirstHandler());
         }
     }
 }
