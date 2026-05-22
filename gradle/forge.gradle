@@ -58,6 +58,7 @@ minecraft {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             jvmArg '-ea:de.teamlapen...'
+            property 'target', 'dev'
             mods {
                 vampirism_integrations {
                     source sourceSets.main
