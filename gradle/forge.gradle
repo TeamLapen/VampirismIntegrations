@@ -243,6 +243,11 @@ dependencies {
         runtimeOnly "mezz.jei:jei-${project.minecraft_version}-neoforge:${project.jei_version}" //Full for runtime
     }
 
+    // Capybara - https://www.curseforge.com/minecraft/mc-mods/capybara-uam
+    if (include_capybara.toBoolean()) {
+        implementation "curse.maven:capybara-549031:${project.capybara_fileid}"
+    }
+
     if (include_cold_sweat.toBoolean()) {
         implementation "curse.maven:cold-sweat-506194:${project.coldsweat_fileid}"
     }

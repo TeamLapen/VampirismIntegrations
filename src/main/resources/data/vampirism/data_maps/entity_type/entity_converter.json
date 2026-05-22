@@ -21,6 +21,18 @@
           "modid": "mca"
         }
       ]
+    },
+    "unnamedanimalmod:capybara": {
+      "handler": {
+        "type": "vampirism:default"
+      },
+      "overlay": "vampirism_integrations:textures/entity/capybara_overlay.png",
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "unnamedanimalmod"
+        }
+      ]
     }
   }
 }

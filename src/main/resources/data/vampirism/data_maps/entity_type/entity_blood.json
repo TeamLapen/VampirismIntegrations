@@ -18,6 +18,15 @@
           "modid": "mca"
         }
       ]
+    },
+    "unnamedanimalmod:capybara": {
+      "blood": 10,
+      "neoforge:conditions": [
+        {
+          "type": "vampirism:entity_exists",
+          "entity_type": "unnamedanimalmod:capybara"
+        }
+      ]
     }
   }
 }
