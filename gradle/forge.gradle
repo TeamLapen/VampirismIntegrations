@@ -17,6 +17,13 @@ repositories {
     }
 
     maven {
+        url 'https://api.modrinth.com/maven'
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+
+    maven {
         name = "Maxanier"
         url = "https://maven.maxanier.de/releases"
     }
@@ -33,6 +40,11 @@ repositories {
     maven {
         name = "Minecolonies Maven - Newer"
         url = "https://ldtteam.jfrog.io/ldtteam/mods-maven"
+    }
+
+    maven {
+        name "KosmX's maven"
+        url 'https://maven.kosmx.dev/'
     }
 
     maven {
@@ -245,7 +257,7 @@ dependencies {
 
     // Capybara - https://www.curseforge.com/minecraft/mc-mods/capybara-uam
     if (include_capybara.toBoolean()) {
-        implementation "curse.maven:capybara-549031:${project.capybara_fileid}"
+        runtimeOnly "curse.maven:capybara-549031:${project.capybara_fileid}"
     }
 
     if (include_cold_sweat.toBoolean()) {
@@ -264,6 +276,16 @@ dependencies {
     if (include_ctov.toBoolean()) {
         runtimeOnly "curse.maven:ctov-623908:${project.ctov_fileid}"
         runtimeOnly "curse.maven:lithostitched-936015:${project.lithostitched_fileid}"
+    }
+
+
+    //https://modrinth.com/mod/better-combat/versions
+    //https://modrinth.com/mod/playeranimator/versions
+    //https://modrinth.com/mod/cloth-config/versions
+    if (include_better_combat.toBoolean()){
+        runtimeOnly 'maven.modrinth:better-combat:' + project.better_combat_version + '-neoforge' //https://github.com/ZsoltMolnarrr/BetterCombat#-integrate-your-mod
+        runtimeOnly "me.shedaniel.cloth:cloth-config-neoforge:"+ project.cloth_version //https://shedaniel.gitbook.io/cloth-config/setup-cloth-config/setup-with-forge
+        runtimeOnly "dev.kosmx.player-anim:player-animation-lib-forge:" + project.player_animator_version //https://github.com/KosmX/minecraftPlayerAnimator#include-in-your-dev-environment
     }
 
     //Test gravestone mod https://www.curseforge.com/minecraft/mc-mods/gravestone-mod
