@@ -112,8 +112,6 @@ publishMods {
         optional("jade")
         optional("cold-sweat")
         optional("guard-villagers")
-        optional("better-combat")
-
     }
 
     curseforge {
