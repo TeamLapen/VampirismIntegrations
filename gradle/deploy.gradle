@@ -112,6 +112,8 @@ publishMods {
         optional("jade")
         optional("cold-sweat")
         optional("guard-villagers")
+        optional("better-combat")
+
     }
 
     curseforge {
@@ -198,6 +200,12 @@ publishMods {
         }
         if (project.include_guard_villagers.toBoolean()) {
             optional( 'guard-villagers')
+        }
+        if (project.include_capybara.toBoolean()) {
+            optional( 'capybara-uam')
+        }
+        if (project.include_better_combat.toBoolean()) {
+            optional( 'better-combat')
         }
     }
 }
