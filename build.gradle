@@ -127,6 +127,8 @@ tasks.named('processResources', ProcessResources).configure {
             guideapi_version: guideapi_version,
             mod_url: mod_url,
             mod_issue_tracker: mod_issue_tracker,
+            nyctophobia_version: nyctophobia_version,
+            mca_version: mca_version
     ]
     inputs.properties replaceProperties
 
