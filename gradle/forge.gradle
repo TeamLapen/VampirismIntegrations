@@ -93,8 +93,8 @@ dependencies {
 
     // Biomes O' Plenty - https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty
     if (include_biomes_o_plenty.toBoolean()) {
-        compileOnly fg.deobf('com.github.glitchfiend:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version) // + ":api", but bugged right now
-        runtimeOnly fg.deobf('com.github.glitchfiend:BiomesOPlenty:' + project.minecraft_version + '-' + project.bop_version)
+        compileOnly fg.deobf('curse.maven:bop-220318:' + project.bop_fileid) // + ":api", but bugged right now
+        runtimeOnly fg.deobf('curse.maven:bop-220318:' + project.bop_fileid)
     }
 
     // Terrablender - https://www.curseforge.com/minecraft/mc-mods/terrablender
@@ -117,8 +117,9 @@ dependencies {
 
     // Tough as Nails - https://www.curseforge.com/minecraft/mc-mods/tough-as-nails
     if (include_tough_as_nails.toBoolean()) {
-        compileOnly fg.deobf("com.github.glitchfiend:ToughAsNails:" + project.tan_version + ":api")
-        runtimeOnly fg.deobf("com.github.glitchfiend:ToughAsNails:" + project.tan_version)
+        compileOnly fg.deobf('curse.maven:tan-246391:' + project.tan_fileid)
+        runtimeOnly fg.deobf('curse.maven:tan-246391:' + project.tan_fileid)
+        runtimeOnly fg.deobf('curse.maven:glitchcore-955399:' + project.glitchcore_fileid)
     }
 
     // Blood Magic - https://www.curseforge.com/minecraft/mc-mods/blood-magic

@@ -4,7 +4,7 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
 import de.teamlapen.vampirism_integrations.mca.client.ClientProxy;
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
-import forge.net.mca.entity.VillagerEntityMCA;
+import forge.net.conczin.mca.entity.VillagerEntityMCA;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
@@ -71,9 +71,9 @@ public class MCARegistration {
     }
 
     static void onRegisterEntityTypeAttributes(EntityAttributeCreationEvent event) {
-        MALE_AGGRESSIVE_VILLAGER.ifPresent(entry -> event.put(entry, VillagerEntityMCA.createVillagerAttributes().build()));
-        FEMALE_AGGRESSIVE_VILLAGER.ifPresent(entry -> event.put(entry, VillagerEntityMCA.createVillagerAttributes().build()));
-        MALE_CONVERTED_VILLAGER.ifPresent(entry -> event.put(entry, VillagerEntityMCA.createVillagerAttributes().build()));
-        FEMALE_CONVERTED_VILLAGER.ifPresent(entry -> event.put(entry, VillagerEntityMCA.createVillagerAttributes().build()));
+        MALE_AGGRESSIVE_VILLAGER.ifPresent(entry -> event.put(entry, VillagerEntityMCA.createAttributes().build()));
+        FEMALE_AGGRESSIVE_VILLAGER.ifPresent(entry -> event.put(entry, VillagerEntityMCA.createAttributes().build()));
+        MALE_CONVERTED_VILLAGER.ifPresent(entry -> event.put(entry, VillagerEntityMCA.createAttributes().build()));
+        FEMALE_CONVERTED_VILLAGER.ifPresent(entry -> event.put(entry, VillagerEntityMCA.createAttributes().build()));
     }
 }

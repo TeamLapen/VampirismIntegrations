@@ -23,3 +23,15 @@ license = "${mod_license}"
         versionRange="[${vampirism_version},)"
         ordering="AFTER"
         side="BOTH"
+    [[dependencies.${mod_id}]]
+        modId="nyctophobia"
+        mandatory=false
+        versionRange="[${nyctophobia_version},)"
+        ordering="AFTER"
+        side="BOTH"
+    [[dependencies.${mod_id}]]
+        modId="mca"
+        mandatory=false
+        versionRange="[${mca_version},)"
+        ordering="AFTER"
+        side="BOTH"

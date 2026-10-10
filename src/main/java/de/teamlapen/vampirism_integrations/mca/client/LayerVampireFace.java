@@ -1,10 +1,10 @@
 package de.teamlapen.vampirism_integrations.mca.client;
 
 import de.teamlapen.vampirism_integrations.util.REFERENCE;
-import forge.net.mca.client.model.VillagerEntityModelMCA;
-import forge.net.mca.client.render.layer.VillagerLayer;
-import forge.net.mca.entity.VillagerLike;
-import forge.net.mca.entity.ai.Genetics;
+import forge.net.conczin.mca.client.model.VillagerEntityModelMCA;
+import forge.net.conczin.mca.client.render.layer.VillagerLayer;
+import forge.net.conczin.mca.entity.VillagerLike;
+import forge.net.conczin.mca.entity.ai.Genetics;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
